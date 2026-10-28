@@ -4,6 +4,8 @@ import pytest
 
 from projetor.backtest import COLUNAS_PENDENTES, dividir, rodar, tempo_ate_cravar
 from projetor.models.baseline import Apurado, SwingUniforme, SwingUniformeUF
+from projetor.models.camadas import SwingCamadas, SwingCamadasPorte
+from projetor.models.ols import SwingOLS
 
 PROIBIDAS = ("votos_", "qt_comparecimento", "qt_abstencoes", "dt_", "momento", "relogio", "ds_tipo_urna")
 
@@ -38,7 +40,18 @@ def test_pendentes_so_trazem_covariaveis_permitidas(secoes):
         assert len(divulgadas) + len(pendentes) == len(secoes)
 
 
-@pytest.mark.parametrize("modelo", [Apurado(), SwingUniforme(), SwingUniformeUF(min_secoes=5)])
+@pytest.mark.parametrize(
+    "modelo",
+    [
+        Apurado(),
+        SwingUniforme(),
+        SwingUniformeUF(min_secoes=5),
+        SwingOLS(min_locais=20),
+        SwingCamadas(k=10, min_locais=20, min_locais_grupo=5),
+        SwingCamadasPorte(k=10, min_locais=20, min_locais_grupo=5),
+    ],
+    ids=lambda m: m.nome,
+)
 def test_projecao_nao_depende_dos_votos_das_pendentes(secoes, modelo):
     t = 0.3
     embaralhado = secoes.copy()
@@ -62,3 +75,10 @@ def test_tempo_ate_cravar_exige_ficar_dentro_ate_o_fim():
     assert tempo_ate_cravar(r) == 0.4
     assert np.isnan(tempo_ate_cravar(r.assign(erro=[0.1, 0.1, 0.1, 0.7])))
     assert tempo_ate_cravar(r.assign(erro=0.0)) == 0.1
+
+
+def test_ols_recupera_swing_que_depende_do_voto_anterior(secoes):
+    # swing = 10 - 0,1 * ant_pct_pt, sem ruído: a regressão deve acertar o final.
+    pct = (secoes["ant_pct_pt"] + 10 - 0.1 * secoes["ant_pct_pt"]) / 100
+    secoes = secoes.assign(votos_pt=225 * pct, votos_adversario=225 * (1 - pct))
+    assert rodar(SwingOLS(min_locais=20), secoes, grade=[0.3])["erro"].abs().max() < 1e-6
