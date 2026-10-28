@@ -1,7 +1,7 @@
 """Ingestão dos boletins de urna (BU) do TSE.
 
 Baixa os BUs por UF a partir do portal de dados abertos (CKAN), verifica o
-sha512 publicado ao lado de cada zip, normaliza o cabeçalho e grava um parquet
+hash publicado ao lado de cada zip (sha512; sha1 em 2014), normaliza o cabeçalho e grava um parquet
 por ano e turno em `data/interim/`, com uma linha por seção e só o cargo de
 Presidente.
 
@@ -33,12 +33,14 @@ DATA_INTERIM = RAIZ / "data" / "interim"
 
 CKAN = "https://dadosabertos.tse.jus.br/api/3/action/package_show?id={}"
 DATASETS = {
+    2014: "resultados-2014-boletim-de-urna",
     2018: "resultados-2018-boletim-de-urna",
     2022: "resultados-2022-boletim-de-urna",
 }
 
 # NR_VOTAVEL do candidato do PT e do adversário no 2º turno.
 CANDIDATOS = {
+    2014: {"pt": 13, "adversario": 45},  # Dilma x Aécio (PSDB)
     2018: {"pt": 13, "adversario": 17},  # Haddad x Bolsonaro (PSL)
     2022: {"pt": 13, "adversario": 22},  # Lula x Bolsonaro (PL)
 }
@@ -50,6 +52,18 @@ CORRECOES_CABECALHO = {
     "CD_FLASCARD_URNA_EFETIVADA": "CD_FLASHCARD_URNA_EFETIVADA",
 }
 
+# O BU de 2014 (.txt) não tem cabeçalho. Ordem dos campos conforme o
+# LEIAME_BUWEB_2T.pdf, já com os nomes usados a partir de 2018. Não há
+# DT_ENCERRAMENTO, e DT_BU_RECEBIDO traz só a data.
+LAYOUT_2014 = [
+    "DT_GERACAO", "HH_GERACAO", "CD_PLEITO", "CD_ELEICAO", "SG_UF", "CD_CARGO_PERGUNTA",
+    "DS_CARGO_PERGUNTA", "NR_ZONA", "NR_SECAO", "NR_LOCAL_VOTACAO", "NR_PARTIDO", "NM_PARTIDO",
+    "CD_MUNICIPIO", "NM_MUNICIPIO", "DT_BU_RECEBIDO", "QT_APTOS", "QT_ABSTENCOES", "QT_COMPARECIMENTO",
+    "CD_TIPO_ELEICAO", "CD_TIPO_URNA", "DS_TIPO_URNA", "NR_VOTAVEL", "NM_VOTAVEL", "QT_VOTOS",
+    "CD_TIPO_VOTAVEL", "NR_URNA_EFETIVADA", "CD_CARGA_1_URNA_EFETIVADA", "CD_CARGA_2_URNA_EFETIVADA",
+    "DT_CARGA_URNA_EFETIVADA", "CD_FLASHCARD_URNA_EFETIVADA", "DS_CARGO_PERGUNTA_SECAO",
+]  # fmt: skip
+
 
 @dataclass(frozen=True)
 class Recurso:
@@ -57,7 +71,7 @@ class Recurso:
     turno: int
     uf: str
     url: str
-    url_sha512: str | None
+    url_hash: str | None
 
     @property
     def nome_zip(self) -> str:
@@ -78,22 +92,22 @@ def listar_recursos(ano: int, turno: int) -> list[Recurso]:
         m = padrao.search(url)
         if not m:
             continue
-        sha = url + ".sha512"
-        recursos.append(Recurso(ano, turno, m.group(1).upper(), url, sha if sha in urls else None))
+        hash_url = next((url + ext for ext in (".sha512", ".sha1") if url + ext in urls), None)
+        recursos.append(Recurso(ano, turno, m.group(1).upper(), url, hash_url))
     if not recursos:
         raise RuntimeError(f"Nenhum BU do {turno}º turno encontrado em {DATASETS[ano]}")
     return recursos
 
 
-def _sha512(caminho: Path) -> str:
-    h = hashlib.sha512()
+def _hash(caminho: Path, algoritmo: str) -> str:
+    h = hashlib.new(algoritmo)
     with caminho.open("rb") as f:
         for bloco in iter(lambda: f.read(1 << 20), b""):
             h.update(bloco)
     return h.hexdigest()
 
 
-def _sha512_publicado(url: str) -> str:
+def _hash_publicado(url: str) -> str:
     with urllib.request.urlopen(url, timeout=60) as resp:
         return resp.read().decode().split()[0].lower()
 
@@ -101,26 +115,27 @@ def _sha512_publicado(url: str) -> str:
 def baixar(recurso: Recurso, destino: Path = DATA_RAW) -> Path:
     """Baixa o zip para `destino/{ano}_{turno}t/` e devolve o caminho.
 
-    Se o arquivo já existe e confere com o sha512 publicado, não baixa de novo.
+    Se o arquivo já existe e confere com o hash publicado, não baixa de novo.
     Um arquivo que não confere é apagado e a função falha.
     """
     pasta = destino / f"{recurso.ano}_{recurso.turno}t"
     pasta.mkdir(parents=True, exist_ok=True)
     zip_path = pasta / recurso.nome_zip
-    esperado = _sha512_publicado(recurso.url_sha512) if recurso.url_sha512 else None
+    esperado = _hash_publicado(recurso.url_hash) if recurso.url_hash else None
+    algoritmo = recurso.url_hash.rsplit(".", 1)[-1] if recurso.url_hash else "sha512"
 
-    if zip_path.exists() and (esperado is None or _sha512(zip_path) == esperado):
+    if zip_path.exists() and (esperado is None or _hash(zip_path, algoritmo) == esperado):
         log.info("cache: %s", zip_path.name)
         return zip_path
 
     log.info("baixando %s", recurso.url)
     parcial = zip_path.with_suffix(".zip.part")
     urllib.request.urlretrieve(recurso.url, parcial)
-    if esperado is not None and (obtido := _sha512(parcial)) != esperado:
+    if esperado is not None and (obtido := _hash(parcial, algoritmo)) != esperado:
         parcial.unlink()
-        raise RuntimeError(f"sha512 não confere para {recurso.url}: {obtido[:16]}… != {esperado[:16]}…")
+        raise RuntimeError(f"{algoritmo} não confere para {recurso.url}: {obtido[:16]}… != {esperado[:16]}…")
     if esperado is None:
-        log.warning("sem sha512 publicado para %s", recurso.url)
+        log.warning("sem hash publicado para %s", recurso.url)
     parcial.rename(zip_path)
     return zip_path
 
@@ -133,7 +148,7 @@ def csv_extraido(zip_path: Path) -> Iterator[Path]:
     fica no disco por vez.
     """
     with zipfile.ZipFile(zip_path) as z:
-        nomes = [n for n in z.namelist() if n.lower().endswith(".csv")]
+        nomes = [n for n in z.namelist() if n.lower().endswith((".csv", ".txt"))]
         if len(nomes) != 1:
             raise RuntimeError(f"{zip_path.name}: esperava 1 CSV, achei {nomes}")
         csv_path = zip_path.parent / Path(nomes[0]).name
@@ -159,8 +174,10 @@ def ler_cabecalho(csv_path: Path) -> list[str]:
 
 def _sql_secoes(csv_path: Path, ano: int, turno: int) -> str:
     """SQL que agrega o BU (formato longo) em uma linha por seção, só Presidente."""
-    nomes = normalizar_cabecalho(ler_cabecalho(csv_path))
-    tem_recebido = "DT_BU_RECEBIDO" in nomes
+    tem_cabecalho = ano >= 2018
+    nomes = normalizar_cabecalho(ler_cabecalho(csv_path)) if tem_cabecalho else LAYOUT_2014
+    tem_recebido = ano >= 2022  # só a partir de 2022 o campo tem hora
+    tem_encerramento = "DT_ENCERRAMENTO" in nomes
     cand = CANDIDATOS[ano]
     ts = "try_strptime({}, '%d/%m/%Y %H:%M:%S')"
     recebido = f"max({ts.format('DT_BU_RECEBIDO')})" if tem_recebido else "CAST(NULL AS TIMESTAMP)"
@@ -184,15 +201,15 @@ def _sql_secoes(csv_path: Path, ano: int, turno: int) -> str:
         CAST(sum(QT_VOTOS) FILTER (NR_VOTAVEL IS NOT NULL AND NR_VOTAVEL NOT IN ({cand['pt']}, {cand['adversario']}, {NR_BRANCO}, {NR_NULO}))
              AS INTEGER) AS votos_outros,
         any_value(DS_TIPO_URNA) AS ds_tipo_urna,
-        min({ts.format('DT_ENCERRAMENTO')}) AS dt_encerramento,
+        {f"min({ts.format('DT_ENCERRAMENTO')})" if tem_encerramento else "CAST(NULL AS TIMESTAMP)"} AS dt_encerramento,
         {recebido} AS dt_bu_recebido,
         count(DISTINCT NR_LOCAL_VOTACAO) AS _n_locais,
         count(DISTINCT QT_APTOS) AS _n_aptos
     FROM (
         -- Seções sem voto trazem NR_VOTAVEL = #NULO# (com QT_VOTOS = 0).
         SELECT * REPLACE (TRY_CAST(NR_VOTAVEL AS INTEGER) AS NR_VOTAVEL, CAST(QT_VOTOS AS BIGINT) AS QT_VOTOS)
-        FROM read_csv('{csv_path}', delim=';', quote='"', header=true, encoding='latin-1',
-                      all_varchar=true, names={nomes!r})
+        FROM read_csv('{csv_path}', delim=';', quote='"', encoding='latin-1',
+                      all_varchar=true, header={str(tem_cabecalho).lower()}, names={nomes!r})
         WHERE CD_CARGO_PERGUNTA = '1'
     )
     GROUP BY CD_MUNICIPIO, NR_ZONA, NR_SECAO
