@@ -208,7 +208,9 @@ def _sql_secoes(csv_path: Path, ano: int, turno: int) -> str:
     FROM (
         -- Seções sem voto trazem NR_VOTAVEL = #NULO# (com QT_VOTOS = 0).
         SELECT * REPLACE (TRY_CAST(NR_VOTAVEL AS INTEGER) AS NR_VOTAVEL, CAST(QT_VOTOS AS BIGINT) AS QT_VOTOS)
-        FROM read_csv('{csv_path}', delim=';', quote='"', encoding='latin-1',
+        -- strict_mode=false: há nomes de candidatos com aspas sem escape (ex.: deputado
+        -- estadual de AL no 1º turno de 2018). São de outros cargos e saem no filtro abaixo.
+        FROM read_csv('{csv_path}', delim=';', quote='"', encoding='latin-1', strict_mode=false,
                       all_varchar=true, header={str(tem_cabecalho).lower()}, names={nomes!r})
         WHERE CD_CARGO_PERGUNTA = '1'
     )
