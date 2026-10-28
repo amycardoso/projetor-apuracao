@@ -19,7 +19,7 @@ Conclusão da verificação no 2º turno de 2022 (bu_2022_2t.parquet):
   Como 2018 não tem DT_BU_RECEBIDO, a hora local de encerramento é convertida
   com o deslocamento de cada município medido em 2022.
 
-Não houve horário de verão em nenhum dos dois pleitos (28/10/2018 e
+Não houve horário de verão em nenhum dos pleitos (7 e 28/10/2018, 2 e
 30/10/2022), então Brasília é UTC-3 nos dois. No exterior o deslocamento de
 2022 pode errar por 1h em 2018 nos países que mudaram de horário de verão
 entre as duas datas.
@@ -38,9 +38,12 @@ HORA_ENCERRAMENTO = 17
 # em 2018, quando o Acre fechou as urnas (hora de 2018 ainda a confirmar em
 # fonte do TSE). BUs recebidos antes disso, como os do
 # exterior, só entram no resultado público nesse instante.
+# Chave: (ano, turno). O 1º turno seguiu as mesmas regras de horário.
 INICIO_DIVULGACAO = {
-    2018: pd.Timestamp("2018-10-28 19:00", tz=FUSO_BRASILIA),
-    2022: pd.Timestamp("2022-10-30 17:00", tz=FUSO_BRASILIA),
+    (2018, 1): pd.Timestamp("2018-10-07 19:00", tz=FUSO_BRASILIA),
+    (2018, 2): pd.Timestamp("2018-10-28 19:00", tz=FUSO_BRASILIA),
+    (2022, 1): pd.Timestamp("2022-10-02 17:00", tz=FUSO_BRASILIA),
+    (2022, 2): pd.Timestamp("2022-10-30 17:00", tz=FUSO_BRASILIA),
 }
 
 
@@ -74,6 +77,6 @@ def encerramento_em_brasilia(secoes: pd.DataFrame, deslocamento: pd.Series) -> p
     return (secoes["dt_encerramento"] + pd.to_timedelta(horas, unit="h")).dt.tz_localize(FUSO_BRASILIA)
 
 
-def momento_divulgacao(recebido: pd.Series, ano: int) -> pd.Series:
+def momento_divulgacao(recebido: pd.Series, ano: int, turno: int = 2) -> pd.Series:
     """Instante em que a seção passa a contar no resultado público."""
-    return recebido.clip(lower=INICIO_DIVULGACAO[ano])
+    return recebido.clip(lower=INICIO_DIVULGACAO[(ano, turno)])

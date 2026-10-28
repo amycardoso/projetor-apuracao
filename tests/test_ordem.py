@@ -4,9 +4,10 @@ from projetor.locais import locais, parear
 from projetor.ordem import ordem_2018, relogio_2022
 
 
-def _secoes(ano, linhas):
+def _secoes(ano, linhas, turno=2):
     df = pd.DataFrame(linhas, columns=["cd_municipio", "nr_zona", "nr_local_votacao", "nr_secao", "recebido"])
     df["uf"] = "SE"
+    df["turno"] = turno
     df["qt_aptos"] = 100
     df["votos_pt"] = df["votos_adversario"] = 1
     df["dt_bu_recebido"] = pd.to_datetime(df.pop("recebido"))
@@ -33,3 +34,8 @@ def test_relogio_2022_respeita_o_inicio_da_divulgacao():
     r22 = relogio_2022(s22)
     assert r22["momento"].min() == pd.Timestamp("2022-10-30 17:00", tz="America/Sao_Paulo")
     assert r22.sort_values("relogio")["nr_secao"].tolist() == [1, 2]
+
+
+def test_relogio_do_primeiro_turno_usa_a_data_do_primeiro_turno():
+    s22 = _secoes(2022, [(1, 1, 10, 1, "2022-10-02 03:00"), (1, 1, 10, 2, "2022-10-02 17:30")], turno=1)
+    assert relogio_2022(s22)["momento"].min() == pd.Timestamp("2022-10-02 17:00", tz="America/Sao_Paulo")
