@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Projetor de apuração</title>
+<meta name="description" content="Replay da noite de apuração do 2º turno presidencial: apurado, projeção e faixa calibrada ao longo do relógio.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --urna: #d9dcd8;        /* plástico da urna */
+    --fundo: #eceeeb;
+    --tinta: #1d2329;
+    --tinta-2: #59626b;
+    --linha: #b9bfbc;
+    --lcd: #c4d4ae;         /* visor da urna */
+    --lcd-tinta: #26331d;
+    --pt: #c4122f;
+    --adv: #1f4f9c;
+    --confirma: #2f8a4c;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--fundo);
+    color: var(--tinta);
+    font: 400 16px/1.5 "Archivo", system-ui, sans-serif;
+  }
+  main { max-width: 1080px; margin: 0 auto; padding: 20px 16px 48px; }
+  header { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: end; justify-content: space-between; }
+  h1 { font-size: clamp(1.6rem, 4vw, 2.3rem); font-weight: 800; letter-spacing: -0.02em; line-height: 1.05; margin: 0; }
+  .sub { margin: 6px 0 0; color: var(--tinta-2); max-width: 56ch; }
+
+  .eleicoes { display: inline-flex; border: 2px solid var(--tinta); border-radius: 999px; overflow: hidden; }
+  .eleicoes button {
+    font: 700 0.95rem "Archivo", sans-serif; border: 0; padding: 8px 18px; background: transparent; color: var(--tinta); cursor: pointer;
+  }
+  .eleicoes button[aria-pressed="true"] { background: var(--tinta); color: var(--fundo); }
+
+  .painel {
+    margin-top: 20px; display: grid; gap: 16px;
+    grid-template-columns: minmax(0, 340px) minmax(0, 1fr);
+    align-items: start;
+  }
+  @media (max-width: 820px) { .painel { grid-template-columns: minmax(0, 1fr); } }
+
+  .urna { background: var(--urna); border-radius: 14px; padding: 14px; box-shadow: inset 0 -3px 0 #c3c7c3; }
+  .lcd {
+    background: var(--lcd); color: var(--lcd-tinta); border-radius: 6px; padding: 12px 14px;
+    box-shadow: inset 0 2px 6px rgba(38, 51, 29, 0.35);
+    font-family: "Share Tech Mono", monospace;
+  }
+  .lcd .hora { font-size: 2.6rem; line-height: 1; letter-spacing: 0.04em; }
+  .lcd .linha { display: flex; justify-content: space-between; gap: 8px; font-size: 1rem; margin-top: 6px; }
+  .controles { display: flex; gap: 10px; align-items: center; margin-top: 12px; }
+  .play {
+    flex: none; width: 64px; height: 40px; border: 0; border-radius: 6px; cursor: pointer;
+    background: var(--confirma); color: #fff; font: 700 0.9rem "Archivo", sans-serif; box-shadow: inset 0 -3px 0 rgba(0,0,0,.25);
+  }
+  input[type="range"] { flex: 1; accent-color: var(--confirma); min-width: 0; height: 32px; }
+
+  .cards { display: grid; gap: 10px; margin-top: 12px; }
+  .card { background: #f7f8f6; border-radius: 8px; padding: 10px 12px; border-left: 6px solid var(--cor); }
+  .card .nome { font-weight: 700; font-size: 1.05rem; }
+  .card .proj { font-size: 2.2rem; font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; color: var(--cor); font-variant-numeric: tabular-nums; }
+  .card dl { display: grid; grid-template-columns: auto 1fr; gap: 0 10px; margin: 4px 0 0; font-size: 0.92rem; color: var(--tinta-2); }
+  .card dd { margin: 0; text-align: right; color: var(--tinta); font-variant-numeric: tabular-nums; }
+
+  .grafico { background: #f7f8f6; border-radius: 14px; padding: 12px 12px 8px; }
+  .grafico svg { display: block; width: 100%; height: auto; }
+  .opcoes { display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: center; font-size: 0.92rem; margin: 4px 4px 0; }
+  .opcoes select { font: inherit; padding: 4px 6px; border-radius: 6px; border: 1px solid var(--linha); background: #fff; }
+  .legenda { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 0.85rem; color: var(--tinta-2); margin: 8px 4px 0; }
+  .legenda i { display: inline-block; width: 18px; height: 10px; vertical-align: middle; margin-right: 6px; border-radius: 2px; }
+
+  .regioes { margin-top: 16px; }
+  .regioes h2, .notas h2 { font-size: 1.05rem; margin: 0 0 6px; }
+  .barra { display: flex; height: 22px; border-radius: 4px; overflow: hidden; background: var(--linha); }
+  .barra span { display: block; height: 100%; }
+  .regioes ul { list-style: none; padding: 0; margin: 6px 0 0; display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 0.85rem; color: var(--tinta-2); }
+
+  .aviso { margin-top: 12px; background: #fff4d6; border-left: 6px solid #d9a21b; padding: 8px 12px; border-radius: 6px; font-size: 0.92rem; }
+  .notas { margin-top: 28px; max-width: 72ch; color: var(--tinta-2); font-size: 0.95rem; }
+  .notas p { margin: 0 0 10px; }
+  a { color: var(--adv); }
+  button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid var(--adv); outline-offset: 2px; }
+  .erro { background: #fde2e2; border-left: 6px solid var(--pt); padding: 10px 12px; border-radius: 6px; }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div>
+      <h1>Projetor de apuração</h1>
+      <p class="sub">Reveja a noite do 2º turno presidencial: o que o TSE já tinha apurado e o que o modelo projetava para o resultado final, a cada instante.</p>
+    </div>
+    <div class="eleicoes" role="group" aria-label="Eleição">
+      <button type="button" data-ano="2022" aria-pressed="true">2022</button>
+      <button type="button" data-ano="2018" aria-pressed="false">2018</button>
+    </div>
+  </header>
+
+  <div id="erro" class="erro" hidden></div>
+
+  <section class="painel" aria-live="polite">
+    <div class="urna">
+      <div class="lcd" aria-label="Relógio da apuração">
+        <div class="hora" id="hora">--:--</div>
+        <div class="linha"><span id="secoes">0,0% das seções</span><span id="validos"></span></div>
+      </div>
+      <div class="controles">
+        <button type="button" class="play" id="play" aria-label="Reproduzir a apuração">Play</button>
+        <input type="range" id="relogio" min="0" max="0" value="0" step="1" aria-label="Momento da apuração">
+      </div>
+      <div class="cards" id="cards"></div>
+      <div class="aviso" id="aviso2018" hidden>
+        Em 2018 o TSE não publicou o horário de recebimento de cada seção. A ordem de chegada usada aqui é simulada a partir da ordem de 2022, local por local.
+      </div>
+    </div>
+
+    <div>
+      <div class="grafico">
+        <svg id="svg" viewBox="0 0 640 400" role="img" aria-label="Apurado e projeção do % do PT nos votos válidos ao longo da apuração"></svg>
+        <div class="opcoes">
+          <label>Linha de projeção
+            <select id="modelo">
+              <option value="hierarquico">Hierárquico bayesiano</option>
+              <option value="camadas">Regressão em camadas</option>
+              <option value="swing_uf">Swing por UF</option>
+            </select>
+          </label>
+          <label><input type="checkbox" id="mostrarFinal"> Mostrar resultado final</label>
+        </div>
+        <div class="legenda" id="legenda"></div>
+      </div>
+      <div class="regioes">
+        <h2>De onde vêm os votos já apurados</h2>
+        <div class="barra" id="barra"></div>
+        <ul id="regioesLegenda"></ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="notas">
+    <h2>Como ler</h2>
+    <p>O apurado é a parcial oficial: a soma das seções já divulgadas. Ele começa longe do resultado final porque as primeiras seções não representam o país. Na noite de 2022, Centro-Oeste e Norte chegaram antes do Sudeste.</p>
+    <p>A projeção estima o resultado final com as seções que faltam. Cada local de votação ainda não divulgado herda o voto da eleição anterior, corrigido pelo swing observado nos locais parecidos (mesma região, UF, capital ou interior). A faixa de 95% é a do modelo hierárquico, com a escala calibrada na outra eleição, sem olhar o resultado desta.</p>
+    <p>Inspirado no modelo de projeção de Rodrigo Mahlmeister. Dados: boletins de urna do TSE. Código e metodologia no repositório <code>projetor-apuracao</code>.</p>
+  </section>
+</main>
+
+<script>
+(() => {
+  const CORES_REGIAO = { Norte: "#4f7f52", Nordeste: "#c9822b", "Centro-Oeste": "#8a6aa8", Sudeste: "#3f6f9e", Sul: "#9b4a4a", Exterior: "#7a7f84" };
+  const pct = (v, casas = 2) => v.toLocaleString("pt-BR", { minimumFractionDigits: casas, maximumFractionDigits: casas });
+  const el = (id) => document.getElementById(id);
+  const cache = {};
+  let dados = null, i = 0, timer = null;
+
+  async function carregar(ano) {
+    if (!cache[ano]) {
+      const resp = await fetch(`data/replay_${ano}.json`);
+      if (!resp.ok) throw new Error(`não foi possível ler data/replay_${ano}.json (HTTP ${resp.status})`);
+      cache[ano] = await resp.json();
+    }
+    return cache[ano];
+  }
+
+  async function trocarEleicao(ano) {
+    parar();
+    document.querySelectorAll(".eleicoes button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.ano === String(ano))));
+    try {
+      dados = await carregar(ano);
+    } catch (e) {
+      const erro = el("erro");
+      erro.hidden = false;
+      erro.textContent = `Os dados do replay não carregaram: ${e.message}. Abra a página por um servidor (por exemplo, python -m http.server dentro de app/) e não direto do arquivo.`;
+      return;
+    }
+    el("erro").hidden = true;
+    el("aviso2018").hidden = ano !== 2018;
+    el("relogio").max = dados.pontos.length; // o último passo é o fim da apuração
+    i = 0;
+    el("relogio").value = 0;
+    desenhar();
+  }
+
+  function ponto(k) {
+    if (k < dados.pontos.length) return dados.pontos[k];
+    const f = dados.final_pt; // 100% apurado: tudo coincide com o final
+    return { relogio: 1, secoes_pct: 100, validos_pct: 100, horario: null, regioes: dados.pontos.at(-1).regioes,
+             apurado: f, swing_uf: f, camadas: f, hierarquico: f, faixa90: [f, f], faixa95: [f, f] };
+  }
+
+  function desenhar() {
+    const p = ponto(i);
+    const fim = i >= dados.pontos.length;
+    const modelo = el("modelo").value;
+    const c = dados.candidatos;
+
+    if (dados.ano === 2022) {
+      el("hora").textContent = fim ? "fim" : p.horario;
+      el("secoes").textContent = `${pct(p.secoes_pct, 1)}% das seções`;
+    } else {
+      el("hora").textContent = `${pct(p.secoes_pct, 1)}%`;
+      el("secoes").textContent = "das seções";
+    }
+    el("validos").textContent = dados.ano === 2022 ? "" : "ordem simulada";
+    el("play").textContent = timer ? "Pausa" : (fim ? "De novo" : "Play");
+
+    const proj = p[modelo];
+    const f95 = p.faixa95;
+    const faixaModelo = modelo === "hierarquico";
+    el("cards").innerHTML = [
+      { nome: c.pt, cor: "var(--pt)", proj, lo: f95[0], hi: f95[1], apurado: p.apurado },
+      { nome: c.adversario, cor: "var(--adv)", proj: 100 - proj, lo: 100 - f95[1], hi: 100 - f95[0], apurado: 100 - p.apurado },
+    ].map((d) => `
+      <article class="card" style="--cor:${d.cor}">
+        <div class="nome">${d.nome}</div>
+        <div class="proj">${pct(d.proj)}%</div>
+        <dl>
+          <dt>Faixa de 95%</dt><dd>${faixaModelo ? `${pct(d.lo, 1)}% a ${pct(d.hi, 1)}%` : "só no hierárquico"}</dd>
+          <dt>Apurado agora</dt><dd>${pct(d.apurado)}%</dd>
+        </dl>
+      </article>`).join("");
+
+    desenharGrafico(modelo, fim);
+    desenharRegioes(p.regioes);
+  }
+
+  function desenharGrafico(modelo, fim) {
+    const W = 640, H = 400, m = { t: 16, r: 16, b: 44, l: 48 };
+    const final = dados.final_pt;
+    const pts = [...dados.pontos, ponto(dados.pontos.length)];
+    const ate = pts.slice(0, i + 1);
+    const lo = Math.floor(final - 6), hi = Math.ceil(final + 6);
+    // Raiz do % de seções: o começo da noite, onde tudo muda, ganha espaço.
+    const x = (s) => m.l + (Math.sqrt(s) / 10) * (W - m.l - m.r);
+    const y = (v) => m.t + (1 - (v - lo) / (hi - lo)) * (H - m.t - m.b);
+    const linha = (campo) => ate.map((p, k) => `${k ? "L" : "M"}${x(p.secoes_pct).toFixed(1)},${y(p[campo]).toFixed(1)}`).join("");
+    const area = (campo) => {
+      if (modelo !== "hierarquico") return "";
+      const ida = ate.map((p, k) => `${k ? "L" : "M"}${x(p.secoes_pct).toFixed(1)},${y(p[campo][1]).toFixed(1)}`).join("");
+      const volta = [...ate].reverse().map((p) => `L${x(p.secoes_pct).toFixed(1)},${y(p[campo][0]).toFixed(1)}`).join("");
+      return ida + volta + "Z";
+    };
+    const ticksX = [0.5, 2, 5, 10, 25, 50, 75, 100];
+    const ticksY = [];
+    for (let v = lo; v <= hi; v += 2) ticksY.push(v);
+    const atual = ate.at(-1);
+    const mostrarFinal = el("mostrarFinal").checked || fim;
+
+    el("svg").innerHTML = `
+      <defs><clipPath id="area"><rect x="${m.l}" y="${m.t}" width="${W - m.l - m.r}" height="${H - m.t - m.b}"/></clipPath></defs>
+      ${ticksY.map((v) => `<line x1="${m.l}" x2="${W - m.r}" y1="${y(v)}" y2="${y(v)}" stroke="#dde1de"/>
+        <text x="${m.l - 8}" y="${y(v) + 4}" text-anchor="end" font-size="12" fill="#59626b">${v}%</text>`).join("")}
+      ${ticksX.map((s) => `<text x="${x(s)}" y="${H - m.b + 18}" text-anchor="middle" font-size="12" fill="#59626b">${pct(s, s < 1 ? 1 : 0)}</text>`).join("")}
+      <text x="${(W + m.l) / 2}" y="${H - 6}" text-anchor="middle" font-size="12" fill="#59626b">% das seções divulgadas (escala raiz)</text>
+      <line x1="${m.l}" x2="${W - m.r}" y1="${y(50)}" y2="${y(50)}" stroke="#59626b" stroke-dasharray="2 4"/>
+      <g clip-path="url(#area)">
+        <path d="${area("faixa95")}" fill="var(--pt)" opacity="0.13"/>
+        <path d="${area("faixa90")}" fill="var(--pt)" opacity="0.18"/>
+        <path d="${linha("apurado")}" fill="none" stroke="#1d2329" stroke-width="2" stroke-dasharray="5 4"/>
+        <path d="${linha(modelo)}" fill="none" stroke="var(--pt)" stroke-width="2.5"/>
+        ${mostrarFinal ? `<line x1="${m.l}" x2="${W - m.r}" y1="${y(final)}" y2="${y(final)}" stroke="var(--confirma)" stroke-width="2"/>
+          <text x="${W - m.r - 4}" y="${y(final) - 6}" text-anchor="end" font-size="12" font-weight="700" fill="var(--confirma)">final ${pct(final)}%</text>` : ""}
+        <line x1="${x(atual.secoes_pct)}" x2="${x(atual.secoes_pct)}" y1="${m.t}" y2="${H - m.b}" stroke="#1d2329" opacity="0.25"/>
+        <circle cx="${x(atual.secoes_pct)}" cy="${y(atual[modelo])}" r="4.5" fill="var(--pt)"/>
+        <circle cx="${x(atual.secoes_pct)}" cy="${y(atual.apurado)}" r="4" fill="#1d2329"/>
+      </g>`;
+
+    el("legenda").innerHTML = `
+      <span><i style="background:#1d2329;height:2px"></i>apurado (${dados.candidatos.pt})</span>
+      <span><i style="background:var(--pt);height:3px"></i>projeção</span>
+      ${modelo === "hierarquico" ? `<span><i style="background:var(--pt);opacity:.3"></i>faixas de 90% e 95%</span>` : ""}
+      <span><i style="background:#59626b;height:2px"></i>50%</span>`;
+  }
+
+  function desenharRegioes(regioes) {
+    const entradas = Object.entries(regioes).filter(([, v]) => v > 0);
+    el("barra").innerHTML = entradas.map(([r, v]) => `<span title="${r}: ${pct(v, 1)}%" style="width:${v}%;background:${CORES_REGIAO[r]}"></span>`).join("");
+    el("regioesLegenda").innerHTML = entradas.map(([r, v]) => `<li><i style="display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;background:${CORES_REGIAO[r]}"></i>${r} ${pct(v, 1)}%</li>`).join("");
+  }
+
+  function parar() { clearInterval(timer); timer = null; }
+  function tocar() {
+    if (i >= dados.pontos.length) i = 0;
+    timer = setInterval(() => {
+      i += 1;
+      el("relogio").value = i;
+      if (i >= dados.pontos.length) parar();
+      desenhar();
+    }, 140);
+    desenhar();
+  }
+
+  el("play").addEventListener("click", () => { if (!dados) return; timer ? (parar(), desenhar()) : tocar(); });
+  el("relogio").addEventListener("input", (e) => { parar(); i = Number(e.target.value); desenhar(); });
+  el("modelo").addEventListener("change", () => dados && desenhar());
+  el("mostrarFinal").addEventListener("change", () => dados && desenhar());
+  document.querySelectorAll(".eleicoes button").forEach((b) => b.addEventListener("click", () => trocarEleicao(Number(b.dataset.ano))));
+  trocarEleicao(2022);
+})();
+</script>
+</body>
+</html>
