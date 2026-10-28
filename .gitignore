@@ -1,0 +1,18 @@
+# Dados brutos e intermediários
+data/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+dist/
+build/
+
+# Sistema
+.DS_Store

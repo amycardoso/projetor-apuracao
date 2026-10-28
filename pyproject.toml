@@ -1,0 +1,14 @@
+[project]
+name = "projetor-apuracao"
+version = "0.1.0"
+description = "Projeção do resultado final da eleição presidencial a partir da apuração parcial do TSE"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "duckdb>=1.1",
+    "pandas>=2.2",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
