@@ -46,13 +46,21 @@ def dividir(secoes: pd.DataFrame, t: float) -> tuple[pd.DataFrame, pd.DataFrame]
 
 
 def rodar(modelo: Modelo, secoes: pd.DataFrame, grade: list[float] = GRADE) -> pd.DataFrame:
-    """Uma linha por ponto da grade: projeção, final e erro em p.p."""
+    """Uma linha por ponto da grade: projeção, final e erro em p.p.
+
+    Modelos probabilísticos que expõem `ultimas_amostras` e `ultimo_resumo`
+    ganham as colunas `amostras` (array do % PT final) e `resumo` (dict).
+    """
     final = pct_pt(secoes)
     linhas = []
     for t in grade:
         divulgadas, pendentes = dividir(secoes, t)
         projecao = modelo.projetar(divulgadas, pendentes)
-        linhas.append({"modelo": modelo.nome, "t": t, "projecao": projecao, "final": final, "erro": projecao - final})
+        linha = {"modelo": modelo.nome, "t": t, "projecao": projecao, "final": final, "erro": projecao - final}
+        if (amostras := getattr(modelo, "ultimas_amostras", None)) is not None:
+            linha["amostras"] = amostras
+            linha["resumo"] = dict(getattr(modelo, "ultimo_resumo", {}))
+        linhas.append(linha)
     return pd.DataFrame(linhas)
 
 

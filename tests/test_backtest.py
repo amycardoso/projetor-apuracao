@@ -5,6 +5,7 @@ import pytest
 from projetor.backtest import COLUNAS_PENDENTES, dividir, rodar, tempo_ate_cravar
 from projetor.models.baseline import Apurado, SwingUniforme, SwingUniformeUF
 from projetor.models.camadas import SwingCamadas, SwingCamadasIntercepto, SwingCamadasInterceptoPorte, SwingCamadasPorte
+from projetor.models.hierarquico import SwingHierarquico
 from projetor.models.ols import SwingOLS
 
 PROIBIDAS = ("votos_", "qt_comparecimento", "qt_abstencoes", "dt_", "momento", "relogio", "ds_tipo_urna")
@@ -51,6 +52,7 @@ def test_pendentes_so_trazem_covariaveis_permitidas(secoes):
         SwingCamadasPorte(k=10, min_locais=20, min_locais_grupo=5),
         SwingCamadasIntercepto(k=10, min_locais=20, min_locais_grupo=5),
         SwingCamadasInterceptoPorte(k=10, min_locais=20, min_locais_grupo=5),
+        SwingHierarquico(n_advi=500, n_amostras=50),
     ],
     ids=lambda m: m.nome,
 )
@@ -93,3 +95,9 @@ def test_camadas_intercepto_captura_swing_diferente_por_uf(secoes):
     secoes = secoes.assign(votos_pt=225 * pct, votos_adversario=225 * (1 - pct), nr_local_votacao=secoes["nr_secao"])
     modelo = SwingCamadasIntercepto(k=0.001, min_locais=20, min_locais_grupo=5)
     assert rodar(modelo, secoes, grade=[0.3])["erro"].abs().max() < 0.05
+
+
+def test_hierarquico_guarda_amostras_e_taus(secoes):
+    resultado = rodar(SwingHierarquico(n_advi=500, n_amostras=50), secoes, grade=[0.3])
+    assert resultado["amostras"].iloc[0].shape == (50,)
+    assert {"tau_regiao", "tau_uf", "tau_ufcap", "sigma"} <= set(resultado["resumo"].iloc[0])
