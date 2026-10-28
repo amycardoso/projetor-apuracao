@@ -52,7 +52,7 @@ Para abrir localmente:
 python -m http.server 8000 --directory app
 ```
 
-Depois abra http://localhost:8000. Um link como http://localhost:8000/#t=10 abre a noite com 10% das seções divulgadas. Para publicar pelo GitHub Pages, ative Pages em Settings → Pages, escolha a branch `main` e aponte para a pasta `/app` (ou mova o conteúdo para `docs/`). Num repositório privado, isso exige um plano que permita Pages privado.
+Ela também funciona no celular ([screenshot](reports/figures/05_replay_celular.png)). Depois de subir o servidor, abra http://localhost:8000. Um link como http://localhost:8000/#t=10 abre a noite com 10% das seções divulgadas. Para publicar pelo GitHub Pages, ative Pages em Settings → Pages, escolha a branch `main` e aponte para a pasta `/app` (ou mova o conteúdo para `docs/`). Num repositório privado, isso exige um plano que permita Pages privado.
 
 ## Como reproduzir
 
