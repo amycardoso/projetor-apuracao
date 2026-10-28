@@ -185,8 +185,11 @@
     el("erro").hidden = true;
     el("aviso2018").hidden = ano !== 2018;
     el("relogio").max = dados.pontos.length; // o último passo é o fim da apuração
-    i = 0;
-    el("relogio").value = 0;
+    // #t=10 abre a página com 10% das seções divulgadas.
+    const t = Number(new URLSearchParams(location.hash.slice(1)).get("t"));
+    i = t > 0 ? dados.pontos.findIndex((p) => p.secoes_pct >= t) : 0;
+    if (i < 0) i = dados.pontos.length;
+    el("relogio").value = i;
     desenhar();
   }
 
