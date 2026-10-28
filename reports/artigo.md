@@ -93,19 +93,25 @@ O conformal puro (d) resolve 2022, mas falha em 2018. Cada direção é calibrad
 
 ![Projeção e faixas ao longo da apuração de 2022](figures/04_faixa_2022.png)
 
+## Duas noites a mais e o erro comum
+
+Para testar o diagnóstico acima, o projetor foi levado ao 1º turno de 2018 e 2022. Não foi preciso um modelo multinomial. O alvo continua sendo o % de um candidato nos válidos, que agora incluem os demais candidatos. Os totais do BU batem voto a voto com o oficial para PT e adversário nos três anos. Em 2022 1T, o hierárquico-t erra 0,18 ponto em média para Lula e 0,14 para Bolsonaro. Em 2018 1T, perde para o swing por UF (0,51 contra 0,25 para Haddad). A troca de Dilma por Haddad mudou o voto do PT de um jeito que a eleição anterior explica mal.
+
+O hierárquico ganhou o termo que faltava: um erro `delta ~ Normal(0, c)` somado ao swing de todas as pendentes, que desloca o total em proporção à fração que falta. Como esse erro não é observável durante a noite, `c` é calibrado nas outras noites, em leave-one-night-out nas quatro noites do PT. Com isso, a cobertura de 90% da posterior subiu de 41% para 75%, e o interval score ficou o melhor entre os métodos, com faixas quase com a metade da largura das de (e). O nominal não foi alcançado. Três noites ficam entre 86% e 100%, mas 2018 1T, a noite fora do padrão, fica em 14%. Nenhuma calibração feita em outras noites resolve isso. O `c` das quatro noites é 0,56 ponto de swing. Medir a distância de composição entre divulgadas e pendentes não ajudou. Os detalhes estão no relatório 06.
+
 ## Limitações
 
 - **A ordem de 2018 é simulada a partir da de 2022.** Isso também significa que, ao escolher hiperparâmetros em 2018, o modelo já viu a ordem de chegada de 2022, embora não os votos. O teste de 2022 está fora da amostra de votos, mas não é cego.
-- **Há poucas noites.** São duas eleições, cada uma com 22 instantes fortemente correlacionados. As coberturas da tabela acima têm poucos graus de liberdade efetivos. Os multiplicadores de (e), de 3 a 4, foram estimados com uma noite cada.
-- **Só o 2º turno.** O 1º turno tem vários candidatos, pede um modelo multinomial e é cerca de vinte vezes maior em dados.
+- **Há poucas noites.** São quatro noites (1º e 2º turnos de 2018 e 2022), cada uma com 22 instantes fortemente correlacionados. As coberturas têm poucos graus de liberdade efetivos, e uma noite fora do padrão pesa muito na calibração.
+- **Um candidato por vez.** No 1º turno, cada candidato é projetado separadamente. Nada garante que as projeções somem 100%.
 - **O comparecimento é tratado de forma simples.** Os válidos esperados de uma seção pendente vêm da taxa de válidos da eleição anterior, e a incerteza sobre eles é um ruído independente por local.
 - **O exterior é tratado de forma grosseira.** Cidades do exterior entram como municípios, sem fuso próprio no relógio de 2018.
 
 ## Próximos passos
 
-1. **Pôr no modelo o erro comum que falta.** Um termo de discrepância compartilhado pelas pendentes, com variância proporcional à fração que falta apurar. Isso deve tornar o multiplicador de (e) desnecessário, ou pelo menos próximo de 1.
-2. **Mais noites de calibração.** O 1º turno de 2018 e 2022 e a ordem simulada de 2014 dariam uma noite cada. Os 2º turnos de governador dariam várias outras.
+1. **Mais noites de calibração.** Os 2º turnos de governador dariam várias noites, e o `c` do erro comum deixaria de depender de quatro observações.
+2. **Erro comum que dependa da noite.** Por exemplo, maior quando o histórico explica pouco do swing já divulgado, que é o sinal de 2018 1T.
 3. **Ordem real de 2018.** Os arquivos de log das urnas ou snapshots da divulgação daquela noite substituiriam a simulação.
 4. **Operação ao vivo.** O hierárquico leva cerca de 15 segundos por atualização com ADVI. Isso cabe numa noite real, com atualizações a cada poucos minutos, consumindo a API de divulgação do TSE em vez dos boletins consolidados.
 
-O código, os relatórios de cada fase (`reports/00` a `reports/04`) e o replay interativo estão no repositório. Os números deste texto saem dos scripts em `notebooks/`, rodados sobre os dados públicos do TSE.
+O código, os relatórios de cada fase (`reports/00` a `reports/06`) e o replay interativo estão no repositório. Os números deste texto saem dos scripts em `notebooks/`, rodados sobre os dados públicos do TSE.
