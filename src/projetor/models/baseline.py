@@ -16,17 +16,11 @@ from dataclasses import dataclass
 import numpy as np
 import pandas as pd
 
+from projetor.models.features import projetar_com_swing as _projetar_com_swing
+
 
 def _validos(secoes: pd.DataFrame) -> pd.Series:
     return secoes["votos_pt"] + secoes["votos_adversario"]
-
-
-def _projetar_com_swing(divulgadas: pd.DataFrame, pendentes: pd.DataFrame, swing: pd.Series | float) -> float:
-    pt_div = divulgadas["votos_pt"].sum()
-    val_div = _validos(divulgadas).sum()
-    esperados = pendentes["qt_aptos"] * pendentes["ant_taxa_validos"]
-    pct = (pendentes["ant_pct_pt"] + swing).clip(0, 100)
-    return 100 * (pt_div + (esperados * pct / 100).sum()) / (val_div + esperados.sum())
 
 
 def _swing(divulgadas: pd.DataFrame) -> float:
