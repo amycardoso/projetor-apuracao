@@ -96,3 +96,38 @@ def projetar_com_swing(divulgadas: pd.DataFrame, pendentes: pd.DataFrame, swing:
     esperados = pendentes["qt_aptos"] * pendentes["ant_taxa_validos"]
     pct = (pendentes["ant_pct_pt"] + swing).clip(0, 100)
     return 100 * (pt_div + (esperados * pct / 100).sum()) / (val_div + esperados.sum())
+
+
+def pendentes_por_local(pendentes: pd.DataFrame) -> pd.DataFrame:
+    """Agrega as pendentes (já com `anexar_features`) por local.
+
+    O ruído de previsão é de local, então a parte pendente de cada local vira
+    uma unidade, com peso igual aos seus válidos esperados.
+    """
+    p = pendentes.assign(_ant_x_w=pendentes["ant_pct_pt"] * pendentes["validos_esperados"])
+    g = p.groupby(CHAVE_LOCAL).agg(
+        uf=("uf", "first"),
+        regiao=("regiao", "first"),
+        capital=("capital", "first"),
+        log_aptos_mun=("log_aptos_mun", "first"),
+        qt_aptos=("qt_aptos", "sum"),
+        validos_esperados=("validos_esperados", "sum"),
+        _ant_x_w=("_ant_x_w", "sum"),
+    )
+    g = g[g["validos_esperados"] > 0]
+    g["ant_pct_pt"] = g.pop("_ant_x_w") / g["validos_esperados"]
+    g["ant_taxa_validos"] = g["validos_esperados"] / g["qt_aptos"]
+    return g.reset_index()
+
+
+def comparecimento(locais: pd.DataFrame) -> tuple[float, float]:
+    """Média e desvio (ponderados) de log(válidos reais / esperados) nos locais divulgados.
+
+    O desvio vale para um local de peso médio; um local com peso `w` tem desvio
+    `s / sqrt(w / w_medio)`.
+    """
+    w = locais["validos_esperados"].to_numpy(dtype=float)
+    r = np.log(locais["validos"].to_numpy(dtype=float) / w)
+    m = float(np.average(r, weights=w))
+    s = float(np.sqrt(np.average((r - m) ** 2 * w / w.mean(), weights=np.ones_like(w))))
+    return m, s

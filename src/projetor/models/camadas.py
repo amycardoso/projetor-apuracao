@@ -53,41 +53,47 @@ class SwingCamadas:
     modo: str = "regressao"
     nome: str = "SwingCamadas"
 
-    def projetar(self, divulgadas: pd.DataFrame, pendentes: pd.DataFrame) -> float:
-        div, pend = anexar_features(divulgadas, pendentes)
-        locais = por_local(div)
-        if len(locais) < self.min_locais:
-            return projetar_com_swing(divulgadas, pendentes, swing_uniforme(locais))
+    def prever_swing(self, locais: pd.DataFrame, alvo: pd.DataFrame) -> np.ndarray:
+        """Swing previsto para as linhas de `alvo` a partir dos `locais` divulgados.
 
-        x_pend, x_loc = matriz(pend), matriz(locais)
+        `alvo` pode ser de seções ou de locais pendentes, desde que tenha as
+        colunas de `anexar_features`.
+        """
+        if len(locais) < self.min_locais:
+            return np.full(len(alvo), swing_uniforme(locais))
+        x_alvo, x_loc = matriz(alvo), matriz(locais)
         coef = wls(locais)
-        previsao, previsao_loc = x_pend @ coef, x_loc @ coef
+        previsao, previsao_loc = x_alvo @ coef, x_loc @ coef
         swing_loc = locais["swing"].to_numpy()
         peso_loc = locais["validos_esperados"].to_numpy(dtype=float)
         for colunas in [["regiao"], ["uf"], *self.niveis_extras]:
-            g_loc, g_pend = _grupo(locais, colunas).to_numpy(), _grupo(pend, colunas).to_numpy()
+            g_loc, g_alvo = _grupo(locais, colunas).to_numpy(), _grupo(alvo, colunas).to_numpy()
             nivel, nivel_loc = previsao.copy(), previsao_loc.copy()
-            pesos, pesos_loc = np.zeros(len(pend)), np.zeros(len(locais))
+            pesos, pesos_loc = np.zeros(len(alvo)), np.zeros(len(locais))
             for grupo in np.unique(g_loc):
                 no_grupo = g_loc == grupo
                 n = int(no_grupo.sum())
                 if n < self.min_locais_grupo:
                     continue
-                alvo = g_pend == grupo
+                naquele = g_alvo == grupo
                 if self.modo == "intercepto":
                     residuo = swing_loc[no_grupo] - previsao_loc[no_grupo]
                     desloc = np.average(residuo, weights=peso_loc[no_grupo])
-                    nivel[alvo] += desloc
+                    nivel[naquele] += desloc
                     nivel_loc[no_grupo] += desloc
                 else:
                     c = wls(locais[no_grupo])
-                    nivel[alvo] = x_pend[alvo] @ c
+                    nivel[naquele] = x_alvo[naquele] @ c
                     nivel_loc[no_grupo] = x_loc[no_grupo] @ c
-                pesos[alvo] = pesos_loc[no_grupo] = n / (n + self.k)
+                pesos[naquele] = pesos_loc[no_grupo] = n / (n + self.k)
             previsao = pesos * nivel + (1 - pesos) * previsao
             previsao_loc = pesos_loc * nivel_loc + (1 - pesos_loc) * previsao_loc
-        return projetar_com_swing(divulgadas, pendentes, pd.Series(previsao, index=pend.index))
+        return previsao
 
+    def projetar(self, divulgadas: pd.DataFrame, pendentes: pd.DataFrame) -> float:
+        div, pend = anexar_features(divulgadas, pendentes)
+        swing = self.prever_swing(por_local(div), pend)
+        return projetar_com_swing(divulgadas, pendentes, pd.Series(swing, index=pend.index))
 
 def SwingCamadasPorte(k: float = 100.0, **kwargs) -> SwingCamadas:  # noqa: N802 - fábricas com cara de classe
     return SwingCamadas(k=k, niveis_extras=[["uf", "capital"]], nome="SwingCamadasPorte", **kwargs)

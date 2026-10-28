@@ -24,8 +24,15 @@ Projeção: as pendentes são agregadas por local. Para cada amostra posterior, 
 swing de um local pendente é `mu + ruído local` (sigma / sqrt(peso)), somado ao
 seu `ant_pct_pt`. O total das pendentes junta-se aos votos já divulgados. A
 média dessas amostras é a projeção pontual. As amostras do % PT final ficam em
-`ultimas_amostras`, para os intervalos da fase 4. A incerteza do comparecimento
-(válidos reais contra esperados) ainda não entra.
+`ultimas_amostras`, para os intervalos da fase 4.
+
+`verossimilhanca="t"` troca a normal por uma Student-t com ν aprendido
+(ν = 1 + Exponential(média 10)), mais robusta a locais com swing extremo; o
+ruído de previsão das pendentes passa a ser t também.
+
+`incerteza_comparecimento=True` sorteia também os válidos de cada local
+pendente: `esperados × exp(m + s·z / sqrt(peso))`, com `m` e `s` medidos em
+log(válidos reais / esperados) nos locais divulgados (`features.comparecimento`).
 """
 
 from __future__ import annotations
@@ -38,7 +45,7 @@ import pandas as pd
 import pymc as pm
 from pymc.variational.callbacks import CheckParametersConvergence
 
-from projetor.models.features import CHAVE_LOCAL, REGIAO, anexar_features, por_local
+from projetor.models.features import REGIAO, anexar_features, comparecimento, pendentes_por_local, por_local
 
 REGIOES = sorted(set(REGIAO.values()))
 UFS = sorted(REGIAO)
@@ -58,7 +65,7 @@ def _idx_ufcap(df: pd.DataFrame) -> np.ndarray:
     return np.array([_IDX_UFCAP[(uf, int(c))] for uf, c in zip(df["uf"], df["capital"], strict=True)])
 
 
-def _construir_modelo() -> pm.Model:
+def _construir_modelo(verossimilhanca: str) -> pm.Model:
     uf_da_regiao = np.array([REGIOES.index(REGIAO[uf]) for uf in UFS])
     uf_do_grupo = np.array([UFS.index(uf) for uf, _ in GRUPOS_UFCAP])
     with pm.Model() as modelo:
@@ -81,7 +88,14 @@ def _construir_modelo() -> pm.Model:
         sigma = pm.HalfNormal("sigma", 20)
 
         mu = alpha + pm.math.dot(x, beta) + a_ufcap[g]
-        pm.Normal("swing", mu, sigma / pm.math.sqrt(peso), observed=y, shape=y.shape)
+        escala = sigma / pm.math.sqrt(peso)
+        if verossimilhanca == "t":
+            nu = pm.Deterministic("nu", 1 + pm.Exponential("nu_menos_1", 1 / 10))
+            pm.StudentT("swing", nu=nu, mu=mu, sigma=escala, observed=y, shape=y.shape)
+        elif verossimilhanca == "normal":
+            pm.Normal("swing", mu, escala, observed=y, shape=y.shape)
+        else:
+            raise ValueError(f"verossimilhança desconhecida: {verossimilhanca}")
     return modelo
 
 
@@ -92,6 +106,8 @@ class SwingHierarquico:
     n_amostras: int = 1000
     semente: int = 0
     ruido_local: bool = True
+    verossimilhanca: str = "normal"
+    incerteza_comparecimento: bool = False
     nome: str = "SwingHierarquico"
     ultimas_amostras: np.ndarray | None = field(default=None, repr=False)
     ultimo_resumo: dict[str, float] = field(default_factory=dict, repr=False)
@@ -99,7 +115,7 @@ class SwingHierarquico:
 
     def _ajustar(self, locais: pd.DataFrame) -> dict[str, np.ndarray]:
         if self._modelo is None:
-            self._modelo = _construir_modelo()
+            self._modelo = _construir_modelo(self.verossimilhanca)
         w = locais["validos_esperados"].to_numpy(dtype=float)
         with self._modelo:
             pm.set_data(
@@ -124,6 +140,8 @@ class SwingHierarquico:
             else:
                 raise ValueError(f"método desconhecido: {self.metodo}")
         nomes = ["alpha", "beta", "a_ufcap", "sigma", "tau_regiao", "tau_uf", "tau_ufcap"]
+        if self.verossimilhanca == "t":
+            nomes.append("nu")
         return {n: post[n].stack(amostra=("chain", "draw")).transpose("amostra", ...).to_numpy() for n in nomes}
 
     def projetar(self, divulgadas: pd.DataFrame, pendentes: pd.DataFrame) -> float:
@@ -132,33 +150,31 @@ class SwingHierarquico:
         locais = por_local(div)
         post = self._ajustar(locais)
 
-        # Pendentes agregadas por local: peso = válidos esperados da parte pendente.
-        pend = pend.assign(_ant_x_w=pend["ant_pct_pt"] * pend["validos_esperados"])
-        p = pend.groupby(CHAVE_LOCAL).agg(
-            uf=("uf", "first"),
-            capital=("capital", "first"),
-            log_aptos_mun=("log_aptos_mun", "first"),
-            validos_esperados=("validos_esperados", "sum"),
-            _ant_x_w=("_ant_x_w", "sum"),
-        )
-        p = p[p["validos_esperados"] > 0]
-        p["ant_pct_pt"] = p.pop("_ant_x_w") / p["validos_esperados"]
-
+        p = pendentes_por_local(pend)
         w_ref = locais["validos_esperados"].mean()
         esperados = p["validos_esperados"].to_numpy()
+        escala_rel = 1 / np.sqrt(esperados / w_ref)
         x, g, ant = _x(p), _idx_ufcap(p), p["ant_pct_pt"].to_numpy()
         rng = np.random.default_rng(self.semente)
         pt_div = divulgadas["votos_pt"].sum()
         val_div = (divulgadas["votos_pt"] + divulgadas["votos_adversario"]).sum()
-        total_esp = esperados.sum()
+        m_comp, s_comp = comparecimento(locais) if self.incerteza_comparecimento else (0.0, 0.0)
 
         n = post["alpha"].shape[0]
         amostras = np.empty(n)
         for s in range(n):
             mu = post["alpha"][s] + x @ post["beta"][s] + post["a_ufcap"][s][g]
-            ruido = rng.normal(0, post["sigma"][s] / np.sqrt(esperados / w_ref)) if self.ruido_local else 0.0
+            if not self.ruido_local:
+                ruido = 0.0
+            elif self.verossimilhanca == "t":
+                ruido = post["sigma"][s] * escala_rel * rng.standard_t(post["nu"][s], len(p))
+            else:
+                ruido = post["sigma"][s] * escala_rel * rng.standard_normal(len(p))
+            validos = esperados
+            if self.incerteza_comparecimento:
+                validos = esperados * np.exp(m_comp + s_comp * escala_rel * rng.standard_normal(len(p)))
             pct = np.clip(ant + mu + ruido, 0, 100)
-            amostras[s] = 100 * (pt_div + esperados @ pct / 100) / (val_div + total_esp)
+            amostras[s] = 100 * (pt_div + validos @ pct / 100) / (val_div + validos.sum())
 
         self.ultimas_amostras = amostras
         self.ultimo_resumo = {
@@ -167,6 +183,7 @@ class SwingHierarquico:
             "tau_uf": float(post["tau_uf"].mean()),
             "tau_ufcap": float(post["tau_ufcap"].mean()),
             "sigma": float(post["sigma"].mean()),
+            **({"nu": float(post["nu"].mean())} if "nu" in post else {}),
             "segundos": time.perf_counter() - inicio,
         }
         return float(amostras.mean())
