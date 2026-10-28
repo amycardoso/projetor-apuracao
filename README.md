@@ -10,6 +10,10 @@ A cada instante da apuração, o modelo usa as seções já totalizadas para est
 - Fazer backtest nas eleições de 2018 e 2022, reconstruindo a ordem de chegada das seções a partir dos boletins de urna.
 - Entregar intervalos calibrados: um intervalo de 90% deve conter o resultado final em cerca de 90% dos instantes testados.
 
+## Status
+
+- **Fase 1 (baselines, 2º turno):** com histórico de 2018, o swing uniforme por UF erra 0,41 p.p. em média em 2022 e fica abaixo de 0,5 p.p. a partir de 5% das seções. Em 2018 (ordem simulada, histórico de 2014), o melhor baseline é o swing nacional: 0,27 p.p. em média. Ver `reports/01_baselines.md`.
+
 ## Dados
 
 Os dados vêm do portal de dados abertos do TSE (`dadosabertos.tse.jus.br`). Tudo fica em `data/`, que não é versionado.
