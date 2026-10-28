@@ -18,6 +18,8 @@ import logging
 import re
 import urllib.request
 import zipfile
+from collections.abc import Iterator
+from contextlib import contextmanager
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -123,18 +125,25 @@ def baixar(recurso: Recurso, destino: Path = DATA_RAW) -> Path:
     return zip_path
 
 
-def extrair_csv(zip_path: Path) -> Path:
-    """Extrai o CSV do zip para a mesma pasta (uma vez) e devolve o caminho."""
+@contextmanager
+def csv_extraido(zip_path: Path) -> Iterator[Path]:
+    """Extrai o CSV do zip e o apaga ao sair.
+
+    Os CSVs ocupam ~20x o zip (o de SP no 2º turno tem 380 MB), então só um
+    fica no disco por vez.
+    """
     with zipfile.ZipFile(zip_path) as z:
         nomes = [n for n in z.namelist() if n.lower().endswith(".csv")]
         if len(nomes) != 1:
             raise RuntimeError(f"{zip_path.name}: esperava 1 CSV, achei {nomes}")
         csv_path = zip_path.parent / Path(nomes[0]).name
-        if not csv_path.exists():
-            with z.open(nomes[0]) as origem, csv_path.open("wb") as alvo:
-                while bloco := origem.read(1 << 20):
-                    alvo.write(bloco)
-    return csv_path
+        with z.open(nomes[0]) as origem, csv_path.open("wb") as alvo:
+            while bloco := origem.read(1 << 20):
+                alvo.write(bloco)
+    try:
+        yield csv_path
+    finally:
+        csv_path.unlink(missing_ok=True)
 
 
 def normalizar_cabecalho(colunas: list[str]) -> list[str]:
@@ -172,7 +181,7 @@ def _sql_secoes(csv_path: Path, ano: int, turno: int) -> str:
         CAST(sum(QT_VOTOS) FILTER (NR_VOTAVEL = {cand['adversario']}) AS INTEGER) AS votos_adversario,
         CAST(sum(QT_VOTOS) FILTER (NR_VOTAVEL = {NR_BRANCO}) AS INTEGER) AS votos_branco,
         CAST(sum(QT_VOTOS) FILTER (NR_VOTAVEL = {NR_NULO}) AS INTEGER) AS votos_nulo,
-        CAST(sum(QT_VOTOS) FILTER (NR_VOTAVEL NOT IN ({cand['pt']}, {cand['adversario']}, {NR_BRANCO}, {NR_NULO}))
+        CAST(sum(QT_VOTOS) FILTER (NR_VOTAVEL IS NOT NULL AND NR_VOTAVEL NOT IN ({cand['pt']}, {cand['adversario']}, {NR_BRANCO}, {NR_NULO}))
              AS INTEGER) AS votos_outros,
         any_value(DS_TIPO_URNA) AS ds_tipo_urna,
         min({ts.format('DT_ENCERRAMENTO')}) AS dt_encerramento,
@@ -180,7 +189,8 @@ def _sql_secoes(csv_path: Path, ano: int, turno: int) -> str:
         count(DISTINCT NR_LOCAL_VOTACAO) AS _n_locais,
         count(DISTINCT QT_APTOS) AS _n_aptos
     FROM (
-        SELECT * REPLACE (CAST(NR_VOTAVEL AS INTEGER) AS NR_VOTAVEL, CAST(QT_VOTOS AS BIGINT) AS QT_VOTOS)
+        -- Seções sem voto trazem NR_VOTAVEL = #NULO# (com QT_VOTOS = 0).
+        SELECT * REPLACE (TRY_CAST(NR_VOTAVEL AS INTEGER) AS NR_VOTAVEL, CAST(QT_VOTOS AS BIGINT) AS QT_VOTOS)
         FROM read_csv('{csv_path}', delim=';', quote='"', header=true, encoding='latin-1',
                       all_varchar=true, names={nomes!r})
         WHERE CD_CARGO_PERGUNTA = '1'
@@ -192,11 +202,10 @@ def _sql_secoes(csv_path: Path, ano: int, turno: int) -> str:
 def processar(ano: int, turno: int, destino: Path = DATA_INTERIM) -> Path:
     """Baixa todos os BUs do ano e turno e grava `bu_{ano}_{turno}t.parquet`."""
     con = duckdb.connect()
-    partes = []
-    for recurso in listar_recursos(ano, turno):
-        csv_path = extrair_csv(baixar(recurso))
-        partes.append(f"({_sql_secoes(csv_path, ano, turno)})")
-    con.execute("CREATE TABLE secoes AS " + "\nUNION ALL BY NAME\n".join(partes))
+    for i, recurso in enumerate(listar_recursos(ano, turno)):
+        with csv_extraido(baixar(recurso)) as csv_path:
+            sql = _sql_secoes(csv_path, ano, turno)
+            con.execute(("CREATE TABLE secoes AS " if i == 0 else "INSERT INTO secoes BY NAME ") + sql)
 
     # Uma seção não pode aparecer em duas UFs nem ter metadados divergentes.
     dup = con.execute(
