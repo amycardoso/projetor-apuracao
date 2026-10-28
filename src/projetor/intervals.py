@@ -27,6 +27,7 @@ import pandas as pd
 from scipy import stats
 
 from projetor.models.camadas import SwingCamadas, _grupo
+from projetor.votos import validos
 from projetor.models.features import (
     anexar_features,
     comparecimento,
@@ -59,7 +60,7 @@ class Preparo:
             locais=por_local(div),
             pend=pendentes_por_local(pend),
             pt_div=float(divulgadas["votos_pt"].sum()),
-            val_div=float((divulgadas["votos_pt"] + divulgadas["votos_adversario"]).sum()),
+            val_div=float(validos(divulgadas).sum()),
         )
 
     def total(self, pct_pend: np.ndarray, validos_pend: np.ndarray | None = None) -> float:

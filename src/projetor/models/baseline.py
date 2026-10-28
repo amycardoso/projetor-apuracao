@@ -17,10 +17,7 @@ import numpy as np
 import pandas as pd
 
 from projetor.models.features import projetar_com_swing as _projetar_com_swing
-
-
-def _validos(secoes: pd.DataFrame) -> pd.Series:
-    return secoes["votos_pt"] + secoes["votos_adversario"]
+from projetor.votos import validos as _validos
 
 
 def _swing(divulgadas: pd.DataFrame) -> float:

@@ -19,15 +19,15 @@ from __future__ import annotations
 import pandas as pd
 
 from projetor.locais import CHAVE_LOCAL, locais, parear
+from projetor.votos import validos
 
 ANTERIOR = {2018: 2014, 2022: 2018}
 
 
 def _agregar(secoes_ant: pd.DataFrame, chave: list[str]) -> pd.DataFrame:
-    g = secoes_ant.groupby(chave)[["votos_pt", "votos_adversario", "qt_aptos"]].sum()
-    validos = g["votos_pt"] + g["votos_adversario"]
+    g = secoes_ant.assign(_validos=validos(secoes_ant)).groupby(chave)[["votos_pt", "_validos", "qt_aptos"]].sum()
     return pd.DataFrame(
-        {"ant_pct_pt": 100 * g["votos_pt"] / validos, "ant_taxa_validos": validos / g["qt_aptos"]}
+        {"ant_pct_pt": 100 * g["votos_pt"] / g["_validos"], "ant_taxa_validos": g["_validos"] / g["qt_aptos"]}
     ).dropna()
 
 

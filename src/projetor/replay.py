@@ -8,6 +8,8 @@ from __future__ import annotations
 
 import pandas as pd
 
+from projetor.votos import validos
+
 
 def estado_em(secoes: pd.DataFrame, t: float | pd.Timestamp) -> pd.DataFrame:
     """Seções já divulgadas até `t`.
@@ -28,12 +30,12 @@ def estado_em(secoes: pd.DataFrame, t: float | pd.Timestamp) -> pd.DataFrame:
 
 def parcial(secoes: pd.DataFrame) -> pd.Series:
     """Totais e % do PT nos votos válidos de um conjunto de seções."""
-    validos = secoes["votos_pt"].sum() + secoes["votos_adversario"].sum()
+    total = validos(secoes).sum()
     return pd.Series(
         {
             "secoes": len(secoes),
             "votos_pt": secoes["votos_pt"].sum(),
             "votos_adversario": secoes["votos_adversario"].sum(),
-            "pct_pt": 100 * secoes["votos_pt"].sum() / validos if validos else float("nan"),
+            "pct_pt": 100 * secoes["votos_pt"].sum() / total if total else float("nan"),
         }
     )

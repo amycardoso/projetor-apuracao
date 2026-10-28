@@ -11,6 +11,8 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 
+from projetor.votos import validos as _validos
+
 CHAVE_LOCAL = ["cd_municipio", "nr_zona", "nr_local_votacao"]
 
 REGIAO = {
@@ -31,10 +33,6 @@ CAPITAIS = {
 }  # fmt: skip
 
 REGRESSORES = ["ant_pct_pt", "log_aptos_mun", "capital"]
-
-
-def _validos(secoes: pd.DataFrame) -> pd.Series:
-    return secoes["votos_pt"] + secoes["votos_adversario"]
 
 
 def anexar_features(divulgadas: pd.DataFrame, pendentes: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:

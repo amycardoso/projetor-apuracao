@@ -19,6 +19,7 @@ import numpy as np
 import pandas as pd
 
 from projetor.replay import estado_em
+from projetor.votos import validos
 
 GRADE = [0.005, 0.01, 0.025, 0.05, *np.round(np.arange(0.10, 0.951, 0.05), 2).tolist()]
 
@@ -35,7 +36,7 @@ class Modelo(Protocol):
 
 
 def pct_pt(secoes: pd.DataFrame) -> float:
-    return 100 * secoes["votos_pt"].sum() / (secoes["votos_pt"].sum() + secoes["votos_adversario"].sum())
+    return 100 * secoes["votos_pt"].sum() / validos(secoes).sum()
 
 
 def dividir(secoes: pd.DataFrame, t: float) -> tuple[pd.DataFrame, pd.DataFrame]:

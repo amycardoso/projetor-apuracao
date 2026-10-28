@@ -46,6 +46,7 @@ import pymc as pm
 from pymc.variational.callbacks import CheckParametersConvergence
 
 from projetor.models.features import REGIAO, anexar_features, comparecimento, pendentes_por_local, por_local
+from projetor.votos import validos as _validos
 
 REGIOES = sorted(set(REGIAO.values()))
 UFS = sorted(REGIAO)
@@ -157,7 +158,7 @@ class SwingHierarquico:
         x, g, ant = _x(p), _idx_ufcap(p), p["ant_pct_pt"].to_numpy()
         rng = np.random.default_rng(self.semente)
         pt_div = divulgadas["votos_pt"].sum()
-        val_div = (divulgadas["votos_pt"] + divulgadas["votos_adversario"]).sum()
+        val_div = _validos(divulgadas).sum()
         m_comp, s_comp = comparecimento(locais) if self.incerteza_comparecimento else (0.0, 0.0)
 
         n = post["alpha"].shape[0]
