@@ -14,6 +14,7 @@ A cada instante da apuração, o modelo usa as seções já totalizadas para est
 
 - **Fase 1 (baselines, 2º turno):** com histórico de 2018, o swing uniforme por UF erra 0,41 p.p. em média em 2022 e fica abaixo de 0,5 p.p. a partir de 5% das seções. Em 2018 (ordem simulada, histórico de 2014), o melhor baseline é o swing nacional: 0,27 p.p. em média. Ver `reports/01_baselines.md`.
 - **Fase 2 (regressões de swing, 2º turno):** a regressão nacional com deslocamentos encolhidos por região, UF e UF × capital/interior (`SwingCamadasInterceptoPorte`, k escolhido em 2018) erra 0,32 p.p. em média em 2022 e fica abaixo de 0,5 p.p. a partir de 1% das seções. Em 2018, erra 0,22. Ver `reports/02_ols.md`.
+- **Fase 3 (hierárquico bayesiano, 2º turno):** com o pooling aprendido em PyMC (`SwingHierarquico`), o erro médio de 2022 cai para 0,15 p.p. (contra 0,32 dos pesos à mão), mas 2018 piora para 0,41 (contra 0,22), e os intervalos de 90% ainda ficam estreitos demais. Ver `reports/03_hierarquico.md`.
 
 ## Dados
 
