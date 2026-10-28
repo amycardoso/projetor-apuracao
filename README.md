@@ -1,65 +1,120 @@
 # projetor-apuracao
 
-Projeta o resultado final da eleição presidencial brasileira a partir da apuração parcial divulgada pelo TSE.
+Projeta, a cada instante da noite eleitoral, o resultado final do 2º turno presidencial a partir da apuração parcial do TSE, com faixas que cumprem o que prometem. Os resultados vêm de um backtest sem vazamento em 2018 e 2022.
 
-A cada instante da apuração, o modelo usa as seções já totalizadas para estimar o placar final e um intervalo de confiança para cada candidato. As seções que ainda faltam diferem das já apuradas (região, porte do município, horário de envio), e o modelo precisa corrigir esse viés.
+![Replay da apuração de 2022](reports/figures/05_replay.png)
 
-## Objetivos
+As primeiras seções não representam o país. Em 2022, com 5% das seções divulgadas, a parcial de Lula estava 4,3 pontos abaixo do resultado final, porque Centro-Oeste e Norte chegaram antes do Sudeste. O projetor corrige esse viés com o swing de cada local de votação contra a eleição anterior e um modelo hierárquico bayesiano. Com 0,5% das seções, ele erra 0,4 ponto e, dali em diante, nunca mais de 0,3.
 
-- Projetar o percentual final de votos válidos de cada candidato durante a apuração.
-- Fazer backtest nas eleições de 2018 e 2022, reconstruindo a ordem de chegada das seções a partir dos boletins de urna.
-- Entregar intervalos calibrados: um intervalo de 90% deve conter o resultado final em cerca de 90% dos instantes testados.
+## Resultados
 
-## Status
+Erro absoluto do % do PT nos votos válidos (pontos percentuais), em média sobre 22 instantes da apuração, de 0,5% a 95% das seções:
 
-- **Fase 1 (baselines, 2º turno):** com histórico de 2018, o swing uniforme por UF erra 0,41 p.p. em média em 2022 e fica abaixo de 0,5 p.p. a partir de 5% das seções. Em 2018 (ordem simulada, histórico de 2014), o melhor baseline é o swing nacional: 0,27 p.p. em média. Ver `reports/01_baselines.md`.
-- **Fase 2 (regressões de swing, 2º turno):** a regressão nacional com deslocamentos encolhidos por região, UF e UF × capital/interior (`SwingCamadasInterceptoPorte`, k escolhido em 2018) erra 0,32 p.p. em média em 2022 e fica abaixo de 0,5 p.p. a partir de 1% das seções. Em 2018, erra 0,22. Ver `reports/02_ols.md`.
-- **Fase 3 (hierárquico bayesiano, 2º turno):** com o pooling aprendido em PyMC (`SwingHierarquico`), o erro médio de 2022 cai para 0,15 p.p. (contra 0,32 dos pesos à mão), mas 2018 piora para 0,41 (contra 0,22), e os intervalos de 90% ainda ficam estreitos demais. Ver `reports/03_hierarquico.md`.
-- **Fase 4 (faixas, 2º turno):** a verossimilhança Student-t melhora o hierárquico nos dois anos (2022: 0,14 p.p.; 2018: 0,37). As faixas só do modelo (analítica, bootstrap e posterior) cobrem só 18–45% e estão estreitas demais. A posterior recalibrada pelo conformal do outro ano cobre 100% em 2022 e 86% em 2018, com o melhor interval score. Ver `reports/04_intervalos.md`.
+| Modelo | 2022 | 2018 | 2022: erro < 0,5 a partir de |
+|---|---|---|---|
+| Apurado (a parcial) | 2,19 | 2,47 | 85% das seções |
+| Swing por UF | 0,41 | 0,51 | 5% |
+| Regressão em camadas (região, UF, capital) | 0,32 | **0,22** | 1% |
+| **Hierárquico bayesiano (Student-t)** | **0,14** | 0,37 | **0,5%** |
+
+Faixa de 90% (cobertura = fração dos instantes em que o resultado final ficou dentro da faixa):
+
+| Faixa | 2022 | 2018 |
+|---|---|---|
+| Posterior do hierárquico, como sai do modelo | 18% | 45% |
+| Conformal no erro do modelo em camadas | 95% | 64% |
+| **Posterior recalibrada pela outra eleição** | **100%** | **86%** |
+
+Em 2022, a ordem de chegada é a observada. Em 2018, o TSE não publicou o horário de recebimento, então a ordem é simulada a partir da de 2022, e cada modelo usa a eleição anterior (2018 e 2014) como histórico. A discussão completa, inclusive do que não funcionou, está no [artigo](reports/artigo.md).
+
+## Inspiração
+
+A ideia de projetar o swing por local de votação e de mostrar projeção, faixa e apurado lado a lado vem do modelo de projeção de apuração de Rodrigo Mahlmeister (2026).
+
+## Relatórios
+
+| | |
+|---|---|
+| [Artigo](reports/artigo.md) | O texto completo: problema, dados, backtest, modelos, faixas e limitações |
+| [00 — Quem chega primeiro](reports/00_quem_chega_primeiro.md) | Viés da ordem de apuração por região, porte e capital; swing local 2018→2022 |
+| [01 — Baselines](reports/01_baselines.md) | Apurado, swing uniforme e swing por UF |
+| [02 — Regressões de swing](reports/02_ols.md) | WLS por local e camadas com encolhimento; escolha de k em 2018 |
+| [03 — Hierárquico](reports/03_hierarquico.md) | Pooling aprendido em PyMC; ADVI contra NUTS |
+| [04 — Faixas](reports/04_intervalos.md) | Cinco métodos de faixa, cobertura e interval score |
+
+## Replay interativo
+
+`app/` é uma página estática, sem build, que reproduz a noite com um relógio, cartões por candidato e o gráfico do apurado contra a projeção. Ela lê só agregados nacionais (`app/data/replay_{ano}.json`, alguns KB), nada por seção.
+
+Para abrir localmente:
+
+```bash
+python -m http.server 8000 --directory app
+```
+
+Depois abra http://localhost:8000. Um link como http://localhost:8000/#t=10 abre a noite com 10% das seções divulgadas. Para publicar pelo GitHub Pages, ative Pages em Settings → Pages, escolha a branch `main` e aponte para a pasta `/app` (ou mova o conteúdo para `docs/`). Num repositório privado, isso exige um plano que permita Pages privado.
+
+## Como reproduzir
+
+Requer Python 3.11 ou mais novo e cerca de 1 GB livre: 180 MB de zips do TSE e a venv com PyMC.
+
+```bash
+python -m venv .venv
+.venv/bin/pip install -e ".[dev]"
+```
+
+```bash
+.venv/bin/python -m projetor.ingest --anos 2014 2018 2022 --turno 2
+```
+
+```bash
+.venv/bin/python -m projetor.locais
+```
+
+```bash
+.venv/bin/python -m projetor.ordem
+```
+
+```bash
+.venv/bin/pytest
+```
+
+Os relatórios saem dos scripts em `notebooks/`, rodados da raiz do repositório, em ordem:
+
+- `00_quem_chega_primeiro.py`
+- `01_baselines.py`
+- `02_ols.py`
+- `03_hierarquico.py`
+- `04a_amostras_hierarquico.py` (~30 min)
+- `04b_faixas_camadas.py` (~40 min)
+- `04_intervalos.py`
+- `05_exportar_app.py` (~1 h)
+
+O que é pesado vai para `data/`, que não é versionado.
+
+## Estrutura
+
+```
+src/projetor/
+  ingest.py        baixa os BUs do TSE (com hash), normaliza e agrega Presidente por seção
+  tempo.py         fusos: encerramento em hora local, recebimento em hora de Brasília
+  locais.py        pareia locais de votação entre eleições
+  ordem.py         relógio de chegada: observado em 2022, simulado em 2018
+  historico.py     resultado da eleição anterior por local, com fallback por zona/município/UF
+  replay.py        estado da apuração num instante, sem vazamento
+  backtest.py      simulador da noite: pendentes só com covariáveis permitidas
+  intervals.py     faixas analítica, bootstrap, posterior, conformal e recalibrada
+  models/
+    baseline.py    Apurado, SwingUniforme, SwingUniformeUF
+    ols.py         SwingOLS
+    camadas.py     SwingCamadas e variantes com encolhimento por nível
+    hierarquico.py SwingHierarquico (PyMC, normal ou Student-t)
+notebooks/         scripts que geram cada relatório
+reports/           relatórios, artigo e figuras
+app/               replay interativo estático
+tests/             testes, inclusive os de não vazamento
+```
 
 ## Dados
 
-Os dados vêm do portal de dados abertos do TSE (`dadosabertos.tse.jus.br`). Tudo fica em `data/`, que não é versionado.
-
-### Fontes
-
-| Ano | Dataset CKAN | Arquivos |
-|-----|--------------|----------|
-| 2018 | `resultados-2018-boletim-de-urna` | `BWEB_{1,2}t_{UF}_*.zip` |
-| 2022 | `resultados-2022-boletim-de-urna` | `bweb_{1,2}t_{UF}_*.zip` |
-
-São 27 UFs mais `ZZ` (exterior), com um `.sha512` ao lado de cada zip. Cada zip traz um CSV em latin-1, separado por `;`, com uma linha por seção × cargo × votável.
-
-O tamanho compactado de todas as UFs é:
-
-| Ano | 1º turno | 2º turno |
-|-----|----------|----------|
-| 2018 | 1.333 MiB | 71 MiB |
-| 2022 | 1.390 MiB | 66 MiB |
-
-Descompactado, o CSV ocupa cerca de 20 vezes o zip (só o de SP no 2º turno tem 380 MB). Por isso a ingestão extrai um CSV por vez e apaga cada um depois de processar.
-
-### Pipeline
-
-```bash
-python -m projetor.ingest --anos 2018 2022 --turno 2
-```
-
-- Baixa os zips para `data/raw/`, com cache e verificação do sha512.
-- Corrige o cabeçalho, que muda entre anos: `SG_ UF` e `CD_FLASCARD_URNA_EFETIVADA` em 2018.
-- Grava `data/interim/bu_{ano}_{turno}t.parquet` só com Presidente, uma linha por seção.
-- Os votos ficam em formato largo: `votos_pt` (NR 13), `votos_adversario` (NR 17 em 2018, 22 em 2022), `votos_branco` e `votos_nulo`.
-
-### Ordem de chegada das seções
-
-O projetor precisa saber em que ordem as seções entraram na totalização.
-
-**2022.** A ordem vem de `DT_BU_RECEBIDO`, que já está em hora de Brasília em todas as UFs. `DT_ENCERRAMENTO` está em hora local. O exterior recebe BUs desde a madrugada, mas o resultado só foi divulgado a partir das 17h de Brasília. Os detalhes estão em `src/projetor/tempo.py`.
-
-**2018.** O BU de 2018 não tem `DT_BU_RECEBIDO` nem `DT_EMISSAO_BU`. A regra planejada é herdar a ordem de 2022 por local de votação:
-
-1. Cada seção de 2018 recebe a posição relativa (percentil de chegada) do mesmo local de votação (município + zona + local) em 2022.
-2. Se o local não tiver par em 2022, usa a zona.
-3. Se a zona também não tiver par, usa o município.
-
-Em 2018 cada UF votou no horário local. Assim, AC e o oeste do AM fecharam às 19h de Brasília, e a curva de chegada precisa levar isso em conta.
+Boletins de urna do portal de dados abertos do TSE (`dadosabertos.tse.jus.br`), datasets `resultados-{2014,2018,2022}-boletim-de-urna`, 2º turno, 27 UFs e exterior. Os totais agregados batem voto a voto com o resultado oficial nos três anos.
