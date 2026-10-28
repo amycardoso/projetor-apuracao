@@ -39,9 +39,11 @@ NIVEIS = [0.9, 0.95]
 
 # %% 1. Totais do 1º turno contra o oficial
 # Votos nominais do TSE (resultado oficial divulgado), 1º turno, Brasil + exterior.
+# 2018: totalização concluída em 8/10/2018 (tse.jus.br, "Concluída totalização de
+# votos do 1º turno das Eleições 2018").
 OFICIAL_1T = {
     2014: {"pt": 43_267_668, "adversario": 34_897_211, "validos": 104_023_802},  # Dilma, Aécio
-    2018: {"pt": 31_342_051, "adversario": 49_277_010, "validos": 107_050_673},  # Haddad, Bolsonaro
+    2018: {"pt": 31_342_005, "adversario": 49_276_990, "validos": 107_050_673},  # Haddad, Bolsonaro
     2022: {"pt": 57_259_504, "adversario": 51_072_345, "validos": 118_229_719},  # Lula, Bolsonaro
 }
 linhas_totais = []
