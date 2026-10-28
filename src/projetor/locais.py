@@ -35,7 +35,15 @@ TIPOS_PAR = ["direto", "rezoneado", "zona", "municipio", "sem_par"]
 
 
 def carregar_secoes(ano: int, turno: int = 2, pasta: Path = DATA_INTERIM) -> pd.DataFrame:
-    return pd.read_parquet(pasta / f"bu_{ano}_{turno}t.parquet")
+    """Lê o parquet de seções com contagens em int64.
+
+    O parquet guarda int32, e o pandas mantém esse tipo em somas e produtos.
+    Uma conta como `100 * votos_da_regiao` passa de 2,1 bilhões e estoura sem
+    aviso (32 milhões de válidos no Nordeste × 100).
+    """
+    secoes = pd.read_parquet(pasta / f"bu_{ano}_{turno}t.parquet")
+    contagens = [c for c in secoes.columns if c.startswith(("qt_", "votos_"))]
+    return secoes.astype(dict.fromkeys(contagens, "int64"))
 
 
 def locais(secoes: pd.DataFrame) -> pd.DataFrame:
