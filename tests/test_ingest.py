@@ -1,9 +1,10 @@
+import zipfile
 from pathlib import Path
 
 import duckdb
 import pandas as pd
 
-from projetor.ingest import _sql_secoes, normalizar_cabecalho
+from projetor.ingest import _sql_secoes, csv_extraido, normalizar_cabecalho
 
 CABECALHO_2018 = '"SG_ UF";"CD_MUNICIPIO";"NM_MUNICIPIO";"NR_ZONA";"NR_SECAO";"NR_LOCAL_VOTACAO";"CD_CARGO_PERGUNTA";"QT_APTOS";"QT_COMPARECIMENTO";"QT_ABSTENCOES";"DS_TIPO_URNA";"NR_VOTAVEL";"QT_VOTOS";"CD_FLASCARD_URNA_EFETIVADA";"DT_ENCERRAMENTO"'
 
@@ -42,3 +43,19 @@ def test_sql_secoes_le_layout_sem_cabecalho_de_2014(tmp_path: Path):
 
     assert (linha.votos_pt, linha.votos_adversario, linha.cd_municipio, linha.qt_aptos) == (65, 133, 1392, 230)
     assert pd.isna(linha.dt_encerramento) and pd.isna(linha.dt_bu_recebido)
+
+
+def test_csv_extraido_mantem_cabecalho_e_so_presidente(tmp_path: Path):
+    conteudo = (
+        '"DT";"DS_CARGO_PERGUNTA";"NM_VOTAVEL"\n'
+        '"1";"Presidente";"LULA"\n'
+        '"1";"Deputado Estadual";"ALICE SANT"ANA"\n'
+        '"1";"PRESIDENTE";"DILMA"\n'
+    ).encode("latin-1")
+    zip_path = tmp_path / "bu.zip"
+    with zipfile.ZipFile(zip_path, "w") as z:
+        z.writestr("bu.csv", conteudo)
+    with csv_extraido(zip_path) as csv_path:
+        linhas = csv_path.read_text(encoding="latin-1").splitlines()
+    assert linhas == ['"DT";"DS_CARGO_PERGUNTA";"NM_VOTAVEL"', '"1";"Presidente";"LULA"', '"1";"PRESIDENTE";"DILMA"']
+    assert not csv_path.exists()

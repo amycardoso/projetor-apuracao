@@ -140,12 +140,18 @@ def baixar(recurso: Recurso, destino: Path = DATA_RAW) -> Path:
     return zip_path
 
 
+# Campo DS_CARGO_PERGUNTA de Presidente: "Presidente" (2018+) ou "PRESIDENTE" (2014).
+_LINHA_PRESIDENTE = re.compile(rb';"presidente";', re.IGNORECASE)
+
+
 @contextmanager
 def csv_extraido(zip_path: Path) -> Iterator[Path]:
-    """Extrai o CSV do zip e o apaga ao sair.
+    """Extrai do zip só a primeira linha e as linhas de Presidente; apaga o arquivo ao sair.
 
     Os CSVs ocupam ~20x o zip (o de SP no 2º turno tem 380 MB), então só um
-    fica no disco por vez.
+    fica no disco por vez. No 1º turno o filtro também evita linhas de outros
+    cargos com aspas sem escape no nome do candidato (ex.: "ALICE SANT"ANA",
+    deputada estadual na BA em 2018), que quebram o parser.
     """
     with zipfile.ZipFile(zip_path) as z:
         nomes = [n for n in z.namelist() if n.lower().endswith((".csv", ".txt"))]
@@ -153,8 +159,9 @@ def csv_extraido(zip_path: Path) -> Iterator[Path]:
             raise RuntimeError(f"{zip_path.name}: esperava 1 CSV, achei {nomes}")
         csv_path = zip_path.parent / Path(nomes[0]).name
         with z.open(nomes[0]) as origem, csv_path.open("wb") as alvo:
-            while bloco := origem.read(1 << 20):
-                alvo.write(bloco)
+            for i, linha in enumerate(origem):
+                if i == 0 or _LINHA_PRESIDENTE.search(linha):
+                    alvo.write(linha)
     try:
         yield csv_path
     finally:
@@ -208,9 +215,7 @@ def _sql_secoes(csv_path: Path, ano: int, turno: int) -> str:
     FROM (
         -- Seções sem voto trazem NR_VOTAVEL = #NULO# (com QT_VOTOS = 0).
         SELECT * REPLACE (TRY_CAST(NR_VOTAVEL AS INTEGER) AS NR_VOTAVEL, CAST(QT_VOTOS AS BIGINT) AS QT_VOTOS)
-        -- strict_mode=false: há nomes de candidatos com aspas sem escape (ex.: deputado
-        -- estadual de AL no 1º turno de 2018). São de outros cargos e saem no filtro abaixo.
-        FROM read_csv('{csv_path}', delim=';', quote='"', encoding='latin-1', strict_mode=false,
+        FROM read_csv('{csv_path}', delim=';', quote='"', encoding='latin-1',
                       all_varchar=true, header={str(tem_cabecalho).lower()}, names={nomes!r})
         WHERE CD_CARGO_PERGUNTA = '1'
     )
