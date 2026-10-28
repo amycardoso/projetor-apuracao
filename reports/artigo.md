@@ -63,7 +63,7 @@ Há dois backtests: 2022 com histórico de 2018 e 2018 com histórico de 2014. T
 
 ![Erro contra % apurado, hierárquico](figures/03_erro_vs_apurado.png)
 
-Em 2022, o hierárquico erra 1,6 ponto com 0,5% das seções e fica em 0,2 ou menos a partir de 1%. Os modelos com limiar mínimo de locais ainda estão no swing uniforme nesse ponto e erram 4,9. Em 2018, o modelo em camadas vence. Parte da explicação é honesta e desconfortável: o k dele foi escolhido justamente em 2018. A outra parte está nos dados. O swing de 2014 para 2018 foi muito mais disperso que o de 2018 para 2022, com ruído local de 7,2 pontos contra 3,5. O desvio entre capital e interior dentro da mesma UF foi de 4,9 pontos, contra 1,5. Bolsonaro cresceu muito mais nas cidades grandes, e as cidades grandes chegam cedo.
+Em 2022, o hierárquico com verossimilhança normal (o da figura) erra 1,6 ponto com 0,5% das seções e fica em 0,2 ou menos a partir de 1%. Com a Student-t, o erro com 0,5% cai para 0,4 e não passa de 0,3 depois. Os modelos com limiar mínimo de locais ainda estão no swing uniforme nesse ponto e erram 4,9. Em 2018, o modelo em camadas vence. Parte da explicação é honesta e desconfortável: o k dele foi escolhido justamente em 2018. A outra parte está nos dados. O swing de 2014 para 2018 foi muito mais disperso que o de 2018 para 2022, com ruído local de 7,2 pontos contra 3,5. O desvio entre capital e interior dentro da mesma UF foi de 4,9 pontos, contra 1,5. Bolsonaro cresceu muito mais nas cidades grandes, e as cidades grandes chegam cedo.
 
 ## As faixas, e por que as de modelo falham
 
