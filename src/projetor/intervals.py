@@ -10,6 +10,9 @@ Quatro métodos, todos avaliados nos mesmos pontos da grade do backtest:
 - (c) posterior do `SwingHierarquico`: as amostras gravadas pelo backtest.
 - (d) `conformal_por_faixa`: quantis de |erro| do modelo pontual em outro ano,
   por faixa de relógio (split conformal no tempo).
+- (e) `conformal_normalizado`: recalibra uma faixa probabilística (c) pelo
+  quantil de |erro|/desvio observado no outro ano. Mantém a forma da faixa ao
+  longo da noite e corrige só a escala.
 
 As faixas de (a), (b) e (c) incluem a incerteza do comparecimento das
 pendentes: log(válidos reais / esperados) por local, medido nos divulgados.
@@ -174,6 +177,13 @@ def conformal_por_faixa(calibracao: pd.DataFrame, niveis: list[float]) -> pd.Dat
         ordenado = np.sort(g["abs_erro"].to_numpy())
         linhas[faixa] = {nivel: ordenado[min(int(np.ceil((n + 1) * nivel)), n) - 1] for nivel in niveis}
     return pd.DataFrame(linhas).T.rename_axis("faixa")
+
+
+def conformal_normalizado(erro: np.ndarray, desvio: np.ndarray, niveis: list[float]) -> dict[float, float]:
+    """Multiplicador conformal do desvio: quantil de ordem ⌈(n+1)·nível⌉/n de |erro|/desvio."""
+    escores = np.sort(np.abs(erro) / desvio)
+    n = len(escores)
+    return {nivel: float(escores[min(int(np.ceil((n + 1) * nivel)), n) - 1]) for nivel in niveis}
 
 
 def winkler(lo: np.ndarray, hi: np.ndarray, y: np.ndarray, nivel: float) -> np.ndarray:

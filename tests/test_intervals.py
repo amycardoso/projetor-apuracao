@@ -6,6 +6,7 @@ from projetor.intervals import (
     Preparo,
     analitico_camadas,
     bootstrap_camadas,
+    conformal_normalizado,
     conformal_por_faixa,
     faixa_amostras,
     faixa_normal,
@@ -45,3 +46,9 @@ def test_analitico_e_bootstrap_dao_faixas_finitas_e_centradas(secoes):  # noqa: 
     amostras = bootstrap_camadas(modelo, prep, b=30)
     assert np.isfinite(centro) and sd > 0
     assert abs(amostras.mean() - centro) < 3 * max(sd, amostras.std())
+
+
+def test_conformal_normalizado_devolve_o_multiplicador_do_desvio():
+    erro = np.arange(1, 11, dtype=float)
+    q = conformal_normalizado(erro, np.full(10, 2.0), [0.5, 0.9])
+    assert q == {0.5: 3.0, 0.9: 5.0}
