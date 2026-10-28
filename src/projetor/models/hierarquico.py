@@ -91,6 +91,7 @@ class SwingHierarquico:
     n_advi: int = 30_000
     n_amostras: int = 1000
     semente: int = 0
+    ruido_local: bool = True
     nome: str = "SwingHierarquico"
     ultimas_amostras: np.ndarray | None = field(default=None, repr=False)
     ultimo_resumo: dict[str, float] = field(default_factory=dict, repr=False)
@@ -155,7 +156,7 @@ class SwingHierarquico:
         amostras = np.empty(n)
         for s in range(n):
             mu = post["alpha"][s] + x @ post["beta"][s] + post["a_ufcap"][s][g]
-            ruido = rng.normal(0, post["sigma"][s] / np.sqrt(esperados / w_ref))
+            ruido = rng.normal(0, post["sigma"][s] / np.sqrt(esperados / w_ref)) if self.ruido_local else 0.0
             pct = np.clip(ant + mu + ruido, 0, 100)
             amostras[s] = 100 * (pt_div + esperados @ pct / 100) / (val_div + total_esp)
 
