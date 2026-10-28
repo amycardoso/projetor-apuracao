@@ -30,6 +30,12 @@ média dessas amostras é a projeção pontual. As amostras do % PT final ficam 
 (ν = 1 + Exponential(média 10)), mais robusta a locais com swing extremo; o
 ruído de previsão das pendentes passa a ser t também.
 
+`discrepancia=c` soma às amostras um erro de swing comum a todas as pendentes,
+delta ~ Normal(0, c × h), com h dado por `escala_discrepancia` (ver
+`projetor.discrepancia`). Com `c=0` (padrão), o modelo é o mesmo de antes. A
+fração pendente e a distância de perfil ficam sempre em `ultimo_resumo`, para
+calibrar `c` em outras noites.
+
 `incerteza_comparecimento=True` sorteia também os válidos de cada local
 pendente: `esperados × exp(m + s·z / sqrt(peso))`, com `m` e `s` medidos em
 log(válidos reais / esperados) nos locais divulgados (`features.comparecimento`).
@@ -45,6 +51,7 @@ import pandas as pd
 import pymc as pm
 from pymc.variational.callbacks import CheckParametersConvergence
 
+from projetor import discrepancia as _discrepancia
 from projetor.models.features import REGIAO, anexar_features, comparecimento, pendentes_por_local, por_local
 from projetor.votos import validos as _validos
 
@@ -109,6 +116,8 @@ class SwingHierarquico:
     ruido_local: bool = True
     verossimilhanca: str = "normal"
     incerteza_comparecimento: bool = False
+    discrepancia: float = 0.0
+    escala_discrepancia: str = "fracao"
     nome: str = "SwingHierarquico"
     ultimas_amostras: np.ndarray | None = field(default=None, repr=False)
     ultimo_resumo: dict[str, float] = field(default_factory=dict, repr=False)
@@ -177,6 +186,12 @@ class SwingHierarquico:
             pct = np.clip(ant + mu + ruido, 0, 100)
             amostras[s] = 100 * (pt_div + validos @ pct / 100) / (val_div + validos.sum())
 
+        perfil = _discrepancia.perfil(divulgadas, pendentes)
+        if self.discrepancia > 0:
+            amostras = _discrepancia.aplicar(
+                amostras[None, :], [perfil], self.discrepancia, self.escala_discrepancia, self.semente
+            )[0]
+
         self.ultimas_amostras = amostras
         self.ultimo_resumo = {
             "locais": len(locais),
@@ -184,6 +199,8 @@ class SwingHierarquico:
             "tau_uf": float(post["tau_uf"].mean()),
             "tau_ufcap": float(post["tau_ufcap"].mean()),
             "sigma": float(post["sigma"].mean()),
+            "fracao_pendente": perfil.fracao_pendente,
+            "distancia": perfil.distancia,
             **({"nu": float(post["nu"].mean())} if "nu" in post else {}),
             "segundos": time.perf_counter() - inicio,
         }

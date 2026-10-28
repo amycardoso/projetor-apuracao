@@ -53,6 +53,9 @@ def test_pendentes_so_trazem_covariaveis_permitidas(secoes):
         SwingCamadasIntercepto(k=10, min_locais=20, min_locais_grupo=5),
         SwingCamadasInterceptoPorte(k=10, min_locais=20, min_locais_grupo=5),
         SwingHierarquico(n_advi=500, n_amostras=50),
+        SwingHierarquico(
+            n_advi=500, n_amostras=50, discrepancia=1.0, escala_discrepancia="distancia", nome="SwingHierarquicoDelta"
+        ),
     ],
     ids=lambda m: m.nome,
 )
@@ -100,4 +103,13 @@ def test_camadas_intercepto_captura_swing_diferente_por_uf(secoes):
 def test_hierarquico_guarda_amostras_e_taus(secoes):
     resultado = rodar(SwingHierarquico(n_advi=500, n_amostras=50), secoes, grade=[0.3])
     assert resultado["amostras"].iloc[0].shape == (50,)
-    assert {"tau_regiao", "tau_uf", "tau_ufcap", "sigma"} <= set(resultado["resumo"].iloc[0])
+    assert {"tau_regiao", "tau_uf", "tau_ufcap", "sigma", "fracao_pendente", "distancia"} <= set(resultado["resumo"].iloc[0])
+
+
+def test_discrepancia_alarga_as_amostras_sem_mover_o_centro(secoes):
+    sem = rodar(SwingHierarquico(n_advi=500, n_amostras=400), secoes, grade=[0.3])
+    com = rodar(SwingHierarquico(n_advi=500, n_amostras=400, discrepancia=5.0), secoes, grade=[0.3])
+    # Mesma semente: a diferença entre as amostras é o próprio delta, na escala fração × c.
+    delta = com["amostras"].iloc[0] - sem["amostras"].iloc[0]
+    assert delta.std() == pytest.approx(5.0 * com["resumo"].iloc[0]["fracao_pendente"], rel=0.15)
+    assert abs(delta.mean()) < 0.5
