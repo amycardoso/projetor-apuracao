@@ -55,7 +55,7 @@ for ano, oficial in OFICIAL_1T.items():
             {"ano": ano, "campo": campo, "BU agregado": int(nosso[campo]), "oficial": oficial[campo],
              "diferença": int(nosso[campo]) - oficial[campo]}
         )  # fmt: skip
-totais = pd.DataFrame(linhas_totais)
+totais = pd.DataFrame(linhas_totais).astype({"ano": str})
 print(totais.to_string(index=False))
 secoes_1t = {ano: len(carregar_secoes(ano, 1)) for ano in OFICIAL_1T}
 
@@ -178,19 +178,30 @@ def tabela(df: pd.DataFrame, por: list[str]) -> pd.DataFrame:
     t = t[[f"{m} {n}%" for n in (90, 95) for m in ("cobertura", "largura", "winkler")]]
     for n in (90, 95):
         t[f"cobertura {n}%"] = t[f"cobertura {n}%"].map(lambda v: f"{100 * v:.0f}%")
-    return t.round(2)
+    return t.round(2).reset_index()
 
 
 pt = f[f["alvo"] == "pt"]
-tab_geral = tabela(pt, ["metodo"]).reindex(METODOS)
+tab_geral = tabela(pt, ["metodo"]).set_index("metodo").reindex(METODOS)
 tab_noite = tabela(pt, ["noite", "metodo"])
 tab_adv = tabela(f[f["alvo"] == "adversario"], ["noite", "metodo"])
 params = (
     f[f["nivel"] == 0.9].groupby(["noite", "metodo"])["param"].first().unstack("metodo")[METODOS[1:]].round(2)
 )
+# Valores que valeriam para uma noite nova: calibrados nas quatro noites do PT.
+c_final = {
+    escala: discrepancia.calibrar(
+        np.concatenate([n.erro for n in NOITES_PT]),
+        np.concatenate([n.var for n in NOITES_PT]),
+        [p for n in NOITES_PT for p in n.perfis],
+        escala,
+    )
+    for escala in discrepancia.ESCALAS
+}
 print(tab_geral.to_string())
 print(tab_noite.to_string())
 print(params.to_string())
+print("c com as quatro noites:", c_final)
 
 # %% Figura: 2022 1º turno, faixa (c) com e sem δ
 alvo = next(n for n in NOITES_PT if (n.ano, n.turno) == (2022, 1))
@@ -216,12 +227,14 @@ blocos = {
     "TOTAIS": totais.to_markdown(index=False, intfmt=","),
     "SECOES": ", ".join(f"{ano}: {n:,}".replace(",", ".") for ano, n in secoes_1t.items()),
     "FINAIS": finais_1t.unstack("ano").to_markdown(),
-    "ERROS_PT": tab_erros.loc["pt"].to_markdown(),
-    "ERROS_ADV": tab_erros.loc["adversario"].to_markdown(),
+    "ERROS_PT": tab_erros.loc["pt"].reset_index().to_markdown(index=False),
+    "ERROS_ADV": tab_erros.loc["adversario"].reset_index().to_markdown(index=False),
     "FAIXAS_GERAL": tab_geral.to_markdown(),
-    "FAIXAS_NOITE": tab_noite.to_markdown(),
-    "FAIXAS_ADV": tab_adv.to_markdown(),
+    "FAIXAS_NOITE": tab_noite.to_markdown(index=False),
+    "FAIXAS_ADV": tab_adv.to_markdown(index=False),
     "PARAMS": params.to_markdown(),
+    "C_FRACAO": f"{c_final['fracao']:.2f}".replace(".", ","),
+    "C_DISTANCIA": f"{c_final['distancia']:.2f}".replace(".", ","),
 }
 texto = ANALISE
 for chave, valor in blocos.items():
