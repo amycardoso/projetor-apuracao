@@ -4,7 +4,7 @@ import pytest
 
 from projetor.backtest import COLUNAS_PENDENTES, dividir, rodar, tempo_ate_cravar
 from projetor.models.baseline import Apurado, SwingUniforme, SwingUniformeUF
-from projetor.models.camadas import SwingCamadas, SwingCamadasPorte
+from projetor.models.camadas import SwingCamadas, SwingCamadasIntercepto, SwingCamadasInterceptoPorte, SwingCamadasPorte
 from projetor.models.ols import SwingOLS
 
 PROIBIDAS = ("votos_", "qt_comparecimento", "qt_abstencoes", "dt_", "momento", "relogio", "ds_tipo_urna")
@@ -49,6 +49,8 @@ def test_pendentes_so_trazem_covariaveis_permitidas(secoes):
         SwingOLS(min_locais=20),
         SwingCamadas(k=10, min_locais=20, min_locais_grupo=5),
         SwingCamadasPorte(k=10, min_locais=20, min_locais_grupo=5),
+        SwingCamadasIntercepto(k=10, min_locais=20, min_locais_grupo=5),
+        SwingCamadasInterceptoPorte(k=10, min_locais=20, min_locais_grupo=5),
     ],
     ids=lambda m: m.nome,
 )
@@ -82,3 +84,12 @@ def test_ols_recupera_swing_que_depende_do_voto_anterior(secoes):
     pct = (secoes["ant_pct_pt"] + 10 - 0.1 * secoes["ant_pct_pt"]) / 100
     secoes = secoes.assign(votos_pt=225 * pct, votos_adversario=225 * (1 - pct))
     assert rodar(SwingOLS(min_locais=20), secoes, grade=[0.3])["erro"].abs().max() < 1e-6
+
+
+def test_camadas_intercepto_captura_swing_diferente_por_uf(secoes):
+    swing_uf = secoes["uf"].map({"SP": 12.0, "BA": -2.0, "RS": 5.0})
+    pct = (secoes["ant_pct_pt"] + swing_uf).clip(0, 100) / 100
+    # Um local por seção, para que nenhum local misture UFs.
+    secoes = secoes.assign(votos_pt=225 * pct, votos_adversario=225 * (1 - pct), nr_local_votacao=secoes["nr_secao"])
+    modelo = SwingCamadasIntercepto(k=0.001, min_locais=20, min_locais_grupo=5)
+    assert rodar(modelo, secoes, grade=[0.3])["erro"].abs().max() < 0.05
