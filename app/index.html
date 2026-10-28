@@ -63,8 +63,9 @@
   input[type="range"] { flex: 1; accent-color: var(--confirma); min-width: 0; height: 32px; }
 
   .cards { display: grid; gap: 10px; margin-top: 12px; }
-  .card { background: #f7f8f6; border-radius: 8px; padding: 10px 12px; border-left: 6px solid var(--cor); }
-  .card .nome { font-weight: 700; font-size: 1.05rem; }
+  .card { background: #f7f8f6; border-radius: 8px; padding: 10px 12px; }
+  .card .nome { font-weight: 700; font-size: 1.05rem; display: flex; align-items: center; gap: 8px; }
+  .card .nome::before { content: ""; width: 12px; height: 12px; border-radius: 50%; background: var(--cor); }
   .card .proj { font-size: 2.2rem; font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; color: var(--cor); font-variant-numeric: tabular-nums; }
   .card dl { display: grid; grid-template-columns: auto 1fr; gap: 0 10px; margin: 4px 0 0; font-size: 0.92rem; color: var(--tinta-2); }
   .card dd { margin: 0; text-align: right; color: var(--tinta); font-variant-numeric: tabular-nums; }
@@ -82,12 +83,12 @@
   .barra span { display: block; height: 100%; }
   .regioes ul { list-style: none; padding: 0; margin: 6px 0 0; display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 0.85rem; color: var(--tinta-2); }
 
-  .aviso { margin-top: 12px; background: #fff4d6; border-left: 6px solid #d9a21b; padding: 8px 12px; border-radius: 6px; font-size: 0.92rem; }
+  .aviso { margin-top: 12px; background: #fff4d6; border: 1px solid #e3c36a; padding: 8px 12px; border-radius: 6px; font-size: 0.92rem; }
   .notas { margin-top: 28px; max-width: 72ch; color: var(--tinta-2); font-size: 0.95rem; }
   .notas p { margin: 0 0 10px; }
   a { color: var(--adv); }
   button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid var(--adv); outline-offset: 2px; }
-  .erro { background: #fde2e2; border-left: 6px solid var(--pt); padding: 10px 12px; border-radius: 6px; }
+  .erro { background: #fde2e2; border: 1px solid #e9a3ad; padding: 10px 12px; border-radius: 6px; }
   @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
 </head>
