@@ -41,19 +41,33 @@ class Noite:
         return self.amostras.var(axis=1)
 
 
+def de_arquivo(caminho: Path, rotulo: str, ano: int, turno: int, alvo: str, perfis: pd.DataFrame | None = None) -> Noite:
+    """Lê um npz do hierárquico; o perfil vem do resumo de cada instante ou de `perfis`."""
+    d = np.load(caminho)
+    resumos = [json.loads(r) for r in d["resumo"]]
+    if perfis is None:
+        perfis = pd.DataFrame(resumos)[["fracao_pendente", "distancia"]]
+    assert len(perfis) == len(resumos)
+    lista = [
+        Perfil(f, x, r["sigma"])
+        for f, x, r in zip(perfis["fracao_pendente"], perfis["distancia"], resumos, strict=True)
+    ]
+    return Noite(rotulo, ano, turno, alvo, d["t"], d["final"], d["amostras"], lista)
+
+
 def carregar(ano: int, turno: int, alvo: str = "pt", pasta: Path = PROCESSED) -> Noite:
-    """Lê as amostras de uma noite; o 2º turno de 2018/2022 tem os perfis num parquet à parte."""
+    """Uma noite presidencial; o 2º turno de 2018/2022 tem os perfis num parquet à parte."""
+    rotulo = f"{ano} {turno}T {'PT' if alvo == 'pt' else 'adversário'}"
     if turno == 2 and ano in (2018, 2022):
-        d = np.load(pasta / f"amostras_hier_t_comp_{ano}_2t.npz")
         p = pd.read_parquet(pasta / f"perfis_{ano}_2t.parquet")
-        assert np.allclose(p["t"], d["t"])
-        perfis = [Perfil(f, x) for f, x in zip(p["fracao_pendente"], p["distancia"], strict=True)]
-    else:
-        d = np.load(pasta / f"amostras_hier_t_comp_{ano}_{turno}t_{alvo}.npz")
-        resumos = [json.loads(r) for r in d["resumo"]]
-        perfis = [Perfil(r["fracao_pendente"], r["distancia"]) for r in resumos]
-    nome = {"pt": "PT", "adversario": "adversário"}[alvo]
-    return Noite(f"{ano} {turno}T {nome}", ano, turno, alvo, d["t"], d["final"], d["amostras"], perfis)
+        n = de_arquivo(pasta / f"amostras_hier_t_comp_{ano}_2t.npz", rotulo, ano, turno, alvo, p)
+        assert np.allclose(p["t"], n.t)
+        return n
+    return de_arquivo(pasta / f"amostras_hier_t_comp_{ano}_{turno}t_{alvo}.npz", rotulo, ano, turno, alvo)
+
+
+def governador(ano: int, uf: str, pasta: Path = PROCESSED) -> Noite:
+    return de_arquivo(pasta / f"amostras_gov_{ano}_{uf}.npz", f"gov {ano} {uf}", ano, 2, "governador")
 
 
 def calibrar_c(noites: list[Noite], escala: str) -> float:

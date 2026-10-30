@@ -7,10 +7,12 @@
 # das seções no 1º turno e 2,42% no 2º. Grava erros e amostras em
 # `data/processed/`. Leva ~40 min.
 #
-#     python notebooks/07a_eleicao_2026.py
+#     python notebooks/07a_eleicao_2026.py        # os dois turnos
+#     python notebooks/07a_eleicao_2026.py 2      # só o 2º
 
 # %%
 import json
+import sys
 from pathlib import Path
 
 import numpy as np
@@ -38,8 +40,8 @@ def secoes_2026(turno: int, alvo: str) -> pd.DataFrame:
     return anexar_historico(atual, anterior)
 
 
-erros = []
-for turno in (2, 1):
+for turno in [int(x) for x in sys.argv[1:]] or [2, 1]:
+    erros = []
     grade = sorted({*GRADE, PONTO_RODRIGO[turno]})
     for alvo in ALVOS[turno]:
         secoes = secoes_2026(turno, alvo)
@@ -59,4 +61,4 @@ for turno in (2, 1):
             resumo=np.array([json.dumps(x) for x in r["resumo"]]),
         )
         print(turno, alvo, hier.nome, "erro médio", r["erro"].abs().mean().round(3), flush=True)
-        pd.concat(erros, ignore_index=True).to_parquet(PROCESSED / "erros_2026.parquet", index=False)
+        pd.concat(erros, ignore_index=True).to_parquet(PROCESSED / f"erros_2026_{turno}t.parquet", index=False)

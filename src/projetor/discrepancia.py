@@ -17,6 +17,9 @@ divulgadas e pendentes pelos válidos.
 - `"distancia"`: h = distância de variação total entre a composição
   UF × capital/interior dos válidos esperados divulgados e a dos pendentes.
   Pesa mais quando o que falta é diferente do que já chegou.
+- `"ruido"`: h = sigma / 10, com sigma o desvio posterior do swing de um
+  local em torno do que o modelo explica (p.p.). Pesa mais quando o histórico
+  explica pouco do swing já divulgado.
 
 O swing não é observável nas pendentes, então `c` não sai da própria noite: é
 calibrado por máxima verossimilhança nos erros de outras noites
@@ -34,7 +37,7 @@ from scipy import optimize
 from projetor.models.features import anexar_features
 from projetor.votos import validos
 
-ESCALAS = ("fracao", "distancia")
+ESCALAS = ("fracao", "distancia", "ruido")
 
 
 @dataclass(frozen=True)
@@ -43,12 +46,15 @@ class Perfil:
 
     fracao_pendente: float
     distancia: float
+    ruido: float = float("nan")
 
     def h(self, escala: str) -> float:
         if escala == "fracao":
             return 1.0
         if escala == "distancia":
             return self.distancia
+        if escala == "ruido":
+            return self.ruido / 10
         raise ValueError(f"escala desconhecida: {escala}")
 
 

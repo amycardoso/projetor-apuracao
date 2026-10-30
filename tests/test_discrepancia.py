@@ -49,3 +49,8 @@ def test_calibrar_recupera_c_e_zera_quando_a_posterior_basta():
     assert discrepancia.calibrar(erro, np.full(4000, 0.01), perfis, "fracao") == pytest.approx(1.5, rel=0.05)
     pequeno = rng.normal(0, 0.1, 4000)
     assert discrepancia.calibrar(pequeno, np.full(4000, 1.0), perfis, "fracao") == 0.0
+
+
+def test_escala_ruido_cresce_com_sigma():
+    perfis = [Perfil(0.5, 0.0, 2.0), Perfil(0.5, 0.0, 4.0)]
+    assert discrepancia.desvio(perfis, 1.0, "ruido") == pytest.approx([0.1, 0.2])
