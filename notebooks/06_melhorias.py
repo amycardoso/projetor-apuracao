@@ -14,8 +14,6 @@
 #     python notebooks/06_melhorias.py
 
 # %%
-import json
-from dataclasses import dataclass
 from pathlib import Path
 
 import matplotlib
@@ -25,10 +23,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-from projetor import discrepancia
+from projetor import discrepancia, noites
 from projetor.backtest import tempo_ate_cravar
-from projetor.discrepancia import Perfil
-from projetor.intervals import conformal_normalizado, faixa_amostras, winkler
+from projetor.intervals import faixa_amostras, winkler
 from projetor.locais import carregar_secoes
 from projetor.votos import validos
 
@@ -82,45 +79,11 @@ print(tab_erros.to_string())
 
 
 # %% 3. Noites para as faixas
-@dataclass
-class Noite:
-    rotulo: str
-    ano: int
-    turno: int
-    alvo: str
-    t: np.ndarray
-    final: np.ndarray
-    amostras: np.ndarray
-    perfis: list[Perfil]
-
-    @property
-    def erro(self) -> np.ndarray:
-        return self.amostras.mean(axis=1) - self.final
-
-    @property
-    def var(self) -> np.ndarray:
-        return self.amostras.var(axis=1)
+NOITES_PT = [noites.carregar(a, tr) for a in (2018, 2022) for tr in (1, 2)]
+NOITES_ADV = [noites.carregar(a, 1, "adversario") for a in (2018, 2022)]
 
 
-def carregar_noite(ano: int, turno: int, alvo: str = "pt") -> Noite:
-    if turno == 2:
-        d = np.load(PROCESSED / f"amostras_hier_t_comp_{ano}_2t.npz")
-        p = pd.read_parquet(PROCESSED / f"perfis_{ano}_2t.parquet")
-        assert np.allclose(p["t"], d["t"])
-        perfis = [Perfil(f, x) for f, x in zip(p["fracao_pendente"], p["distancia"], strict=True)]
-    else:
-        d = np.load(PROCESSED / f"amostras_hier_t_comp_{ano}_1t_{alvo}.npz")
-        resumos = [json.loads(r) for r in d["resumo"]]
-        perfis = [Perfil(r["fracao_pendente"], r["distancia"]) for r in resumos]
-    nome = {"pt": "PT", "adversario": "adversário"}[alvo]
-    return Noite(f"{ano} {turno}T {nome}", ano, turno, alvo, d["t"], d["final"], d["amostras"], perfis)
-
-
-NOITES_PT = [carregar_noite(a, tr) for a in (2018, 2022) for tr in (1, 2)]
-NOITES_ADV = [carregar_noite(a, 1, "adversario") for a in (2018, 2022)]
-
-
-def treino(alvo: Noite) -> list[Noite]:
+def treino(alvo: noites.Noite) -> list[noites.Noite]:
     """Noites do PT de outras eleições (ano e turno diferentes do alvo)."""
     return [n for n in NOITES_PT if (n.ano, n.turno) != (alvo.ano, alvo.turno)]
 
@@ -128,24 +91,17 @@ def treino(alvo: Noite) -> list[Noite]:
 METODOS = ["(c) posterior", "(c) + δ fração", "(c) + δ distância", "(e) recalibrada"]
 
 
-def faixas(alvo: Noite, metodo: str, nivel: float) -> tuple[np.ndarray, np.ndarray, float]:
+def faixas(alvo: noites.Noite, metodo: str, nivel: float) -> tuple[np.ndarray, np.ndarray, float]:
     """Limites da faixa e o parâmetro calibrado no treino (c ou multiplicador)."""
     tr = treino(alvo)
     if metodo == "(c) posterior":
         return *faixa_amostras(alvo.amostras, nivel), np.nan
     if metodo.startswith("(c) + δ"):
         escala = "fracao" if "fração" in metodo else "distancia"
-        c = discrepancia.calibrar(
-            np.concatenate([n.erro for n in tr]),
-            np.concatenate([n.var for n in tr]),
-            [p for n in tr for p in n.perfis],
-            escala,
-        )
+        c = noites.calibrar_c(tr, escala)
         a = discrepancia.aplicar(alvo.amostras, alvo.perfis, c, escala, semente=1)
         return *faixa_amostras(a, nivel), c
-    m = conformal_normalizado(
-        np.concatenate([n.erro for n in tr]), np.sqrt(np.concatenate([n.var for n in tr])), [nivel]
-    )[nivel]
+    m = noites.multiplicador_e(tr, nivel)
     centro, sd = alvo.amostras.mean(axis=1), alvo.amostras.std(axis=1)
     return centro - m * sd, centro + m * sd, m
 
@@ -189,15 +145,7 @@ params = (
     f[f["nivel"] == 0.9].groupby(["noite", "metodo"])["param"].first().unstack("metodo")[METODOS[1:]].round(2)
 )
 # Valores que valeriam para uma noite nova: calibrados nas quatro noites do PT.
-c_final = {
-    escala: discrepancia.calibrar(
-        np.concatenate([n.erro for n in NOITES_PT]),
-        np.concatenate([n.var for n in NOITES_PT]),
-        [p for n in NOITES_PT for p in n.perfis],
-        escala,
-    )
-    for escala in discrepancia.ESCALAS
-}
+c_final = {escala: noites.calibrar_c(NOITES_PT, escala) for escala in discrepancia.ESCALAS}
 print(tab_geral.to_string())
 print(tab_noite.to_string())
 print(params.to_string())
