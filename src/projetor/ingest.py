@@ -168,13 +168,13 @@ def baixar(recurso: Recurso, destino: Path = DATA_RAW) -> Path:
     return zip_path
 
 
-# Campo DS_CARGO_PERGUNTA de Presidente: "Presidente" (2018+) ou "PRESIDENTE" (2014).
-_LINHA_PRESIDENTE = re.compile(rb';"presidente";', re.IGNORECASE)
+# Campo DS_CARGO_PERGUNTA: "Presidente" (2018+) ou "PRESIDENTE" (2014); idem Governador.
+CD_CARGO = {"presidente": 1, "governador": 3}
 
 
 @contextmanager
-def csv_extraido(zip_path: Path) -> Iterator[Path]:
-    """Extrai do zip só a primeira linha e as linhas de Presidente; apaga o arquivo ao sair.
+def csv_extraido(zip_path: Path, cargo: str = "presidente") -> Iterator[Path]:
+    """Extrai do zip só a primeira linha e as linhas do cargo; apaga o arquivo ao sair.
 
     Os CSVs ocupam ~20x o zip (o de SP no 2º turno tem 380 MB), então só um
     fica no disco por vez. No 1º turno o filtro também evita linhas de outros
@@ -186,9 +186,10 @@ def csv_extraido(zip_path: Path) -> Iterator[Path]:
         if len(nomes) != 1:
             raise RuntimeError(f"{zip_path.name}: esperava 1 CSV, achei {nomes}")
         csv_path = zip_path.parent / Path(nomes[0]).name
+        linha_do_cargo = re.compile(rf';"{cargo}";'.encode(), re.IGNORECASE)
         with z.open(nomes[0]) as origem, csv_path.open("wb") as alvo:
             for i, linha in enumerate(origem):
-                if i == 0 or _LINHA_PRESIDENTE.search(linha):
+                if i == 0 or linha_do_cargo.search(linha):
                     alvo.write(linha)
     try:
         yield csv_path
@@ -207,13 +208,19 @@ def ler_cabecalho(csv_path: Path) -> list[str]:
         return f.readline().rstrip("\r\n").split(";")
 
 
-def _sql_secoes(csv_path: Path, ano: int, turno: int) -> str:
-    """SQL que agrega o BU (formato longo) em uma linha por seção, só Presidente."""
+def _sql_secoes(
+    csv_path: Path, ano: int, turno: int, cargo: str = "presidente", candidatos: dict[str, int] | None = None
+) -> str:
+    """SQL que agrega o BU (formato longo) em uma linha por seção, para um cargo.
+
+    `candidatos` dá o NR_VOTAVEL de `pt` e `adversario`; o padrão é o de
+    Presidente no ano (`CANDIDATOS`).
+    """
     tem_cabecalho = ano >= 2018
     nomes = normalizar_cabecalho(ler_cabecalho(csv_path)) if tem_cabecalho else LAYOUT_2014
     tem_recebido = ano >= 2022  # só a partir de 2022 o campo tem hora
     tem_encerramento = "DT_ENCERRAMENTO" in nomes
-    cand = CANDIDATOS[ano]
+    cand = candidatos or CANDIDATOS[ano]
     # Até 2022 as datas vêm como 30/10/2022 17:34:43; em 2026, como 2026-10-25 19:42:19.
     ts = "coalesce(try_strptime({0}, '%d/%m/%Y %H:%M:%S'), try_strptime({0}, '%Y-%m-%d %H:%M:%S'))"
     recebido = f"max({ts.format('DT_BU_RECEBIDO')})" if tem_recebido else "CAST(NULL AS TIMESTAMP)"
@@ -246,7 +253,7 @@ def _sql_secoes(csv_path: Path, ano: int, turno: int) -> str:
         SELECT * REPLACE (TRY_CAST(NR_VOTAVEL AS INTEGER) AS NR_VOTAVEL, CAST(QT_VOTOS AS BIGINT) AS QT_VOTOS)
         FROM read_csv('{csv_path}', delim=';', quote='"', encoding='latin-1',
                       all_varchar=true, header={str(tem_cabecalho).lower()}, names={nomes!r})
-        WHERE CD_CARGO_PERGUNTA = '1'
+        WHERE CD_CARGO_PERGUNTA = '{CD_CARGO[cargo]}'
     )
     GROUP BY CD_MUNICIPIO, NR_ZONA, NR_SECAO
     """
