@@ -29,9 +29,11 @@ No 1º turno, com o mesmo pipeline e o alvo como % do PT nos válidos de todos o
 
 Em 2022, a ordem de chegada é a observada. Em 2018, o TSE não publicou o horário de recebimento, então a ordem é simulada a partir da de 2022, e cada modelo usa a eleição anterior (2018 e 2014) como histórico. A discussão completa, inclusive do que não funcionou, está no [artigo](reports/artigo.md).
 
-## Inspiração
+## Inspiração e créditos
 
-A ideia de projetar o swing por local de votação e de mostrar projeção, faixa e apurado lado a lado vem do modelo de projeção de apuração de Rodrigo Mahlmeister (2026).
+- **Rodrigo Mahlmeister** ([@ro_mahl](https://x.com/ro_mahl)) e o modelo de projeção de apuração que ele publicou nas eleições de 2026, descrito pela [reportagem da NeoFeed](https://neofeed.com.br/finde/como-um-pesquisador-brasileiro-criou-um-algoritmo-que-simulou-e-acertou-o-resultado-do-1o-turno/). Vêm dele as ideias de projetar o swing de cada local de votação contra a eleição anterior e de mostrar projeção, faixa e apurado lado a lado. Este projeto é uma reimplementação independente, feita a partir da descrição pública do método; o código de Rodrigo é privado e não foi usado.
+- **Referências técnicas:** o modelo de noite eleitoral do Washington Post ([washingtonpost/elex-live-model](https://github.com/washingtonpost/elex-live-model)) e J. J. Cherian, L. Bronner e E. J. Candès, *Election modeling in 2024: a conformal inference approach*, relatório técnico do Washington Post (2024).
+- **Dados:** boletins de urna do [Portal de Dados Abertos do TSE](https://dadosabertos.tse.jus.br/), dados públicos.
 
 ## Relatórios
 
@@ -135,3 +137,7 @@ tests/             testes, inclusive os de não vazamento
 ## Dados
 
 Boletins de urna do portal de dados abertos do TSE (`dadosabertos.tse.jus.br`), datasets `resultados-{2014,2018,2022}-boletim-de-urna`, 1º e 2º turnos, 27 UFs e exterior. Os votos do PT e do adversário batem voto a voto com o resultado oficial nos seis pleitos. A única diferença está nos válidos do 1º turno de 2018, 746 votos (0,0007%) a mais.
+
+## Licença
+
+O código está sob a [licença MIT](LICENSE). Os dados não são redistribuídos: o repositório só traz agregados nacionais em `app/data/`, e os boletins de urna são baixados do TSE pelo próprio pipeline.

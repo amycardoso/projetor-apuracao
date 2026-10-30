@@ -18,7 +18,7 @@ Com 5% das seções, a parcial de Lula estava 4,3 pontos abaixo do resultado fin
 
 ## Inspiração
 
-A forma do modelo e da apresentação vem do modelo de projeção de apuração de Rodrigo Mahlmeister, de 2026. Duas ideias vieram de lá: projetar o swing de cada local de votação contra a eleição anterior e mostrar, para cada candidato, a projeção, a faixa e o apurado lado a lado. O que este repositório acrescenta é um backtest sistemático, sem vazamento, em duas eleições, uma progressão explícita de modelos e uma avaliação séria da calibração das faixas. Os erros e as escolhas daqui são meus, não dele.
+A forma do modelo e da apresentação vem do modelo de projeção de apuração de Rodrigo Mahlmeister ([@ro_mahl](https://x.com/ro_mahl)), publicado nas eleições de 2026 e descrito pela [reportagem da NeoFeed](https://neofeed.com.br/finde/como-um-pesquisador-brasileiro-criou-um-algoritmo-que-simulou-e-acertou-o-resultado-do-1o-turno/). Duas ideias vieram de lá: projetar o swing de cada local de votação contra a eleição anterior e mostrar, para cada candidato, a projeção, a faixa e o apurado lado a lado. Este projeto é uma reimplementação independente, feita a partir da descrição pública do método; o código de Rodrigo é privado e não foi usado. As faixas conformais seguem a linha do modelo de noite eleitoral do Washington Post (elex-live-model; Cherian, Bronner e Candès, 2024). O que este repositório acrescenta é um backtest sistemático, sem vazamento, em duas eleições, uma progressão explícita de modelos e uma avaliação séria da calibração das faixas. Os erros e as escolhas daqui são meus, não dele.
 
 ## Dados
 
