@@ -16,6 +16,7 @@ import hashlib
 import json
 import logging
 import re
+import urllib.error
 import urllib.request
 import zipfile
 from collections.abc import Iterator
@@ -36,6 +37,7 @@ DATASETS = {
     2014: "resultados-2014-boletim-de-urna",
     2018: "resultados-2018-boletim-de-urna",
     2022: "resultados-2022-boletim-de-urna",
+    2026: "resultados-2026-boletim-de-urna",
 }
 
 # NR_VOTAVEL do candidato do PT e do adversário no 2º turno.
@@ -43,7 +45,12 @@ CANDIDATOS = {
     2014: {"pt": 13, "adversario": 45},  # Dilma x Aécio (PSDB)
     2018: {"pt": 13, "adversario": 17},  # Haddad x Bolsonaro (PSL)
     2022: {"pt": 13, "adversario": 22},  # Lula x Bolsonaro (PL)
+    2026: {"pt": 13, "adversario": 22},  # Lula x Flávio Bolsonaro (PL)
 }
+UFS = [
+    "AC", "AL", "AM", "AP", "BA", "CE", "DF", "ES", "GO", "MA", "MG", "MS", "MT", "PA",
+    "PB", "PE", "PI", "PR", "RJ", "RN", "RO", "RR", "RS", "SC", "SE", "SP", "TO", "ZZ",
+]  # fmt: skip
 NR_BRANCO = 95
 NR_NULO = 96
 
@@ -96,7 +103,28 @@ def listar_recursos(ano: int, turno: int) -> list[Recurso]:
         recursos.append(Recurso(ano, turno, m.group(1).upper(), url, hash_url))
     if not recursos:
         raise RuntimeError(f"Nenhum BU do {turno}º turno encontrado em {DATASETS[ano]}")
-    return recursos
+    return recursos + _completar_ufs(recursos)
+
+
+def _completar_ufs(recursos: list[Recurso]) -> list[Recurso]:
+    """UFs que faltam no CKAN mas estão no CDN com o mesmo carimbo de geração.
+
+    Em 2026 o zip de RR do 2º turno está no CDN (com .sha512) e não aparece no
+    pacote CKAN. A URL é a de outra UF com a sigla trocada.
+    """
+    presentes = {r.uf for r in recursos}
+    modelo = recursos[0]
+    extras = []
+    for uf in sorted(set(UFS) - presentes):
+        url = re.sub(rf"_{modelo.uf}_(\d+\.zip)$", rf"_{uf}_\1", modelo.url)
+        try:
+            urllib.request.urlopen(urllib.request.Request(url, method="HEAD"), timeout=60).close()
+        except urllib.error.HTTPError:
+            log.warning("%s %dt: %s não está no CKAN nem no CDN", modelo.ano, modelo.turno, uf)
+            continue
+        log.warning("%s %dt: %s fora do CKAN, usando %s", modelo.ano, modelo.turno, uf, url)
+        extras.append(Recurso(modelo.ano, modelo.turno, uf, url, url + ".sha512"))
+    return extras
 
 
 def _hash(caminho: Path, algoritmo: str) -> str:
@@ -186,7 +214,8 @@ def _sql_secoes(csv_path: Path, ano: int, turno: int) -> str:
     tem_recebido = ano >= 2022  # só a partir de 2022 o campo tem hora
     tem_encerramento = "DT_ENCERRAMENTO" in nomes
     cand = CANDIDATOS[ano]
-    ts = "try_strptime({}, '%d/%m/%Y %H:%M:%S')"
+    # Até 2022 as datas vêm como 30/10/2022 17:34:43; em 2026, como 2026-10-25 19:42:19.
+    ts = "coalesce(try_strptime({0}, '%d/%m/%Y %H:%M:%S'), try_strptime({0}, '%Y-%m-%d %H:%M:%S'))"
     recebido = f"max({ts.format('DT_BU_RECEBIDO')})" if tem_recebido else "CAST(NULL AS TIMESTAMP)"
     return f"""
     SELECT

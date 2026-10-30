@@ -11,7 +11,7 @@ zona, do município e, por último, da UF:
 Os válidos esperados de uma seção são `qt_aptos × ant_taxa_validos`, ou seja,
 o comparecimento válido anterior reescalado pelos aptos atuais.
 
-Pares de eleição usados no backtest: 2022 ← 2018 e 2018 ← 2014.
+Pares de eleição usados no backtest: 2026 ← 2022, 2022 ← 2018 e 2018 ← 2014.
 """
 
 from __future__ import annotations
@@ -21,7 +21,7 @@ import pandas as pd
 from projetor.locais import CHAVE_LOCAL, locais, parear
 from projetor.votos import validos
 
-ANTERIOR = {2018: 2014, 2022: 2018}
+ANTERIOR = {2018: 2014, 2022: 2018, 2026: 2022}
 
 
 def _agregar(secoes_ant: pd.DataFrame, chave: list[str]) -> pd.DataFrame:

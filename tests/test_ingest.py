@@ -59,3 +59,22 @@ def test_csv_extraido_mantem_cabecalho_e_so_presidente(tmp_path: Path):
         linhas = csv_path.read_text(encoding="latin-1").splitlines()
     assert linhas == ['"DT";"DS_CARGO_PERGUNTA";"NM_VOTAVEL"', '"1";"Presidente";"LULA"', '"1";"PRESIDENTE";"DILMA"']
     assert not csv_path.exists()
+
+
+def test_sql_secoes_le_datas_iso_e_numeros_sem_aspas_de_2026(tmp_path: Path):
+    cabecalho = '"SG_UF";"CD_MUNICIPIO";"NM_MUNICIPIO";"NR_ZONA";"NR_SECAO";"NR_LOCAL_VOTACAO";"CD_CARGO_PERGUNTA";"DT_BU_RECEBIDO";"QT_APTOS";"QT_COMPARECIMENTO";"QT_ABSTENCOES";"DS_TIPO_URNA";"NR_VOTAVEL";"QT_VOTOS";"DT_ENCERRAMENTO"'
+    linhas = [
+        cabecalho,
+        *(
+            f'"AC";1538;"SENADOR GUIOMARD";8;68;1074;1;"2026-10-25 19:42:19";220;169;51;"Apurada";{nr};{v};"2026-10-25 15:00:48"'
+            for nr, v in [(13, 43), (22, 90), (95, 10), (96, 26)]
+        ),
+    ]
+    csv = tmp_path / "bu.csv"
+    csv.write_text("\n".join(linhas) + "\n", encoding="latin-1")
+
+    linha = duckdb.sql(_sql_secoes(csv, 2026, 2)).df().iloc[0]
+
+    assert (linha.votos_pt, linha.votos_adversario, linha.qt_aptos) == (43, 90, 220)
+    assert str(linha.dt_bu_recebido) == "2026-10-25 19:42:19"
+    assert str(linha.dt_encerramento) == "2026-10-25 15:00:48"

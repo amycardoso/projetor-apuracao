@@ -44,6 +44,9 @@ INICIO_DIVULGACAO = {
     (2018, 2): pd.Timestamp("2018-10-28 19:00", tz=FUSO_BRASILIA),
     (2022, 1): pd.Timestamp("2022-10-02 17:00", tz=FUSO_BRASILIA),
     (2022, 2): pd.Timestamp("2022-10-30 17:00", tz=FUSO_BRASILIA),
+    # 2026 manteve o horário unificado de 2022 (8h às 17h de Brasília).
+    (2026, 1): pd.Timestamp("2026-10-04 17:00", tz=FUSO_BRASILIA),
+    (2026, 2): pd.Timestamp("2026-10-25 17:00", tz=FUSO_BRASILIA),
 }
 
 

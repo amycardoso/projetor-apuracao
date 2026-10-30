@@ -16,8 +16,11 @@ início da apuração e 1 é a última seção.
 No 1º turno vale o mesmo: 2022 observado e 2018 simulado a partir do 1º
 turno de 2022.
 
+Em 2026 o relógio também é observado.
+
 Uso:
     python -m projetor.ordem --turno 2
+    python -m projetor.ordem --ano 2026 --turno 2
 """
 
 from __future__ import annotations
@@ -38,10 +41,15 @@ NIVEIS_FONTE = ["local", "zona", "municipio", "uf"]
 
 
 def relogio_2022(secoes: pd.DataFrame) -> pd.DataFrame:
-    """Acrescenta `momento` (divulgação, com fuso) e `relogio` às seções de 2022."""
+    """Acrescenta `momento` (divulgação, com fuso) e `relogio` às seções de 2022.
+
+    Serve a qualquer ano com DT_BU_RECEBIDO (2022 e 2026); o ano vem da coluna
+    `ano`, com 2022 como padrão.
+    """
     out = secoes.copy()
     turno = int(out["turno"].iloc[0])
-    out["momento"] = tempo.momento_divulgacao(tempo.recebido_em_brasilia(out), 2022, turno)
+    ano = int(out["ano"].iloc[0]) if "ano" in out else 2022
+    out["momento"] = tempo.momento_divulgacao(tempo.recebido_em_brasilia(out), ano, turno)
     ordem = out.sort_values(["momento", *CHAVE_LOCAL, "nr_secao"]).index
     out.loc[ordem, "relogio"] = np.arange(1, len(out) + 1) / len(out)
     return out
@@ -102,7 +110,13 @@ def main() -> None:
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--turno", type=int, choices=(1, 2), default=2)
-    turno = parser.parse_args().turno
+    parser.add_argument("--ano", type=int, choices=(2018, 2026), default=2018,
+                        help="2018 gera 2018 (simulada) e 2022; 2026 gera só 2026 (observada)")
+    args = parser.parse_args()
+    turno = args.turno
+    if args.ano == 2026:
+        relogio_2022(carregar_secoes(2026, turno)).to_parquet(DATA_INTERIM / f"ordem_2026_{turno}t.parquet", index=False)
+        return
     s18, s22 = carregar_secoes(2018, turno), carregar_secoes(2022, turno)
     pares = parear(locais(s18), locais(s22))
     r22 = relogio_2022(s22)
