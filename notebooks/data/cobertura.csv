@@ -1,0 +1,1090 @@
+grupo,noite,metodo,nivel,cobertura,largura
+presidencial 2018–2022,2018 1T PT,posterior,0.5,0.0455,0.2576
+presidencial 2018–2022,2018 1T PT,posterior,0.55,0.0455,0.2908
+presidencial 2018–2022,2018 1T PT,posterior,0.6,0.0455,0.3242
+presidencial 2018–2022,2018 1T PT,posterior,0.65,0.0455,0.3571
+presidencial 2018–2022,2018 1T PT,posterior,0.7,0.0455,0.3925
+presidencial 2018–2022,2018 1T PT,posterior,0.75,0.0909,0.4328
+presidencial 2018–2022,2018 1T PT,posterior,0.8,0.0909,0.4832
+presidencial 2018–2022,2018 1T PT,posterior,0.85,0.0909,0.5408
+presidencial 2018–2022,2018 1T PT,posterior,0.9,0.0909,0.6193
+presidencial 2018–2022,2018 1T PT,posterior,0.95,0.0909,0.7352
+presidencial 2018–2022,2018 1T PT,posterior,0.99,0.1818,0.9382
+presidencial 2018–2022,2018 1T PT,recalibrada,0.5,0.0455,0.4215
+presidencial 2018–2022,2018 1T PT,recalibrada,0.55,0.0909,0.476
+presidencial 2018–2022,2018 1T PT,recalibrada,0.6,0.0909,0.5433
+presidencial 2018–2022,2018 1T PT,recalibrada,0.65,0.0909,0.605
+presidencial 2018–2022,2018 1T PT,recalibrada,0.7,0.0909,0.7026
+presidencial 2018–2022,2018 1T PT,recalibrada,0.75,0.0909,0.8121
+presidencial 2018–2022,2018 1T PT,recalibrada,0.8,0.1818,0.9389
+presidencial 2018–2022,2018 1T PT,recalibrada,0.85,0.2727,1.1075
+presidencial 2018–2022,2018 1T PT,recalibrada,0.9,0.2727,1.2213
+presidencial 2018–2022,2018 1T PT,recalibrada,0.95,0.3636,1.473
+presidencial 2018–2022,2018 1T PT,recalibrada,0.99,0.8182,2.3326
+presidencial 2018–2022,2018 1T PT,erro comum,0.5,0.7273,1.0061
+presidencial 2018–2022,2018 1T PT,erro comum,0.55,0.7273,1.1235
+presidencial 2018–2022,2018 1T PT,erro comum,0.6,0.7727,1.2571
+presidencial 2018–2022,2018 1T PT,erro comum,0.65,0.7727,1.3946
+presidencial 2018–2022,2018 1T PT,erro comum,0.7,0.7727,1.5443
+presidencial 2018–2022,2018 1T PT,erro comum,0.75,0.8636,1.7108
+presidencial 2018–2022,2018 1T PT,erro comum,0.8,0.9091,1.9082
+presidencial 2018–2022,2018 1T PT,erro comum,0.85,0.9091,2.1339
+presidencial 2018–2022,2018 1T PT,erro comum,0.9,1.0,2.4349
+presidencial 2018–2022,2018 1T PT,erro comum,0.95,1.0,2.9062
+presidencial 2018–2022,2018 1T PT,erro comum,0.99,1.0,3.7794
+presidencial 2018–2022,2018 2T PT,posterior,0.5,0.2273,0.3117
+presidencial 2018–2022,2018 2T PT,posterior,0.55,0.2273,0.3525
+presidencial 2018–2022,2018 2T PT,posterior,0.6,0.2727,0.3965
+presidencial 2018–2022,2018 2T PT,posterior,0.65,0.2727,0.441
+presidencial 2018–2022,2018 2T PT,posterior,0.7,0.2727,0.4903
+presidencial 2018–2022,2018 2T PT,posterior,0.75,0.3182,0.5406
+presidencial 2018–2022,2018 2T PT,posterior,0.8,0.4091,0.6033
+presidencial 2018–2022,2018 2T PT,posterior,0.85,0.4091,0.6704
+presidencial 2018–2022,2018 2T PT,posterior,0.9,0.4545,0.7552
+presidencial 2018–2022,2018 2T PT,posterior,0.95,0.4545,0.8987
+presidencial 2018–2022,2018 2T PT,posterior,0.99,0.5909,1.196
+presidencial 2018–2022,2018 2T PT,recalibrada,0.5,0.4545,0.8435
+presidencial 2018–2022,2018 2T PT,recalibrada,0.55,0.6364,1.0042
+presidencial 2018–2022,2018 2T PT,recalibrada,0.6,0.6364,1.1083
+presidencial 2018–2022,2018 2T PT,recalibrada,0.65,0.6364,1.2871
+presidencial 2018–2022,2018 2T PT,recalibrada,0.7,0.6364,1.4314
+presidencial 2018–2022,2018 2T PT,recalibrada,0.75,0.6818,1.6182
+presidencial 2018–2022,2018 2T PT,recalibrada,0.8,0.7727,1.8463
+presidencial 2018–2022,2018 2T PT,recalibrada,0.85,0.8636,2.1274
+presidencial 2018–2022,2018 2T PT,recalibrada,0.9,0.9091,2.4851
+presidencial 2018–2022,2018 2T PT,recalibrada,0.95,0.9545,3.0986
+presidencial 2018–2022,2018 2T PT,recalibrada,0.99,1.0,6.3493
+presidencial 2018–2022,2018 2T PT,erro comum,0.5,0.7727,1.0512
+presidencial 2018–2022,2018 2T PT,erro comum,0.55,0.8636,1.1831
+presidencial 2018–2022,2018 2T PT,erro comum,0.6,0.8636,1.3152
+presidencial 2018–2022,2018 2T PT,erro comum,0.65,0.9091,1.4597
+presidencial 2018–2022,2018 2T PT,erro comum,0.7,0.9545,1.6149
+presidencial 2018–2022,2018 2T PT,erro comum,0.75,0.9545,1.787
+presidencial 2018–2022,2018 2T PT,erro comum,0.8,0.9545,2.0005
+presidencial 2018–2022,2018 2T PT,erro comum,0.85,0.9545,2.2521
+presidencial 2018–2022,2018 2T PT,erro comum,0.9,0.9545,2.5898
+presidencial 2018–2022,2018 2T PT,erro comum,0.95,1.0,3.0651
+presidencial 2018–2022,2018 2T PT,erro comum,0.99,1.0,4.0098
+presidencial 2018–2022,2022 1T PT,posterior,0.5,0.2727,0.2914
+presidencial 2018–2022,2022 1T PT,posterior,0.55,0.2727,0.3263
+presidencial 2018–2022,2022 1T PT,posterior,0.6,0.3636,0.3623
+presidencial 2018–2022,2022 1T PT,posterior,0.65,0.5909,0.3983
+presidencial 2018–2022,2022 1T PT,posterior,0.7,0.6818,0.4416
+presidencial 2018–2022,2022 1T PT,posterior,0.75,0.8182,0.488
+presidencial 2018–2022,2022 1T PT,posterior,0.8,0.9091,0.5392
+presidencial 2018–2022,2022 1T PT,posterior,0.85,0.9091,0.6034
+presidencial 2018–2022,2022 1T PT,posterior,0.9,0.9091,0.6874
+presidencial 2018–2022,2022 1T PT,posterior,0.95,0.9545,0.8047
+presidencial 2018–2022,2022 1T PT,posterior,0.99,0.9545,1.0133
+presidencial 2018–2022,2022 1T PT,recalibrada,0.5,0.8182,0.4974
+presidencial 2018–2022,2022 1T PT,recalibrada,0.55,0.9091,0.5512
+presidencial 2018–2022,2022 1T PT,recalibrada,0.6,0.9091,0.6496
+presidencial 2018–2022,2022 1T PT,recalibrada,0.65,0.9091,0.7249
+presidencial 2018–2022,2022 1T PT,recalibrada,0.7,0.9545,0.8403
+presidencial 2018–2022,2022 1T PT,recalibrada,0.75,0.9545,0.9835
+presidencial 2018–2022,2022 1T PT,recalibrada,0.8,0.9545,1.1471
+presidencial 2018–2022,2022 1T PT,recalibrada,0.85,1.0,1.2711
+presidencial 2018–2022,2022 1T PT,recalibrada,0.9,1.0,1.4562
+presidencial 2018–2022,2022 1T PT,recalibrada,0.95,1.0,1.8425
+presidencial 2018–2022,2022 1T PT,recalibrada,0.99,1.0,2.7468
+presidencial 2018–2022,2022 1T PT,erro comum,0.5,0.9545,0.9338
+presidencial 2018–2022,2022 1T PT,erro comum,0.55,0.9545,1.0428
+presidencial 2018–2022,2022 1T PT,erro comum,0.6,0.9545,1.1617
+presidencial 2018–2022,2022 1T PT,erro comum,0.65,1.0,1.2856
+presidencial 2018–2022,2022 1T PT,erro comum,0.7,1.0,1.4275
+presidencial 2018–2022,2022 1T PT,erro comum,0.75,1.0,1.5883
+presidencial 2018–2022,2022 1T PT,erro comum,0.8,1.0,1.7578
+presidencial 2018–2022,2022 1T PT,erro comum,0.85,1.0,1.9815
+presidencial 2018–2022,2022 1T PT,erro comum,0.9,1.0,2.2817
+presidencial 2018–2022,2022 1T PT,erro comum,0.95,1.0,2.6898
+presidencial 2018–2022,2022 1T PT,erro comum,0.99,1.0,3.506
+presidencial 2018–2022,2022 2T PT,posterior,0.5,0.1364,0.1842
+presidencial 2018–2022,2022 2T PT,posterior,0.55,0.1364,0.2061
+presidencial 2018–2022,2022 2T PT,posterior,0.6,0.1364,0.2289
+presidencial 2018–2022,2022 2T PT,posterior,0.65,0.1364,0.2559
+presidencial 2018–2022,2022 2T PT,posterior,0.7,0.1364,0.2822
+presidencial 2018–2022,2022 2T PT,posterior,0.75,0.1818,0.3099
+presidencial 2018–2022,2022 2T PT,posterior,0.8,0.1818,0.3399
+presidencial 2018–2022,2022 2T PT,posterior,0.85,0.1818,0.3785
+presidencial 2018–2022,2022 2T PT,posterior,0.9,0.1818,0.4276
+presidencial 2018–2022,2022 2T PT,posterior,0.95,0.1818,0.4977
+presidencial 2018–2022,2022 2T PT,posterior,0.99,0.4091,0.6576
+presidencial 2018–2022,2022 2T PT,recalibrada,0.5,0.1364,0.297
+presidencial 2018–2022,2022 2T PT,recalibrada,0.55,0.1818,0.3327
+presidencial 2018–2022,2022 2T PT,recalibrada,0.6,0.1818,0.3721
+presidencial 2018–2022,2022 2T PT,recalibrada,0.65,0.1818,0.4276
+presidencial 2018–2022,2022 2T PT,recalibrada,0.7,0.1818,0.5176
+presidencial 2018–2022,2022 2T PT,recalibrada,0.75,0.3636,0.6602
+presidencial 2018–2022,2022 2T PT,recalibrada,0.8,0.5909,0.7648
+presidencial 2018–2022,2022 2T PT,recalibrada,0.85,0.8636,0.8472
+presidencial 2018–2022,2022 2T PT,recalibrada,0.9,1.0,0.976
+presidencial 2018–2022,2022 2T PT,recalibrada,0.95,1.0,1.3266
+presidencial 2018–2022,2022 2T PT,recalibrada,0.99,1.0,2.4223
+presidencial 2018–2022,2022 2T PT,erro comum,0.5,1.0,0.6079
+presidencial 2018–2022,2022 2T PT,erro comum,0.55,1.0,0.6795
+presidencial 2018–2022,2022 2T PT,erro comum,0.6,1.0,0.7565
+presidencial 2018–2022,2022 2T PT,erro comum,0.65,1.0,0.8404
+presidencial 2018–2022,2022 2T PT,erro comum,0.7,1.0,0.931
+presidencial 2018–2022,2022 2T PT,erro comum,0.75,1.0,1.0314
+presidencial 2018–2022,2022 2T PT,erro comum,0.8,1.0,1.1483
+presidencial 2018–2022,2022 2T PT,erro comum,0.85,1.0,1.2979
+presidencial 2018–2022,2022 2T PT,erro comum,0.9,1.0,1.488
+presidencial 2018–2022,2022 2T PT,erro comum,0.95,1.0,1.7561
+presidencial 2018–2022,2022 2T PT,erro comum,0.99,1.0,2.2948
+governador,gov 2018 AM,posterior,0.5,0.0,0.9967
+governador,gov 2018 AM,posterior,0.55,0.0,1.1241
+governador,gov 2018 AM,posterior,0.6,0.0,1.2573
+governador,gov 2018 AM,posterior,0.65,0.0,1.4205
+governador,gov 2018 AM,posterior,0.7,0.0455,1.5955
+governador,gov 2018 AM,posterior,0.75,0.0909,1.7878
+governador,gov 2018 AM,posterior,0.8,0.1818,2.0032
+governador,gov 2018 AM,posterior,0.85,0.1818,2.2569
+governador,gov 2018 AM,posterior,0.9,0.2273,2.6286
+governador,gov 2018 AM,posterior,0.95,0.2727,3.4471
+governador,gov 2018 AM,posterior,0.99,0.5909,5.4073
+governador,gov 2018 AM,recalibrada,0.5,0.0909,2.133
+governador,gov 2018 AM,recalibrada,0.55,0.1818,2.5395
+governador,gov 2018 AM,recalibrada,0.6,0.1818,2.8026
+governador,gov 2018 AM,recalibrada,0.65,0.2727,3.2547
+governador,gov 2018 AM,recalibrada,0.7,0.3636,3.6195
+governador,gov 2018 AM,recalibrada,0.75,0.4091,4.0919
+governador,gov 2018 AM,recalibrada,0.8,0.5909,4.6688
+governador,gov 2018 AM,recalibrada,0.85,0.8182,5.3796
+governador,gov 2018 AM,recalibrada,0.9,0.9091,6.2841
+governador,gov 2018 AM,recalibrada,0.95,1.0,7.8356
+governador,gov 2018 AM,recalibrada,0.99,1.0,16.0557
+governador,gov 2018 AM,erro comum,0.5,0.0455,1.2907
+governador,gov 2018 AM,erro comum,0.55,0.0455,1.4576
+governador,gov 2018 AM,erro comum,0.6,0.0909,1.6171
+governador,gov 2018 AM,erro comum,0.65,0.1818,1.8006
+governador,gov 2018 AM,erro comum,0.7,0.2727,2.0187
+governador,gov 2018 AM,erro comum,0.75,0.2727,2.2751
+governador,gov 2018 AM,erro comum,0.8,0.2727,2.5538
+governador,gov 2018 AM,erro comum,0.85,0.3182,2.8796
+governador,gov 2018 AM,erro comum,0.9,0.5,3.3506
+governador,gov 2018 AM,erro comum,0.95,0.7727,4.171
+governador,gov 2018 AM,erro comum,0.99,0.8636,6.3716
+governador,gov 2018 AP,posterior,0.5,0.3636,1.482
+governador,gov 2018 AP,posterior,0.55,0.3636,1.6726
+governador,gov 2018 AP,posterior,0.6,0.5,1.8764
+governador,gov 2018 AP,posterior,0.65,0.6818,2.1026
+governador,gov 2018 AP,posterior,0.7,0.7727,2.3467
+governador,gov 2018 AP,posterior,0.75,0.8636,2.654
+governador,gov 2018 AP,posterior,0.8,0.8636,2.9851
+governador,gov 2018 AP,posterior,0.85,0.9545,3.4385
+governador,gov 2018 AP,posterior,0.9,1.0,4.1084
+governador,gov 2018 AP,posterior,0.95,1.0,5.3364
+governador,gov 2018 AP,posterior,0.99,1.0,9.3069
+governador,gov 2018 AP,recalibrada,0.5,0.8636,3.3333
+governador,gov 2018 AP,recalibrada,0.55,0.9545,3.9685
+governador,gov 2018 AP,recalibrada,0.6,1.0,4.3798
+governador,gov 2018 AP,recalibrada,0.65,1.0,5.0863
+governador,gov 2018 AP,recalibrada,0.7,1.0,5.6564
+governador,gov 2018 AP,recalibrada,0.75,1.0,6.3946
+governador,gov 2018 AP,recalibrada,0.8,1.0,7.2962
+governador,gov 2018 AP,recalibrada,0.85,1.0,8.4069
+governador,gov 2018 AP,recalibrada,0.9,1.0,9.8205
+governador,gov 2018 AP,recalibrada,0.95,1.0,12.2451
+governador,gov 2018 AP,recalibrada,0.99,1.0,25.091
+governador,gov 2018 AP,erro comum,0.5,0.5,1.722
+governador,gov 2018 AP,erro comum,0.55,0.7273,1.9282
+governador,gov 2018 AP,erro comum,0.6,0.8182,2.1634
+governador,gov 2018 AP,erro comum,0.65,0.8636,2.4064
+governador,gov 2018 AP,erro comum,0.7,0.8636,2.6864
+governador,gov 2018 AP,erro comum,0.75,0.8636,2.9893
+governador,gov 2018 AP,erro comum,0.8,0.9545,3.3873
+governador,gov 2018 AP,erro comum,0.85,1.0,3.8611
+governador,gov 2018 AP,erro comum,0.9,1.0,4.5667
+governador,gov 2018 AP,erro comum,0.95,1.0,5.8413
+governador,gov 2018 AP,erro comum,0.99,1.0,9.5366
+governador,gov 2018 DF,posterior,0.5,0.2727,0.6911
+governador,gov 2018 DF,posterior,0.55,0.2727,0.7668
+governador,gov 2018 DF,posterior,0.6,0.3636,0.8536
+governador,gov 2018 DF,posterior,0.65,0.3636,0.943
+governador,gov 2018 DF,posterior,0.7,0.3636,1.0465
+governador,gov 2018 DF,posterior,0.75,0.4545,1.1602
+governador,gov 2018 DF,posterior,0.8,0.6364,1.2908
+governador,gov 2018 DF,posterior,0.85,0.7727,1.4591
+governador,gov 2018 DF,posterior,0.9,0.8182,1.7079
+governador,gov 2018 DF,posterior,0.95,0.8182,2.1138
+governador,gov 2018 DF,posterior,0.99,0.9091,2.9048
+governador,gov 2018 DF,recalibrada,0.5,0.5909,1.2913
+governador,gov 2018 DF,recalibrada,0.55,0.7727,1.5373
+governador,gov 2018 DF,recalibrada,0.6,0.8182,1.6966
+governador,gov 2018 DF,recalibrada,0.65,0.8182,1.9703
+governador,gov 2018 DF,recalibrada,0.7,0.8636,2.1912
+governador,gov 2018 DF,recalibrada,0.75,0.9091,2.4771
+governador,gov 2018 DF,recalibrada,0.8,0.9545,2.8264
+governador,gov 2018 DF,recalibrada,0.85,0.9545,3.2567
+governador,gov 2018 DF,recalibrada,0.9,1.0,3.8043
+governador,gov 2018 DF,recalibrada,0.95,1.0,4.7435
+governador,gov 2018 DF,recalibrada,0.99,1.0,9.7197
+governador,gov 2018 DF,erro comum,0.5,0.3636,0.8093
+governador,gov 2018 DF,erro comum,0.55,0.3636,0.9035
+governador,gov 2018 DF,erro comum,0.6,0.4091,1.0008
+governador,gov 2018 DF,erro comum,0.65,0.5,1.1056
+governador,gov 2018 DF,erro comum,0.7,0.6364,1.2358
+governador,gov 2018 DF,erro comum,0.75,0.7727,1.3772
+governador,gov 2018 DF,erro comum,0.8,0.7727,1.5591
+governador,gov 2018 DF,erro comum,0.85,0.8182,1.7593
+governador,gov 2018 DF,erro comum,0.9,0.8182,2.0125
+governador,gov 2018 DF,erro comum,0.95,0.8636,2.4402
+governador,gov 2018 DF,erro comum,0.99,0.9545,3.2993
+governador,gov 2018 MG,posterior,0.5,0.0455,0.8805
+governador,gov 2018 MG,posterior,0.55,0.0455,0.9836
+governador,gov 2018 MG,posterior,0.6,0.0455,1.0875
+governador,gov 2018 MG,posterior,0.65,0.0909,1.2065
+governador,gov 2018 MG,posterior,0.7,0.0909,1.3349
+governador,gov 2018 MG,posterior,0.75,0.0909,1.4867
+governador,gov 2018 MG,posterior,0.8,0.0909,1.6334
+governador,gov 2018 MG,posterior,0.85,0.1364,1.8085
+governador,gov 2018 MG,posterior,0.9,0.1818,2.045
+governador,gov 2018 MG,posterior,0.95,0.1818,2.4231
+governador,gov 2018 MG,posterior,0.99,0.4091,3.3437
+governador,gov 2018 MG,recalibrada,0.5,0.3182,2.2605
+governador,gov 2018 MG,recalibrada,0.55,0.3636,2.6913
+governador,gov 2018 MG,recalibrada,0.6,0.4545,2.9702
+governador,gov 2018 MG,recalibrada,0.65,0.5455,3.4493
+governador,gov 2018 MG,recalibrada,0.7,0.5455,3.8359
+governador,gov 2018 MG,recalibrada,0.75,0.6364,4.3365
+governador,gov 2018 MG,recalibrada,0.8,0.7273,4.9479
+governador,gov 2018 MG,recalibrada,0.85,0.8182,5.7011
+governador,gov 2018 MG,recalibrada,0.9,0.9091,6.6598
+governador,gov 2018 MG,recalibrada,0.95,1.0,8.304
+governador,gov 2018 MG,recalibrada,0.99,1.0,17.0154
+governador,gov 2018 MG,erro comum,0.5,0.0455,1.4537
+governador,gov 2018 MG,erro comum,0.55,0.0455,1.627
+governador,gov 2018 MG,erro comum,0.6,0.1364,1.8108
+governador,gov 2018 MG,erro comum,0.65,0.1364,2.0143
+governador,gov 2018 MG,erro comum,0.7,0.1364,2.238
+governador,gov 2018 MG,erro comum,0.75,0.1818,2.4803
+governador,gov 2018 MG,erro comum,0.8,0.2273,2.7696
+governador,gov 2018 MG,erro comum,0.85,0.4545,3.1237
+governador,gov 2018 MG,erro comum,0.9,0.5455,3.5594
+governador,gov 2018 MG,erro comum,0.95,0.6364,4.2696
+governador,gov 2018 MG,erro comum,0.99,1.0,5.6965
+governador,gov 2018 MS,posterior,0.5,0.4091,1.1785
+governador,gov 2018 MS,posterior,0.55,0.5,1.3203
+governador,gov 2018 MS,posterior,0.6,0.5909,1.4668
+governador,gov 2018 MS,posterior,0.65,0.6364,1.6289
+governador,gov 2018 MS,posterior,0.7,0.7727,1.8124
+governador,gov 2018 MS,posterior,0.75,0.8182,2.0264
+governador,gov 2018 MS,posterior,0.8,0.8636,2.2871
+governador,gov 2018 MS,posterior,0.85,0.8636,2.6699
+governador,gov 2018 MS,posterior,0.9,0.9091,3.1468
+governador,gov 2018 MS,posterior,0.95,1.0,3.7768
+governador,gov 2018 MS,posterior,0.99,1.0,5.0797
+governador,gov 2018 MS,recalibrada,0.5,0.8636,2.3344
+governador,gov 2018 MS,recalibrada,0.55,0.9091,2.7793
+governador,gov 2018 MS,recalibrada,0.6,0.9091,3.0673
+governador,gov 2018 MS,recalibrada,0.65,1.0,3.5621
+governador,gov 2018 MS,recalibrada,0.7,1.0,3.9613
+governador,gov 2018 MS,recalibrada,0.75,1.0,4.4783
+governador,gov 2018 MS,recalibrada,0.8,1.0,5.1097
+governador,gov 2018 MS,recalibrada,0.85,1.0,5.8876
+governador,gov 2018 MS,recalibrada,0.9,1.0,6.8776
+governador,gov 2018 MS,recalibrada,0.95,1.0,8.5755
+governador,gov 2018 MS,recalibrada,0.99,1.0,17.5718
+governador,gov 2018 MS,erro comum,0.5,0.7727,1.5016
+governador,gov 2018 MS,erro comum,0.55,0.8636,1.6897
+governador,gov 2018 MS,erro comum,0.6,0.8636,1.8924
+governador,gov 2018 MS,erro comum,0.65,0.8636,2.1172
+governador,gov 2018 MS,erro comum,0.7,0.8636,2.3613
+governador,gov 2018 MS,erro comum,0.75,0.9545,2.6359
+governador,gov 2018 MS,erro comum,0.8,1.0,2.9611
+governador,gov 2018 MS,erro comum,0.85,1.0,3.3704
+governador,gov 2018 MS,erro comum,0.9,1.0,3.9292
+governador,gov 2018 MS,erro comum,0.95,1.0,4.7355
+governador,gov 2018 MS,erro comum,0.99,1.0,6.3253
+governador,gov 2018 PA,posterior,0.5,0.6364,0.4237
+governador,gov 2018 PA,posterior,0.55,0.6364,0.4827
+governador,gov 2018 PA,posterior,0.6,0.7273,0.5447
+governador,gov 2018 PA,posterior,0.65,0.7727,0.6004
+governador,gov 2018 PA,posterior,0.7,0.8636,0.6651
+governador,gov 2018 PA,posterior,0.75,0.9091,0.7294
+governador,gov 2018 PA,posterior,0.8,0.9545,0.8088
+governador,gov 2018 PA,posterior,0.85,0.9545,0.9089
+governador,gov 2018 PA,posterior,0.9,0.9545,1.0562
+governador,gov 2018 PA,posterior,0.95,0.9545,1.261
+governador,gov 2018 PA,posterior,0.99,0.9545,1.6733
+governador,gov 2018 PA,recalibrada,0.5,0.9091,0.7902
+governador,gov 2018 PA,recalibrada,0.55,0.9545,0.9408
+governador,gov 2018 PA,recalibrada,0.6,0.9545,1.0382
+governador,gov 2018 PA,recalibrada,0.65,0.9545,1.2057
+governador,gov 2018 PA,recalibrada,0.7,0.9545,1.3409
+governador,gov 2018 PA,recalibrada,0.75,0.9545,1.5158
+governador,gov 2018 PA,recalibrada,0.8,1.0,1.7296
+governador,gov 2018 PA,recalibrada,0.85,1.0,1.9929
+governador,gov 2018 PA,recalibrada,0.9,1.0,2.328
+governador,gov 2018 PA,recalibrada,0.95,1.0,2.9027
+governador,gov 2018 PA,recalibrada,0.99,1.0,5.9479
+governador,gov 2018 PA,erro comum,0.5,0.8636,0.6989
+governador,gov 2018 PA,erro comum,0.55,0.8636,0.7806
+governador,gov 2018 PA,erro comum,0.6,0.9091,0.8705
+governador,gov 2018 PA,erro comum,0.65,0.9545,0.9705
+governador,gov 2018 PA,erro comum,0.7,0.9545,1.0761
+governador,gov 2018 PA,erro comum,0.75,0.9545,1.1981
+governador,gov 2018 PA,erro comum,0.8,1.0,1.3371
+governador,gov 2018 PA,erro comum,0.85,1.0,1.5125
+governador,gov 2018 PA,erro comum,0.9,1.0,1.7278
+governador,gov 2018 PA,erro comum,0.95,1.0,2.0779
+governador,gov 2018 PA,erro comum,0.99,1.0,2.7207
+governador,gov 2018 RJ,posterior,0.5,0.4091,0.8655
+governador,gov 2018 RJ,posterior,0.55,0.4091,0.9731
+governador,gov 2018 RJ,posterior,0.6,0.5,1.0948
+governador,gov 2018 RJ,posterior,0.65,0.6364,1.2203
+governador,gov 2018 RJ,posterior,0.7,0.7727,1.3558
+governador,gov 2018 RJ,posterior,0.75,0.8182,1.4924
+governador,gov 2018 RJ,posterior,0.8,0.9091,1.6631
+governador,gov 2018 RJ,posterior,0.85,0.9091,1.9069
+governador,gov 2018 RJ,posterior,0.9,1.0,2.182
+governador,gov 2018 RJ,posterior,0.95,1.0,2.6379
+governador,gov 2018 RJ,posterior,0.99,1.0,3.9739
+governador,gov 2018 RJ,recalibrada,0.5,0.8636,1.6768
+governador,gov 2018 RJ,recalibrada,0.55,0.9091,1.9963
+governador,gov 2018 RJ,recalibrada,0.6,1.0,2.2032
+governador,gov 2018 RJ,recalibrada,0.65,1.0,2.5586
+governador,gov 2018 RJ,recalibrada,0.7,1.0,2.8454
+governador,gov 2018 RJ,recalibrada,0.75,1.0,3.2167
+governador,gov 2018 RJ,recalibrada,0.8,1.0,3.6703
+governador,gov 2018 RJ,recalibrada,0.85,1.0,4.229
+governador,gov 2018 RJ,recalibrada,0.9,1.0,4.9401
+governador,gov 2018 RJ,recalibrada,0.95,1.0,6.1598
+governador,gov 2018 RJ,recalibrada,0.99,1.0,12.6218
+governador,gov 2018 RJ,erro comum,0.5,0.8636,1.3061
+governador,gov 2018 RJ,erro comum,0.55,0.8636,1.4818
+governador,gov 2018 RJ,erro comum,0.6,0.9091,1.6596
+governador,gov 2018 RJ,erro comum,0.65,0.9545,1.8465
+governador,gov 2018 RJ,erro comum,0.7,1.0,2.0517
+governador,gov 2018 RJ,erro comum,0.75,1.0,2.2816
+governador,gov 2018 RJ,erro comum,0.8,1.0,2.5465
+governador,gov 2018 RJ,erro comum,0.85,1.0,2.8497
+governador,gov 2018 RJ,erro comum,0.9,1.0,3.295
+governador,gov 2018 RJ,erro comum,0.95,1.0,3.9546
+governador,gov 2018 RJ,erro comum,0.99,1.0,5.3871
+governador,gov 2018 RN,posterior,0.5,0.0909,0.8079
+governador,gov 2018 RN,posterior,0.55,0.0909,0.9038
+governador,gov 2018 RN,posterior,0.6,0.0909,1.0111
+governador,gov 2018 RN,posterior,0.65,0.1364,1.1503
+governador,gov 2018 RN,posterior,0.7,0.1364,1.2925
+governador,gov 2018 RN,posterior,0.75,0.1818,1.4481
+governador,gov 2018 RN,posterior,0.8,0.2273,1.6342
+governador,gov 2018 RN,posterior,0.85,0.2727,1.8466
+governador,gov 2018 RN,posterior,0.9,0.2727,2.1299
+governador,gov 2018 RN,posterior,0.95,0.2727,2.6668
+governador,gov 2018 RN,posterior,0.99,0.4091,4.5266
+governador,gov 2018 RN,recalibrada,0.5,0.2727,1.757
+governador,gov 2018 RN,recalibrada,0.55,0.2727,2.0919
+governador,gov 2018 RN,recalibrada,0.6,0.2727,2.3087
+governador,gov 2018 RN,recalibrada,0.65,0.3182,2.6811
+governador,gov 2018 RN,recalibrada,0.7,0.3636,2.9816
+governador,gov 2018 RN,recalibrada,0.75,0.4091,3.3707
+governador,gov 2018 RN,recalibrada,0.8,0.4545,3.8459
+governador,gov 2018 RN,recalibrada,0.85,0.8636,4.4314
+governador,gov 2018 RN,recalibrada,0.9,1.0,5.1766
+governador,gov 2018 RN,recalibrada,0.95,1.0,6.4546
+governador,gov 2018 RN,recalibrada,0.99,1.0,13.2258
+governador,gov 2018 RN,erro comum,0.5,0.0909,1.0738
+governador,gov 2018 RN,erro comum,0.55,0.1364,1.2198
+governador,gov 2018 RN,erro comum,0.6,0.1818,1.3641
+governador,gov 2018 RN,erro comum,0.65,0.2727,1.5306
+governador,gov 2018 RN,erro comum,0.7,0.2727,1.6976
+governador,gov 2018 RN,erro comum,0.75,0.2727,1.8953
+governador,gov 2018 RN,erro comum,0.8,0.2727,2.115
+governador,gov 2018 RN,erro comum,0.85,0.3182,2.384
+governador,gov 2018 RN,erro comum,0.9,0.4091,2.7604
+governador,gov 2018 RN,erro comum,0.95,0.6818,3.4187
+governador,gov 2018 RN,erro comum,0.99,1.0,5.2409
+governador,gov 2018 RO,posterior,0.5,0.7727,2.0799
+governador,gov 2018 RO,posterior,0.55,0.7727,2.3212
+governador,gov 2018 RO,posterior,0.6,0.7727,2.5802
+governador,gov 2018 RO,posterior,0.65,0.7727,2.8537
+governador,gov 2018 RO,posterior,0.7,0.7727,3.1564
+governador,gov 2018 RO,posterior,0.75,0.7727,3.4908
+governador,gov 2018 RO,posterior,0.8,0.8182,3.9173
+governador,gov 2018 RO,posterior,0.85,0.8636,4.5028
+governador,gov 2018 RO,posterior,0.9,0.9091,5.2592
+governador,gov 2018 RO,posterior,0.95,0.9091,6.396
+governador,gov 2018 RO,posterior,0.99,1.0,9.042
+governador,gov 2018 RO,recalibrada,0.5,0.8182,4.1017
+governador,gov 2018 RO,recalibrada,0.55,0.9091,4.8833
+governador,gov 2018 RO,recalibrada,0.6,0.9091,5.3894
+governador,gov 2018 RO,recalibrada,0.65,0.9091,6.2588
+governador,gov 2018 RO,recalibrada,0.7,0.9091,6.9602
+governador,gov 2018 RO,recalibrada,0.75,0.9545,7.8685
+governador,gov 2018 RO,recalibrada,0.8,0.9545,8.978
+governador,gov 2018 RO,recalibrada,0.85,1.0,10.3447
+governador,gov 2018 RO,recalibrada,0.9,1.0,12.0842
+governador,gov 2018 RO,recalibrada,0.95,1.0,15.0676
+governador,gov 2018 RO,recalibrada,0.99,1.0,30.8745
+governador,gov 2018 RO,erro comum,0.5,0.7727,2.1673
+governador,gov 2018 RO,erro comum,0.55,0.7727,2.4302
+governador,gov 2018 RO,erro comum,0.6,0.7727,2.7349
+governador,gov 2018 RO,erro comum,0.65,0.7727,3.0297
+governador,gov 2018 RO,erro comum,0.7,0.7727,3.334
+governador,gov 2018 RO,erro comum,0.75,0.7727,3.6885
+governador,gov 2018 RO,erro comum,0.8,0.8636,4.1442
+governador,gov 2018 RO,erro comum,0.85,0.9091,4.706
+governador,gov 2018 RO,erro comum,0.9,0.9091,5.5046
+governador,gov 2018 RO,erro comum,0.95,0.9545,6.7117
+governador,gov 2018 RO,erro comum,0.99,1.0,9.4629
+governador,gov 2018 RR,posterior,0.5,0.4545,2.0367
+governador,gov 2018 RR,posterior,0.55,0.5,2.3019
+governador,gov 2018 RR,posterior,0.6,0.6364,2.5753
+governador,gov 2018 RR,posterior,0.65,0.6364,2.9301
+governador,gov 2018 RR,posterior,0.7,0.6818,3.3128
+governador,gov 2018 RR,posterior,0.75,0.6818,3.7415
+governador,gov 2018 RR,posterior,0.8,0.6818,4.2777
+governador,gov 2018 RR,posterior,0.85,0.8182,4.9082
+governador,gov 2018 RR,posterior,0.9,0.9091,5.8483
+governador,gov 2018 RR,posterior,0.95,1.0,7.6096
+governador,gov 2018 RR,posterior,0.99,1.0,13.0434
+governador,gov 2018 RR,recalibrada,0.5,0.7273,4.78
+governador,gov 2018 RR,recalibrada,0.55,0.9091,5.691
+governador,gov 2018 RR,recalibrada,0.6,0.9545,6.2808
+governador,gov 2018 RR,recalibrada,0.65,1.0,7.2939
+governador,gov 2018 RR,recalibrada,0.7,1.0,8.1113
+governador,gov 2018 RR,recalibrada,0.75,1.0,9.17
+governador,gov 2018 RR,recalibrada,0.8,1.0,10.4629
+governador,gov 2018 RR,recalibrada,0.85,1.0,12.0557
+governador,gov 2018 RR,recalibrada,0.9,1.0,14.0829
+governador,gov 2018 RR,recalibrada,0.95,1.0,17.5597
+governador,gov 2018 RR,recalibrada,0.99,1.0,35.981
+governador,gov 2018 RR,erro comum,0.5,0.6364,2.5107
+governador,gov 2018 RR,erro comum,0.55,0.6818,2.8409
+governador,gov 2018 RR,erro comum,0.6,0.6818,3.1788
+governador,gov 2018 RR,erro comum,0.65,0.7273,3.5326
+governador,gov 2018 RR,erro comum,0.7,0.7273,3.9365
+governador,gov 2018 RR,erro comum,0.75,0.8636,4.4293
+governador,gov 2018 RR,erro comum,0.8,0.9545,4.9855
+governador,gov 2018 RR,erro comum,0.85,1.0,5.7345
+governador,gov 2018 RR,erro comum,0.9,1.0,6.7192
+governador,gov 2018 RR,erro comum,0.95,1.0,8.4244
+governador,gov 2018 RR,erro comum,0.99,1.0,13.7282
+governador,gov 2018 RS,posterior,0.5,0.1364,0.3824
+governador,gov 2018 RS,posterior,0.55,0.1364,0.4294
+governador,gov 2018 RS,posterior,0.6,0.1818,0.4806
+governador,gov 2018 RS,posterior,0.65,0.1818,0.5451
+governador,gov 2018 RS,posterior,0.7,0.1818,0.6109
+governador,gov 2018 RS,posterior,0.75,0.1818,0.6895
+governador,gov 2018 RS,posterior,0.8,0.2273,0.7722
+governador,gov 2018 RS,posterior,0.85,0.2727,0.8777
+governador,gov 2018 RS,posterior,0.9,0.2727,1.0324
+governador,gov 2018 RS,posterior,0.95,0.3182,1.3381
+governador,gov 2018 RS,posterior,0.99,0.4091,2.0646
+governador,gov 2018 RS,recalibrada,0.5,0.3182,0.8728
+governador,gov 2018 RS,recalibrada,0.55,0.3182,1.0391
+governador,gov 2018 RS,recalibrada,0.6,0.3636,1.1468
+governador,gov 2018 RS,recalibrada,0.65,0.3636,1.3318
+governador,gov 2018 RS,recalibrada,0.7,0.4091,1.481
+governador,gov 2018 RS,recalibrada,0.75,0.4091,1.6743
+governador,gov 2018 RS,recalibrada,0.8,0.4091,1.9104
+governador,gov 2018 RS,recalibrada,0.85,0.5909,2.2012
+governador,gov 2018 RS,recalibrada,0.9,0.8636,2.5714
+governador,gov 2018 RS,recalibrada,0.95,1.0,3.2062
+governador,gov 2018 RS,recalibrada,0.99,1.0,6.5697
+governador,gov 2018 RS,erro comum,0.5,0.3182,0.9342
+governador,gov 2018 RS,erro comum,0.55,0.4545,1.0363
+governador,gov 2018 RS,erro comum,0.6,0.5909,1.1557
+governador,gov 2018 RS,erro comum,0.65,0.7727,1.2812
+governador,gov 2018 RS,erro comum,0.7,0.8636,1.4307
+governador,gov 2018 RS,erro comum,0.75,1.0,1.5837
+governador,gov 2018 RS,erro comum,0.8,1.0,1.7607
+governador,gov 2018 RS,erro comum,0.85,1.0,1.9951
+governador,gov 2018 RS,erro comum,0.9,1.0,2.2825
+governador,gov 2018 RS,erro comum,0.95,1.0,2.764
+governador,gov 2018 RS,erro comum,0.99,1.0,3.7458
+governador,gov 2018 SC,posterior,0.5,0.1364,1.5835
+governador,gov 2018 SC,posterior,0.55,0.1364,1.7732
+governador,gov 2018 SC,posterior,0.6,0.1364,1.9796
+governador,gov 2018 SC,posterior,0.65,0.1818,2.1763
+governador,gov 2018 SC,posterior,0.7,0.1818,2.397
+governador,gov 2018 SC,posterior,0.75,0.1818,2.6269
+governador,gov 2018 SC,posterior,0.8,0.2273,2.9063
+governador,gov 2018 SC,posterior,0.85,0.3636,3.2617
+governador,gov 2018 SC,posterior,0.9,0.6818,3.6974
+governador,gov 2018 SC,posterior,0.95,0.7727,4.4408
+governador,gov 2018 SC,posterior,0.99,0.9545,5.6968
+governador,gov 2018 SC,recalibrada,0.5,0.2727,3.057
+governador,gov 2018 SC,recalibrada,0.55,0.5,3.6396
+governador,gov 2018 SC,recalibrada,0.6,0.6818,4.0168
+governador,gov 2018 SC,recalibrada,0.65,0.8636,4.6647
+governador,gov 2018 SC,recalibrada,0.7,0.9545,5.1875
+governador,gov 2018 SC,recalibrada,0.75,0.9545,5.8645
+governador,gov 2018 SC,recalibrada,0.8,1.0,6.6914
+governador,gov 2018 SC,recalibrada,0.85,1.0,7.7101
+governador,gov 2018 SC,recalibrada,0.9,1.0,9.0065
+governador,gov 2018 SC,recalibrada,0.95,1.0,11.2301
+governador,gov 2018 SC,recalibrada,0.99,1.0,23.0112
+governador,gov 2018 SC,erro comum,0.5,0.1818,1.9227
+governador,gov 2018 SC,erro comum,0.55,0.1818,2.1545
+governador,gov 2018 SC,erro comum,0.6,0.1818,2.3704
+governador,gov 2018 SC,erro comum,0.65,0.1818,2.6287
+governador,gov 2018 SC,erro comum,0.7,0.3636,2.9093
+governador,gov 2018 SC,erro comum,0.75,0.5455,3.2057
+governador,gov 2018 SC,erro comum,0.8,0.6818,3.5742
+governador,gov 2018 SC,erro comum,0.85,0.7727,4.0062
+governador,gov 2018 SC,erro comum,0.9,0.8636,4.5479
+governador,gov 2018 SC,erro comum,0.95,0.9545,5.42
+governador,gov 2018 SC,erro comum,0.99,1.0,7.1766
+governador,gov 2018 SE,posterior,0.5,0.6364,1.7763
+governador,gov 2018 SE,posterior,0.55,0.6364,1.9817
+governador,gov 2018 SE,posterior,0.6,0.6364,2.196
+governador,gov 2018 SE,posterior,0.65,0.6364,2.4334
+governador,gov 2018 SE,posterior,0.7,0.6364,2.7113
+governador,gov 2018 SE,posterior,0.75,0.6818,3.035
+governador,gov 2018 SE,posterior,0.8,0.7273,3.449
+governador,gov 2018 SE,posterior,0.85,0.7273,3.932
+governador,gov 2018 SE,posterior,0.9,0.7727,4.6208
+governador,gov 2018 SE,posterior,0.95,0.8182,5.7838
+governador,gov 2018 SE,posterior,0.99,0.9545,8.4756
+governador,gov 2018 SE,recalibrada,0.5,0.6818,3.5651
+governador,gov 2018 SE,recalibrada,0.55,0.7273,4.2444
+governador,gov 2018 SE,recalibrada,0.6,0.7273,4.6843
+governador,gov 2018 SE,recalibrada,0.65,0.7727,5.44
+governador,gov 2018 SE,recalibrada,0.7,0.8636,6.0496
+governador,gov 2018 SE,recalibrada,0.75,0.9091,6.8391
+governador,gov 2018 SE,recalibrada,0.8,0.9091,7.8035
+governador,gov 2018 SE,recalibrada,0.85,0.9545,8.9914
+governador,gov 2018 SE,recalibrada,0.9,1.0,10.5033
+governador,gov 2018 SE,recalibrada,0.95,1.0,13.0964
+governador,gov 2018 SE,recalibrada,0.99,1.0,26.8354
+governador,gov 2018 SE,erro comum,0.5,0.6364,2.0746
+governador,gov 2018 SE,erro comum,0.55,0.6364,2.3052
+governador,gov 2018 SE,erro comum,0.6,0.6364,2.5855
+governador,gov 2018 SE,erro comum,0.65,0.6364,2.8828
+governador,gov 2018 SE,erro comum,0.7,0.7273,3.188
+governador,gov 2018 SE,erro comum,0.75,0.7273,3.5181
+governador,gov 2018 SE,erro comum,0.8,0.7727,3.9733
+governador,gov 2018 SE,erro comum,0.85,0.8182,4.5284
+governador,gov 2018 SE,erro comum,0.9,0.8636,5.2654
+governador,gov 2018 SE,erro comum,0.95,0.9091,6.5989
+governador,gov 2018 SE,erro comum,0.99,0.9545,9.2546
+governador,gov 2018 SP,posterior,0.5,0.0,0.5245
+governador,gov 2018 SP,posterior,0.55,0.0,0.5868
+governador,gov 2018 SP,posterior,0.6,0.0,0.659
+governador,gov 2018 SP,posterior,0.65,0.0,0.7391
+governador,gov 2018 SP,posterior,0.7,0.0,0.8199
+governador,gov 2018 SP,posterior,0.75,0.0455,0.9068
+governador,gov 2018 SP,posterior,0.8,0.0455,1.0165
+governador,gov 2018 SP,posterior,0.85,0.0455,1.1537
+governador,gov 2018 SP,posterior,0.9,0.0455,1.329
+governador,gov 2018 SP,posterior,0.95,0.0909,1.6558
+governador,gov 2018 SP,posterior,0.99,0.1818,2.3317
+governador,gov 2018 SP,recalibrada,0.5,0.0909,1.2244
+governador,gov 2018 SP,recalibrada,0.55,0.0909,1.4577
+governador,gov 2018 SP,recalibrada,0.6,0.0909,1.6088
+governador,gov 2018 SP,recalibrada,0.65,0.1818,1.8683
+governador,gov 2018 SP,recalibrada,0.7,0.1818,2.0777
+governador,gov 2018 SP,recalibrada,0.75,0.1818,2.3488
+governador,gov 2018 SP,recalibrada,0.8,0.2273,2.68
+governador,gov 2018 SP,recalibrada,0.85,0.2727,3.088
+governador,gov 2018 SP,recalibrada,0.9,0.3636,3.6073
+governador,gov 2018 SP,recalibrada,0.95,0.4545,4.4978
+governador,gov 2018 SP,recalibrada,0.99,1.0,9.2164
+governador,gov 2018 SP,erro comum,0.5,0.0,1.0964
+governador,gov 2018 SP,erro comum,0.55,0.0,1.228
+governador,gov 2018 SP,erro comum,0.6,0.0,1.3651
+governador,gov 2018 SP,erro comum,0.65,0.0,1.5116
+governador,gov 2018 SP,erro comum,0.7,0.0455,1.6814
+governador,gov 2018 SP,erro comum,0.75,0.0455,1.8773
+governador,gov 2018 SP,erro comum,0.8,0.0455,2.0796
+governador,gov 2018 SP,erro comum,0.85,0.0909,2.3521
+governador,gov 2018 SP,erro comum,0.9,0.1818,2.7022
+governador,gov 2018 SP,erro comum,0.95,0.3636,3.2431
+governador,gov 2018 SP,erro comum,0.99,0.8636,4.3076
+governador,gov 2022 AL,posterior,0.5,0.1818,1.8057
+governador,gov 2022 AL,posterior,0.55,0.2273,2.0142
+governador,gov 2022 AL,posterior,0.6,0.2727,2.2522
+governador,gov 2022 AL,posterior,0.65,0.3636,2.5013
+governador,gov 2022 AL,posterior,0.7,0.4545,2.8284
+governador,gov 2022 AL,posterior,0.75,0.5909,3.1647
+governador,gov 2022 AL,posterior,0.8,0.6364,3.5696
+governador,gov 2022 AL,posterior,0.85,0.6818,4.026
+governador,gov 2022 AL,posterior,0.9,0.8182,4.6501
+governador,gov 2022 AL,posterior,0.95,1.0,5.8334
+governador,gov 2022 AL,posterior,0.99,1.0,8.3191
+governador,gov 2022 AL,recalibrada,0.5,0.5909,3.2914
+governador,gov 2022 AL,recalibrada,0.55,0.6364,3.6864
+governador,gov 2022 AL,recalibrada,0.6,0.6364,4.1234
+governador,gov 2022 AL,recalibrada,0.65,0.8182,4.738
+governador,gov 2022 AL,recalibrada,0.7,1.0,5.7361
+governador,gov 2022 AL,recalibrada,0.75,1.0,7.3158
+governador,gov 2022 AL,recalibrada,0.8,1.0,8.475
+governador,gov 2022 AL,recalibrada,0.85,1.0,9.3875
+governador,gov 2022 AL,recalibrada,0.9,1.0,10.8148
+governador,gov 2022 AL,recalibrada,0.95,1.0,14.7004
+governador,gov 2022 AL,recalibrada,0.99,1.0,26.8423
+governador,gov 2022 AL,erro comum,0.5,0.4091,2.3717
+governador,gov 2022 AL,erro comum,0.55,0.5,2.6783
+governador,gov 2022 AL,erro comum,0.6,0.6364,2.9744
+governador,gov 2022 AL,erro comum,0.65,0.7727,3.3105
+governador,gov 2022 AL,erro comum,0.7,0.9091,3.6732
+governador,gov 2022 AL,erro comum,0.75,1.0,4.0846
+governador,gov 2022 AL,erro comum,0.8,1.0,4.5709
+governador,gov 2022 AL,erro comum,0.85,1.0,5.1602
+governador,gov 2022 AL,erro comum,0.9,1.0,5.9873
+governador,gov 2022 AL,erro comum,0.95,1.0,7.3351
+governador,gov 2022 AL,erro comum,0.99,1.0,10.0109
+governador,gov 2022 AM,posterior,0.5,0.1364,1.2256
+governador,gov 2022 AM,posterior,0.55,0.2273,1.3919
+governador,gov 2022 AM,posterior,0.6,0.3182,1.5492
+governador,gov 2022 AM,posterior,0.65,0.4545,1.7096
+governador,gov 2022 AM,posterior,0.7,0.5,1.8878
+governador,gov 2022 AM,posterior,0.75,0.6364,2.0866
+governador,gov 2022 AM,posterior,0.8,0.7273,2.342
+governador,gov 2022 AM,posterior,0.85,0.7727,2.6231
+governador,gov 2022 AM,posterior,0.9,0.7727,3.0622
+governador,gov 2022 AM,posterior,0.95,0.7727,3.7702
+governador,gov 2022 AM,posterior,0.99,0.8636,5.1685
+governador,gov 2022 AM,recalibrada,0.5,0.6818,2.1589
+governador,gov 2022 AM,recalibrada,0.55,0.7273,2.4179
+governador,gov 2022 AM,recalibrada,0.6,0.7727,2.7046
+governador,gov 2022 AM,recalibrada,0.65,0.7727,3.1077
+governador,gov 2022 AM,recalibrada,0.7,0.8182,3.7624
+governador,gov 2022 AM,recalibrada,0.75,0.9545,4.7985
+governador,gov 2022 AM,recalibrada,0.8,1.0,5.5589
+governador,gov 2022 AM,recalibrada,0.85,1.0,6.1574
+governador,gov 2022 AM,recalibrada,0.9,1.0,7.0936
+governador,gov 2022 AM,recalibrada,0.95,1.0,9.6422
+governador,gov 2022 AM,recalibrada,0.99,1.0,17.6062
+governador,gov 2022 AM,erro comum,0.5,0.2273,1.4002
+governador,gov 2022 AM,erro comum,0.55,0.4091,1.5707
+governador,gov 2022 AM,erro comum,0.6,0.6364,1.7655
+governador,gov 2022 AM,erro comum,0.65,0.6364,1.9566
+governador,gov 2022 AM,erro comum,0.7,0.7727,2.1876
+governador,gov 2022 AM,erro comum,0.75,0.7727,2.4545
+governador,gov 2022 AM,erro comum,0.8,0.7727,2.726
+governador,gov 2022 AM,erro comum,0.85,0.8182,3.0652
+governador,gov 2022 AM,erro comum,0.9,0.8182,3.5602
+governador,gov 2022 AM,erro comum,0.95,0.9091,4.3589
+governador,gov 2022 AM,erro comum,0.99,1.0,5.8172
+governador,gov 2022 BA,posterior,0.5,0.3636,0.2778
+governador,gov 2022 BA,posterior,0.55,0.3636,0.3107
+governador,gov 2022 BA,posterior,0.6,0.3636,0.3448
+governador,gov 2022 BA,posterior,0.65,0.3636,0.3843
+governador,gov 2022 BA,posterior,0.7,0.4091,0.4266
+governador,gov 2022 BA,posterior,0.75,0.4091,0.4758
+governador,gov 2022 BA,posterior,0.8,0.4545,0.5341
+governador,gov 2022 BA,posterior,0.85,0.5455,0.6176
+governador,gov 2022 BA,posterior,0.9,0.5455,0.7234
+governador,gov 2022 BA,posterior,0.95,0.5455,0.9446
+governador,gov 2022 BA,posterior,0.99,0.8182,1.4331
+governador,gov 2022 BA,recalibrada,0.5,0.5,0.5475
+governador,gov 2022 BA,recalibrada,0.55,0.5,0.6132
+governador,gov 2022 BA,recalibrada,0.6,0.5455,0.6858
+governador,gov 2022 BA,recalibrada,0.65,0.5455,0.7881
+governador,gov 2022 BA,recalibrada,0.7,0.5909,0.9541
+governador,gov 2022 BA,recalibrada,0.75,0.7727,1.2168
+governador,gov 2022 BA,recalibrada,0.8,0.8636,1.4096
+governador,gov 2022 BA,recalibrada,0.85,0.9091,1.5614
+governador,gov 2022 BA,recalibrada,0.9,1.0,1.7988
+governador,gov 2022 BA,recalibrada,0.95,1.0,2.4451
+governador,gov 2022 BA,recalibrada,0.99,1.0,4.4646
+governador,gov 2022 BA,erro comum,0.5,0.6364,0.6776
+governador,gov 2022 BA,erro comum,0.55,0.6364,0.7602
+governador,gov 2022 BA,erro comum,0.6,0.6818,0.8433
+governador,gov 2022 BA,erro comum,0.65,0.7727,0.9396
+governador,gov 2022 BA,erro comum,0.7,0.8182,1.0428
+governador,gov 2022 BA,erro comum,0.75,0.8636,1.1514
+governador,gov 2022 BA,erro comum,0.8,0.8636,1.2868
+governador,gov 2022 BA,erro comum,0.85,0.8636,1.4477
+governador,gov 2022 BA,erro comum,0.9,0.9091,1.6796
+governador,gov 2022 BA,erro comum,0.95,1.0,2.0502
+governador,gov 2022 BA,erro comum,0.99,1.0,2.7903
+governador,gov 2022 ES,posterior,0.5,0.1364,0.4315
+governador,gov 2022 ES,posterior,0.55,0.1364,0.4867
+governador,gov 2022 ES,posterior,0.6,0.1818,0.5542
+governador,gov 2022 ES,posterior,0.65,0.1818,0.6239
+governador,gov 2022 ES,posterior,0.7,0.1818,0.7057
+governador,gov 2022 ES,posterior,0.75,0.2273,0.7998
+governador,gov 2022 ES,posterior,0.8,0.2273,0.9212
+governador,gov 2022 ES,posterior,0.85,0.2727,1.0478
+governador,gov 2022 ES,posterior,0.9,0.4545,1.2534
+governador,gov 2022 ES,posterior,0.95,0.5455,1.7416
+governador,gov 2022 ES,posterior,0.99,0.6364,2.7325
+governador,gov 2022 ES,recalibrada,0.5,0.2273,0.9268
+governador,gov 2022 ES,recalibrada,0.55,0.2273,1.038
+governador,gov 2022 ES,recalibrada,0.6,0.3182,1.1611
+governador,gov 2022 ES,recalibrada,0.65,0.4545,1.3341
+governador,gov 2022 ES,recalibrada,0.7,0.5,1.6152
+governador,gov 2022 ES,recalibrada,0.75,0.5909,2.06
+governador,gov 2022 ES,recalibrada,0.8,0.5909,2.3864
+governador,gov 2022 ES,recalibrada,0.85,0.6364,2.6433
+governador,gov 2022 ES,recalibrada,0.9,0.6364,3.0452
+governador,gov 2022 ES,recalibrada,0.95,0.9545,4.1393
+governador,gov 2022 ES,recalibrada,0.99,1.0,7.5582
+governador,gov 2022 ES,erro comum,0.5,0.2273,0.6977
+governador,gov 2022 ES,erro comum,0.55,0.3636,0.7832
+governador,gov 2022 ES,erro comum,0.6,0.4545,0.8757
+governador,gov 2022 ES,erro comum,0.65,0.5455,0.9751
+governador,gov 2022 ES,erro comum,0.7,0.5909,1.0879
+governador,gov 2022 ES,erro comum,0.75,0.5909,1.2168
+governador,gov 2022 ES,erro comum,0.8,0.5909,1.3737
+governador,gov 2022 ES,erro comum,0.85,0.6364,1.5585
+governador,gov 2022 ES,erro comum,0.9,0.7273,1.8335
+governador,gov 2022 ES,erro comum,0.95,0.7727,2.3056
+governador,gov 2022 ES,erro comum,0.99,0.9545,3.3711
+governador,gov 2022 MS,posterior,0.5,0.1364,0.922
+governador,gov 2022 MS,posterior,0.55,0.1818,1.0424
+governador,gov 2022 MS,posterior,0.6,0.2273,1.1857
+governador,gov 2022 MS,posterior,0.65,0.2273,1.3293
+governador,gov 2022 MS,posterior,0.7,0.2273,1.4721
+governador,gov 2022 MS,posterior,0.75,0.3182,1.633
+governador,gov 2022 MS,posterior,0.8,0.4091,1.834
+governador,gov 2022 MS,posterior,0.85,0.4545,2.0863
+governador,gov 2022 MS,posterior,0.9,0.6364,2.4199
+governador,gov 2022 MS,posterior,0.95,0.7273,2.9594
+governador,gov 2022 MS,posterior,0.99,0.8182,4.1626
+governador,gov 2022 MS,recalibrada,0.5,0.3182,1.7016
+governador,gov 2022 MS,recalibrada,0.55,0.4091,1.9058
+governador,gov 2022 MS,recalibrada,0.6,0.4545,2.1318
+governador,gov 2022 MS,recalibrada,0.65,0.5455,2.4495
+governador,gov 2022 MS,recalibrada,0.7,0.7273,2.9655
+governador,gov 2022 MS,recalibrada,0.75,0.7727,3.7822
+governador,gov 2022 MS,recalibrada,0.8,0.8182,4.3815
+governador,gov 2022 MS,recalibrada,0.85,0.9091,4.8533
+governador,gov 2022 MS,recalibrada,0.9,1.0,5.5912
+governador,gov 2022 MS,recalibrada,0.95,1.0,7.6001
+governador,gov 2022 MS,recalibrada,0.99,1.0,13.8773
+governador,gov 2022 MS,erro comum,0.5,0.2273,1.233
+governador,gov 2022 MS,erro comum,0.55,0.3636,1.3787
+governador,gov 2022 MS,erro comum,0.6,0.4545,1.5368
+governador,gov 2022 MS,erro comum,0.65,0.5,1.7202
+governador,gov 2022 MS,erro comum,0.7,0.6364,1.9098
+governador,gov 2022 MS,erro comum,0.75,0.6818,2.1504
+governador,gov 2022 MS,erro comum,0.8,0.7273,2.398
+governador,gov 2022 MS,erro comum,0.85,0.7727,2.7065
+governador,gov 2022 MS,erro comum,0.9,0.7727,3.0836
+governador,gov 2022 MS,erro comum,0.95,0.8182,3.7501
+governador,gov 2022 MS,erro comum,0.99,0.9545,5.3154
+governador,gov 2022 PB,posterior,0.5,0.0909,0.9783
+governador,gov 2022 PB,posterior,0.55,0.0909,1.1012
+governador,gov 2022 PB,posterior,0.6,0.0909,1.2324
+governador,gov 2022 PB,posterior,0.65,0.1364,1.368
+governador,gov 2022 PB,posterior,0.7,0.1364,1.5053
+governador,gov 2022 PB,posterior,0.75,0.2273,1.6599
+governador,gov 2022 PB,posterior,0.8,0.2273,1.8554
+governador,gov 2022 PB,posterior,0.85,0.2273,2.0934
+governador,gov 2022 PB,posterior,0.9,0.2727,2.381
+governador,gov 2022 PB,posterior,0.95,0.3182,2.8815
+governador,gov 2022 PB,posterior,0.99,0.4091,4.4226
+governador,gov 2022 PB,recalibrada,0.5,0.2273,1.738
+governador,gov 2022 PB,recalibrada,0.55,0.2273,1.9466
+governador,gov 2022 PB,recalibrada,0.6,0.2273,2.1774
+governador,gov 2022 PB,recalibrada,0.65,0.2727,2.5019
+governador,gov 2022 PB,recalibrada,0.7,0.3182,3.0289
+governador,gov 2022 PB,recalibrada,0.75,0.4091,3.8631
+governador,gov 2022 PB,recalibrada,0.8,0.4545,4.4752
+governador,gov 2022 PB,recalibrada,0.85,0.5455,4.9571
+governador,gov 2022 PB,recalibrada,0.9,0.6364,5.7108
+governador,gov 2022 PB,recalibrada,0.95,1.0,7.7626
+governador,gov 2022 PB,recalibrada,0.99,1.0,14.1741
+governador,gov 2022 PB,erro comum,0.5,0.1364,1.3997
+governador,gov 2022 PB,erro comum,0.55,0.1818,1.5797
+governador,gov 2022 PB,erro comum,0.6,0.2273,1.767
+governador,gov 2022 PB,erro comum,0.65,0.2273,1.9479
+governador,gov 2022 PB,erro comum,0.7,0.2273,2.1731
+governador,gov 2022 PB,erro comum,0.75,0.2273,2.3976
+governador,gov 2022 PB,erro comum,0.8,0.2727,2.6895
+governador,gov 2022 PB,erro comum,0.85,0.4091,3.0403
+governador,gov 2022 PB,erro comum,0.9,0.4091,3.5096
+governador,gov 2022 PB,erro comum,0.95,0.6818,4.1898
+governador,gov 2022 PB,erro comum,0.99,1.0,5.8747
+governador,gov 2022 PE,posterior,0.5,0.4545,1.1226
+governador,gov 2022 PE,posterior,0.55,0.5455,1.2662
+governador,gov 2022 PE,posterior,0.6,0.5909,1.4008
+governador,gov 2022 PE,posterior,0.65,0.5909,1.5498
+governador,gov 2022 PE,posterior,0.7,0.5909,1.7273
+governador,gov 2022 PE,posterior,0.75,0.6364,1.9092
+governador,gov 2022 PE,posterior,0.8,0.6364,2.1205
+governador,gov 2022 PE,posterior,0.85,0.6818,2.3737
+governador,gov 2022 PE,posterior,0.9,0.6818,2.6763
+governador,gov 2022 PE,posterior,0.95,0.7273,3.1893
+governador,gov 2022 PE,posterior,0.99,0.8182,4.3291
+governador,gov 2022 PE,recalibrada,0.5,0.6364,1.8984
+governador,gov 2022 PE,recalibrada,0.55,0.6364,2.1262
+governador,gov 2022 PE,recalibrada,0.6,0.6818,2.3783
+governador,gov 2022 PE,recalibrada,0.65,0.6818,2.7328
+governador,gov 2022 PE,recalibrada,0.7,0.7273,3.3084
+governador,gov 2022 PE,recalibrada,0.75,0.8182,4.2196
+governador,gov 2022 PE,recalibrada,0.8,0.8636,4.8882
+governador,gov 2022 PE,recalibrada,0.85,0.9091,5.4145
+governador,gov 2022 PE,recalibrada,0.9,0.9545,6.2378
+governador,gov 2022 PE,recalibrada,0.95,1.0,8.4789
+governador,gov 2022 PE,recalibrada,0.99,1.0,15.482
+governador,gov 2022 PE,erro comum,0.5,0.5909,1.6353
+governador,gov 2022 PE,erro comum,0.55,0.6818,1.8308
+governador,gov 2022 PE,erro comum,0.6,0.6818,2.0426
+governador,gov 2022 PE,erro comum,0.65,0.6818,2.2791
+governador,gov 2022 PE,erro comum,0.7,0.7273,2.5111
+governador,gov 2022 PE,erro comum,0.75,0.7273,2.7967
+governador,gov 2022 PE,erro comum,0.8,0.7273,3.1202
+governador,gov 2022 PE,erro comum,0.85,0.8182,3.4809
+governador,gov 2022 PE,erro comum,0.9,0.8182,3.9976
+governador,gov 2022 PE,erro comum,0.95,0.8636,4.7473
+governador,gov 2022 PE,erro comum,0.99,0.9091,6.2876
+governador,gov 2022 RO,posterior,0.5,0.4545,0.9049
+governador,gov 2022 RO,posterior,0.55,0.5455,1.0259
+governador,gov 2022 RO,posterior,0.6,0.5909,1.1665
+governador,gov 2022 RO,posterior,0.65,0.5909,1.3125
+governador,gov 2022 RO,posterior,0.7,0.6364,1.4823
+governador,gov 2022 RO,posterior,0.75,0.6364,1.6841
+governador,gov 2022 RO,posterior,0.8,0.6818,1.9194
+governador,gov 2022 RO,posterior,0.85,0.6818,2.2197
+governador,gov 2022 RO,posterior,0.9,0.7727,2.6656
+governador,gov 2022 RO,posterior,0.95,0.8182,3.3154
+governador,gov 2022 RO,posterior,0.99,1.0,5.7612
+governador,gov 2022 RO,recalibrada,0.5,0.6818,2.0397
+governador,gov 2022 RO,recalibrada,0.55,0.6818,2.2845
+governador,gov 2022 RO,recalibrada,0.6,0.6818,2.5554
+governador,gov 2022 RO,recalibrada,0.65,0.7727,2.9362
+governador,gov 2022 RO,recalibrada,0.7,0.8182,3.5548
+governador,gov 2022 RO,recalibrada,0.75,1.0,4.5337
+governador,gov 2022 RO,recalibrada,0.8,1.0,5.2521
+governador,gov 2022 RO,recalibrada,0.85,1.0,5.8177
+governador,gov 2022 RO,recalibrada,0.9,1.0,6.7022
+governador,gov 2022 RO,recalibrada,0.95,1.0,9.1102
+governador,gov 2022 RO,recalibrada,0.99,1.0,16.6347
+governador,gov 2022 RO,erro comum,0.5,0.5909,1.1305
+governador,gov 2022 RO,erro comum,0.55,0.5909,1.2616
+governador,gov 2022 RO,erro comum,0.6,0.6364,1.4224
+governador,gov 2022 RO,erro comum,0.65,0.6364,1.6124
+governador,gov 2022 RO,erro comum,0.7,0.6818,1.8006
+governador,gov 2022 RO,erro comum,0.75,0.6818,2.0463
+governador,gov 2022 RO,erro comum,0.8,0.7273,2.3012
+governador,gov 2022 RO,erro comum,0.85,0.7727,2.6637
+governador,gov 2022 RO,erro comum,0.9,0.9091,3.1282
+governador,gov 2022 RO,erro comum,0.95,1.0,3.8528
+governador,gov 2022 RO,erro comum,0.99,1.0,6.2192
+governador,gov 2022 RS,posterior,0.5,0.0909,0.6375
+governador,gov 2022 RS,posterior,0.55,0.0909,0.71
+governador,gov 2022 RS,posterior,0.6,0.0909,0.783
+governador,gov 2022 RS,posterior,0.65,0.0909,0.864
+governador,gov 2022 RS,posterior,0.7,0.1364,0.9579
+governador,gov 2022 RS,posterior,0.75,0.1818,1.0611
+governador,gov 2022 RS,posterior,0.8,0.2727,1.1844
+governador,gov 2022 RS,posterior,0.85,0.4091,1.3344
+governador,gov 2022 RS,posterior,0.9,0.4545,1.5504
+governador,gov 2022 RS,posterior,0.95,0.7727,1.8235
+governador,gov 2022 RS,posterior,0.99,1.0,2.4257
+governador,gov 2022 RS,recalibrada,0.5,0.2273,1.1599
+governador,gov 2022 RS,recalibrada,0.55,0.3636,1.2991
+governador,gov 2022 RS,recalibrada,0.6,0.4545,1.4532
+governador,gov 2022 RS,recalibrada,0.65,0.5,1.6697
+governador,gov 2022 RS,recalibrada,0.7,0.7273,2.0215
+governador,gov 2022 RS,recalibrada,0.75,1.0,2.5782
+governador,gov 2022 RS,recalibrada,0.8,1.0,2.9867
+governador,gov 2022 RS,recalibrada,0.85,1.0,3.3083
+governador,gov 2022 RS,recalibrada,0.9,1.0,3.8113
+governador,gov 2022 RS,recalibrada,0.95,1.0,5.1806
+governador,gov 2022 RS,recalibrada,0.99,1.0,9.4596
+governador,gov 2022 RS,erro comum,0.5,0.2273,1.0859
+governador,gov 2022 RS,erro comum,0.55,0.3182,1.2121
+governador,gov 2022 RS,erro comum,0.6,0.3636,1.3433
+governador,gov 2022 RS,erro comum,0.65,0.4545,1.4935
+governador,gov 2022 RS,erro comum,0.7,0.6818,1.6515
+governador,gov 2022 RS,erro comum,0.75,0.7727,1.8253
+governador,gov 2022 RS,erro comum,0.8,0.9545,2.0301
+governador,gov 2022 RS,erro comum,0.85,1.0,2.2737
+governador,gov 2022 RS,erro comum,0.9,1.0,2.5969
+governador,gov 2022 RS,erro comum,0.95,1.0,3.0834
+governador,gov 2022 RS,erro comum,0.99,1.0,4.0986
+governador,gov 2022 SC,posterior,0.5,0.2727,0.5693
+governador,gov 2022 SC,posterior,0.55,0.2727,0.6456
+governador,gov 2022 SC,posterior,0.6,0.4091,0.7219
+governador,gov 2022 SC,posterior,0.65,0.4545,0.8079
+governador,gov 2022 SC,posterior,0.7,0.5,0.8998
+governador,gov 2022 SC,posterior,0.75,0.5455,0.9969
+governador,gov 2022 SC,posterior,0.8,0.5909,1.1073
+governador,gov 2022 SC,posterior,0.85,0.5909,1.2584
+governador,gov 2022 SC,posterior,0.9,0.9091,1.442
+governador,gov 2022 SC,posterior,0.95,0.9545,1.7357
+governador,gov 2022 SC,posterior,0.99,1.0,2.6001
+governador,gov 2022 SC,recalibrada,0.5,0.5455,1.0227
+governador,gov 2022 SC,recalibrada,0.55,0.5455,1.1454
+governador,gov 2022 SC,recalibrada,0.6,0.5909,1.2812
+governador,gov 2022 SC,recalibrada,0.65,0.8636,1.4722
+governador,gov 2022 SC,recalibrada,0.7,0.9545,1.7823
+governador,gov 2022 SC,recalibrada,0.75,1.0,2.2732
+governador,gov 2022 SC,recalibrada,0.8,1.0,2.6334
+governador,gov 2022 SC,recalibrada,0.85,1.0,2.9169
+governador,gov 2022 SC,recalibrada,0.9,1.0,3.3604
+governador,gov 2022 SC,recalibrada,0.95,1.0,4.5678
+governador,gov 2022 SC,recalibrada,0.99,1.0,8.3405
+governador,gov 2022 SC,erro comum,0.5,0.5,0.763
+governador,gov 2022 SC,erro comum,0.55,0.5455,0.8556
+governador,gov 2022 SC,erro comum,0.6,0.5909,0.952
+governador,gov 2022 SC,erro comum,0.65,0.5909,1.0665
+governador,gov 2022 SC,erro comum,0.7,0.8182,1.1806
+governador,gov 2022 SC,erro comum,0.75,0.8636,1.3079
+governador,gov 2022 SC,erro comum,0.8,0.9091,1.469
+governador,gov 2022 SC,erro comum,0.85,0.9545,1.6577
+governador,gov 2022 SC,erro comum,0.9,0.9545,1.8982
+governador,gov 2022 SC,erro comum,0.95,1.0,2.3057
+governador,gov 2022 SC,erro comum,0.99,1.0,3.1739
+governador,gov 2022 SE,posterior,0.5,0.5909,1.6986
+governador,gov 2022 SE,posterior,0.55,0.7273,1.9227
+governador,gov 2022 SE,posterior,0.6,0.8636,2.1621
+governador,gov 2022 SE,posterior,0.65,0.9091,2.4013
+governador,gov 2022 SE,posterior,0.7,0.9091,2.6763
+governador,gov 2022 SE,posterior,0.75,0.9091,2.9933
+governador,gov 2022 SE,posterior,0.8,0.9091,3.3467
+governador,gov 2022 SE,posterior,0.85,0.9091,3.8506
+governador,gov 2022 SE,posterior,0.9,0.9091,4.4762
+governador,gov 2022 SE,posterior,0.95,1.0,5.4854
+governador,gov 2022 SE,posterior,0.99,1.0,7.2595
+governador,gov 2022 SE,recalibrada,0.5,0.9091,3.0601
+governador,gov 2022 SE,recalibrada,0.55,0.9091,3.4274
+governador,gov 2022 SE,recalibrada,0.6,0.9091,3.8337
+governador,gov 2022 SE,recalibrada,0.65,0.9091,4.4051
+governador,gov 2022 SE,recalibrada,0.7,1.0,5.333
+governador,gov 2022 SE,recalibrada,0.75,1.0,6.8017
+governador,gov 2022 SE,recalibrada,0.8,1.0,7.8795
+governador,gov 2022 SE,recalibrada,0.85,1.0,8.7279
+governador,gov 2022 SE,recalibrada,0.9,1.0,10.0549
+governador,gov 2022 SE,recalibrada,0.95,1.0,13.6675
+governador,gov 2022 SE,recalibrada,0.99,1.0,24.9562
+governador,gov 2022 SE,erro comum,0.5,0.8636,2.0494
+governador,gov 2022 SE,erro comum,0.55,0.9091,2.3196
+governador,gov 2022 SE,erro comum,0.6,0.9091,2.6202
+governador,gov 2022 SE,erro comum,0.65,0.9091,2.9397
+governador,gov 2022 SE,erro comum,0.7,0.9091,3.2777
+governador,gov 2022 SE,erro comum,0.75,0.9091,3.6657
+governador,gov 2022 SE,erro comum,0.8,0.9091,4.1039
+governador,gov 2022 SE,erro comum,0.85,0.9091,4.6982
+governador,gov 2022 SE,erro comum,0.9,1.0,5.3831
+governador,gov 2022 SE,erro comum,0.95,1.0,6.485
+governador,gov 2022 SE,erro comum,0.99,1.0,8.8143
+governador,gov 2022 SP,posterior,0.5,0.0455,0.1376
+governador,gov 2022 SP,posterior,0.55,0.0909,0.1546
+governador,gov 2022 SP,posterior,0.6,0.1364,0.172
+governador,gov 2022 SP,posterior,0.65,0.2273,0.1923
+governador,gov 2022 SP,posterior,0.7,0.4091,0.2155
+governador,gov 2022 SP,posterior,0.75,0.5455,0.2399
+governador,gov 2022 SP,posterior,0.8,0.6818,0.27
+governador,gov 2022 SP,posterior,0.85,0.7273,0.3003
+governador,gov 2022 SP,posterior,0.9,0.7727,0.3493
+governador,gov 2022 SP,posterior,0.95,0.8182,0.4255
+governador,gov 2022 SP,posterior,0.99,1.0,0.5796
+governador,gov 2022 SP,recalibrada,0.5,0.5455,0.2446
+governador,gov 2022 SP,recalibrada,0.55,0.6364,0.274
+governador,gov 2022 SP,recalibrada,0.6,0.7273,0.3065
+governador,gov 2022 SP,recalibrada,0.65,0.7727,0.3522
+governador,gov 2022 SP,recalibrada,0.7,0.8182,0.4263
+governador,gov 2022 SP,recalibrada,0.75,1.0,0.5437
+governador,gov 2022 SP,recalibrada,0.8,1.0,0.6299
+governador,gov 2022 SP,recalibrada,0.85,1.0,0.6977
+governador,gov 2022 SP,recalibrada,0.9,1.0,0.8038
+governador,gov 2022 SP,recalibrada,0.95,1.0,1.0926
+governador,gov 2022 SP,recalibrada,0.99,1.0,1.995
+governador,gov 2022 SP,erro comum,0.5,0.7727,0.3061
+governador,gov 2022 SP,erro comum,0.55,0.8182,0.3442
+governador,gov 2022 SP,erro comum,0.6,0.8636,0.3835
+governador,gov 2022 SP,erro comum,0.65,1.0,0.4258
+governador,gov 2022 SP,erro comum,0.7,1.0,0.4725
+governador,gov 2022 SP,erro comum,0.75,1.0,0.525
+governador,gov 2022 SP,erro comum,0.8,1.0,0.585
+governador,gov 2022 SP,erro comum,0.85,1.0,0.6584
+governador,gov 2022 SP,erro comum,0.9,1.0,0.7598
+governador,gov 2022 SP,erro comum,0.95,1.0,0.908
+governador,gov 2022 SP,erro comum,0.99,1.0,1.198
+2026 (congelada),2026 2T PT,posterior,0.5,0.3182,0.093
+2026 (congelada),2026 2T PT,posterior,0.55,0.3182,0.1051
+2026 (congelada),2026 2T PT,posterior,0.6,0.3636,0.1164
+2026 (congelada),2026 2T PT,posterior,0.65,0.3636,0.1304
+2026 (congelada),2026 2T PT,posterior,0.7,0.3636,0.1444
+2026 (congelada),2026 2T PT,posterior,0.75,0.3636,0.1598
+2026 (congelada),2026 2T PT,posterior,0.8,0.3636,0.1774
+2026 (congelada),2026 2T PT,posterior,0.85,0.4091,0.1986
+2026 (congelada),2026 2T PT,posterior,0.9,0.4545,0.2261
+2026 (congelada),2026 2T PT,posterior,0.95,0.4545,0.2695
+2026 (congelada),2026 2T PT,posterior,0.99,0.5909,0.3398
+2026 (congelada),2026 2T PT,recalibrada,0.5,0.5,0.3061
+2026 (congelada),2026 2T PT,recalibrada,0.55,0.5909,0.3427
+2026 (congelada),2026 2T PT,recalibrada,0.6,0.6364,0.3838
+2026 (congelada),2026 2T PT,recalibrada,0.65,0.6364,0.4004
+2026 (congelada),2026 2T PT,recalibrada,0.7,0.7273,0.421
+2026 (congelada),2026 2T PT,recalibrada,0.75,0.7727,0.4459
+2026 (congelada),2026 2T PT,recalibrada,0.8,0.7727,0.4958
+2026 (congelada),2026 2T PT,recalibrada,0.85,1.0,0.6034
+2026 (congelada),2026 2T PT,recalibrada,0.9,1.0,0.6937
+2026 (congelada),2026 2T PT,recalibrada,0.95,1.0,0.9785
+2026 (congelada),2026 2T PT,recalibrada,0.99,1.0,1.7503
+2026 (congelada),2026 2T PT,erro comum,0.5,1.0,0.4611
+2026 (congelada),2026 2T PT,erro comum,0.55,1.0,0.5167
+2026 (congelada),2026 2T PT,erro comum,0.6,1.0,0.5755
+2026 (congelada),2026 2T PT,erro comum,0.65,1.0,0.6373
+2026 (congelada),2026 2T PT,erro comum,0.7,1.0,0.7062
+2026 (congelada),2026 2T PT,erro comum,0.75,1.0,0.7843
+2026 (congelada),2026 2T PT,erro comum,0.8,1.0,0.8719
+2026 (congelada),2026 2T PT,erro comum,0.85,1.0,0.9794
+2026 (congelada),2026 2T PT,erro comum,0.9,1.0,1.1179
+2026 (congelada),2026 2T PT,erro comum,0.95,1.0,1.3231
+2026 (congelada),2026 2T PT,erro comum,0.99,1.0,1.7322
+2026 (congelada),2026 1T PT,posterior,0.5,0.1364,0.1186
+2026 (congelada),2026 1T PT,posterior,0.55,0.1364,0.1331
+2026 (congelada),2026 1T PT,posterior,0.6,0.3182,0.1482
+2026 (congelada),2026 1T PT,posterior,0.65,0.3182,0.1642
+2026 (congelada),2026 1T PT,posterior,0.7,0.3182,0.1806
+2026 (congelada),2026 1T PT,posterior,0.75,0.4545,0.2004
+2026 (congelada),2026 1T PT,posterior,0.8,0.4545,0.2236
+2026 (congelada),2026 1T PT,posterior,0.85,0.5455,0.252
+2026 (congelada),2026 1T PT,posterior,0.9,0.6364,0.2915
+2026 (congelada),2026 1T PT,posterior,0.95,0.7273,0.3425
+2026 (congelada),2026 1T PT,posterior,0.99,0.7727,0.4283
+2026 (congelada),2026 1T PT,recalibrada,0.5,0.7727,0.3886
+2026 (congelada),2026 1T PT,recalibrada,0.55,0.7727,0.435
+2026 (congelada),2026 1T PT,recalibrada,0.6,0.8182,0.4873
+2026 (congelada),2026 1T PT,recalibrada,0.65,0.8636,0.5083
+2026 (congelada),2026 1T PT,recalibrada,0.7,0.8636,0.5346
+2026 (congelada),2026 1T PT,recalibrada,0.75,0.8636,0.5661
+2026 (congelada),2026 1T PT,recalibrada,0.8,0.8636,0.6294
+2026 (congelada),2026 1T PT,recalibrada,0.85,0.9091,0.7661
+2026 (congelada),2026 1T PT,recalibrada,0.9,0.9091,0.8807
+2026 (congelada),2026 1T PT,recalibrada,0.95,0.9545,1.2423
+2026 (congelada),2026 1T PT,recalibrada,0.99,1.0,2.2222
+2026 (congelada),2026 1T PT,erro comum,0.5,0.8182,0.5811
+2026 (congelada),2026 1T PT,erro comum,0.55,0.8636,0.6511
+2026 (congelada),2026 1T PT,erro comum,0.6,0.8636,0.7243
+2026 (congelada),2026 1T PT,erro comum,0.65,0.9091,0.8047
+2026 (congelada),2026 1T PT,erro comum,0.7,0.9545,0.8906
+2026 (congelada),2026 1T PT,erro comum,0.75,1.0,0.9804
+2026 (congelada),2026 1T PT,erro comum,0.8,1.0,1.0999
+2026 (congelada),2026 1T PT,erro comum,0.85,1.0,1.2276
+2026 (congelada),2026 1T PT,erro comum,0.9,1.0,1.409
+2026 (congelada),2026 1T PT,erro comum,0.95,1.0,1.6743
+2026 (congelada),2026 1T PT,erro comum,0.99,1.0,2.1914
+2026 (congelada),2026 1T adversário,posterior,0.5,0.0909,0.1003
+2026 (congelada),2026 1T adversário,posterior,0.55,0.0909,0.1122
+2026 (congelada),2026 1T adversário,posterior,0.6,0.1818,0.1245
+2026 (congelada),2026 1T adversário,posterior,0.65,0.2273,0.1384
+2026 (congelada),2026 1T adversário,posterior,0.7,0.3636,0.1537
+2026 (congelada),2026 1T adversário,posterior,0.75,0.4091,0.1708
+2026 (congelada),2026 1T adversário,posterior,0.8,0.5455,0.1912
+2026 (congelada),2026 1T adversário,posterior,0.85,0.6818,0.2147
+2026 (congelada),2026 1T adversário,posterior,0.9,0.7727,0.2412
+2026 (congelada),2026 1T adversário,posterior,0.95,0.8182,0.2821
+2026 (congelada),2026 1T adversário,posterior,0.99,0.8636,0.368
+2026 (congelada),2026 1T adversário,recalibrada,0.5,0.8636,0.3272
+2026 (congelada),2026 1T adversário,recalibrada,0.55,0.9091,0.3662
+2026 (congelada),2026 1T adversário,recalibrada,0.6,0.9545,0.4102
+2026 (congelada),2026 1T adversário,recalibrada,0.65,0.9545,0.4279
+2026 (congelada),2026 1T adversário,recalibrada,0.7,0.9545,0.45
+2026 (congelada),2026 1T adversário,recalibrada,0.75,0.9545,0.4766
+2026 (congelada),2026 1T adversário,recalibrada,0.8,0.9545,0.5299
+2026 (congelada),2026 1T adversário,recalibrada,0.85,0.9545,0.6449
+2026 (congelada),2026 1T adversário,recalibrada,0.9,0.9545,0.7414
+2026 (congelada),2026 1T adversário,recalibrada,0.95,1.0,1.0458
+2026 (congelada),2026 1T adversário,recalibrada,0.99,1.0,1.8707
+2026 (congelada),2026 1T adversário,erro comum,0.5,0.9091,0.5191
+2026 (congelada),2026 1T adversário,erro comum,0.55,0.9545,0.577
+2026 (congelada),2026 1T adversário,erro comum,0.6,0.9545,0.6435
+2026 (congelada),2026 1T adversário,erro comum,0.65,1.0,0.7148
+2026 (congelada),2026 1T adversário,erro comum,0.7,1.0,0.7932
+2026 (congelada),2026 1T adversário,erro comum,0.75,1.0,0.8767
+2026 (congelada),2026 1T adversário,erro comum,0.8,1.0,0.9755
+2026 (congelada),2026 1T adversário,erro comum,0.85,1.0,1.1025
+2026 (congelada),2026 1T adversário,erro comum,0.9,1.0,1.2658
+2026 (congelada),2026 1T adversário,erro comum,0.95,1.0,1.488
+2026 (congelada),2026 1T adversário,erro comum,0.99,1.0,1.962
