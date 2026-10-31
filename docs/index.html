@@ -123,6 +123,9 @@
       <div class="aviso" id="aviso2018" hidden>
         Em 2018 o TSE não publicou o horário de recebimento de cada seção. A ordem de chegada usada aqui é simulada a partir da ordem de 2022, local por local.
       </div>
+      <div class="aviso" id="aviso2026" hidden>
+        Em 2026 a divulgação foi suspensa logo no começo, com cerca de 0,25% das urnas, quando a votação foi prorrogada até as 19h, e retomada por volta das 19h. Por isso o relógio salta das 17h07 para as 19h03.
+      </div>
     </div>
 
     <div>
@@ -186,6 +189,7 @@
     }
     el("erro").hidden = true;
     el("aviso2018").hidden = ano !== 2018;
+    el("aviso2026").hidden = ano !== 2026;
     el("relogio").max = dados.pontos.length; // o último passo é o fim da apuração
     // #t=10 abre a página com 10% das seções divulgadas.
     const t = Number(new URLSearchParams(location.hash.slice(1)).get("t"));

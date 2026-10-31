@@ -16,6 +16,27 @@ Os percentuais do 1º turno batem com o resultado final publicado (Lula 45,16%, 
 
 A ordem de 2026 foi bem mais enviesada que a de 2022. São Paulo e Rio só começam a chegar às 19:03, e as primeiras seções vêm sobretudo do Paraná, do Pará e do Distrito Federal. Com 0,5% das seções no 2º turno, o apurado dava 54,7% a Lula, que terminou com 51,8%.
 
+## Conferência com a noite real
+
+A ordem vem do `DT_BU_RECEBIDO`, e a curva reconstruída bate com a divulgação pública. No 2º turno, a divulgação do TSE foi suspensa com cerca de 0,25% das urnas, quando a votação foi prorrogada até as 19h, e retomada por volta das 19h. Nos dados, 1.868 seções (776 do exterior) têm recebimento entre 17h05 e 17h07. A seção seguinte só chega às 19h03.
+
+Parcial de Lula no mesmo % de urnas apuradas: a série do g1 ("Compare evolução da apuração do 2º turno de 2026 com 2022", fonte TSE) contra o apurado reconstruído aqui.
+
+| % das urnas | g1 | este replay | horário aqui |
+|---|---|---|---|
+| 10% | 50,46 | 50,48 | 19h38 |
+| 20% | 49,59 | 49,59 | 19h56 |
+| 30% | 49,53 | 49,55 | 20h07 |
+| 40% | 49,80 | 49,79 | 20h17 |
+| 50% | 50,14 | 50,12 | 20h26 |
+| 60% | 50,55 | 50,53 | 20h34 |
+| 70% | 50,92 | 50,91 | 20h43 |
+| 80% | 51,27 | 51,27 | 20h52 |
+| 90% | 51,58 | 51,56 | 21h01 |
+| 100% | 51,8 | 51,79 | — |
+
+Horários publicados pela imprensa (Terra e Mixvale) contra o horário em que o replay atinge o mesmo %: 10,40% às 19h39 (aqui 19h38); cerca de 13,5% às 19h45, com Flávio na frente (aqui 19h44); empate e Lula retomando com 47,24% entre 20h20 e 20h25 (aqui 20h22–20h23); 94,93% e Lula 51,72% às 21h06 (aqui 21h05 e 51,72%). A única defasagem é a retomada: a imprensa deu 1,67% às 19h00, e o replay chega a esse ponto às 19h12, porque os BUs recebidos durante a pausa entraram em bloco. O backtest usa o % de seções como relógio, então a pausa não muda nenhuma projeção nem conclusão.
+
 ## Erro dos modelos congelados
 
 Erro absoluto (p.p.) nos 22 pontos da grade, de 0,5% a 95% das seções.
