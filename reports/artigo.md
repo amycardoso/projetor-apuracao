@@ -1,8 +1,16 @@
-# Quem chega primeiro engana: projetando o resultado do 2º turno a partir da apuração parcial
+# Quem chega primeiro engana: quão honestas são as projeções de apuração no Brasil
 
-Às 18h da noite de 30 de outubro de 2022, com 29% das seções divulgadas, Lula tinha 48,9% dos votos válidos. Às 18h45, com quase 69% das seções, passou de 50%, e terminou com 50,90%. Quem olhava só o apurado viu uma virada. Não houve virada. A vitória já estava nos números desde as primeiras seções, mas as seções não chegam em ordem aleatória, e o apurado é uma média ponderada de quem chegou primeiro.
+Entre 19h44 e 20h23 de 25 de outubro de 2026, com 14% a 47% das seções divulgadas, o apurado do 2º turno mostrou Flávio Bolsonaro na frente. Lula terminou com 51,79%. Em 2022 foi igual: às 18h, com 29% das seções, Lula tinha 48,9%, e terminou com 50,90%. Não houve virada em nenhuma das duas noites. As seções não chegam em ordem aleatória, e o apurado é uma média de quem chegou primeiro.
 
-Este projeto tenta responder a uma pergunta simples: a cada instante da apuração, o que dá para dizer sobre o resultado final, e com que confiança? A resposta vem em duas partes. A primeira é uma projeção pontual do % do PT nos votos válidos. A segunda é uma faixa que promete conter o resultado final 90% ou 95% das vezes e cumpre essa promessa. A segunda foi bem mais difícil que a primeira.
+Projetar o resultado a partir da parcial virou prática em noites eleitorais, no Brasil e fora dele. A pergunta deste projeto é: quão boas são essas projeções em tempo real, e as faixas de incerteza delas são honestas? Uma faixa honesta é a que, quando promete conter o resultado 90% das vezes, contém.
+
+O modelo de swing por local de votação em camadas, do tipo usado por Rodrigo Mahlmeister em 2026, pelo Washington Post e pelo New York Times, entra aqui como uma das referências comparadas, não como o objetivo. As contribuições próprias são cinco:
+
+1. **Backtest sem vazamento** em seis noites presidenciais (1º e 2º turnos de 2018, 2022 e 2026, com históricos desde 2014) e 26 noites de governador. A ordem de chegada é reconstruída pelo `DT_BU_RECEBIDO`, com tratamento de fuso.
+2. **Pooling aprendido contra pesos escolhidos à mão**: um modelo hierárquico bayesiano com Student-t, mostrando onde ele ganha e onde perde.
+3. **Auditoria das faixas.** As que saem só do modelo cobrem de 18% a 45% quando prometem 90%. Um termo de erro comum às seções pendentes, calibrado em outras noites, corrige isso.
+4. **Nenhuma pesquisa eleitoral.** Só boletins de urna e a eleição anterior.
+5. **Teste congelado em 2026**, comparado com os números públicos de Rodrigo.
 
 ## O problema: a ordem da apuração não é aleatória
 
@@ -18,17 +26,17 @@ Com 5% das seções, a parcial de Lula estava 4,3 pontos abaixo do resultado fin
 
 ## Inspiração
 
-A forma do modelo e da apresentação vem do modelo de projeção de apuração de Rodrigo Mahlmeister ([@ro_mahl](https://x.com/ro_mahl)), publicado nas eleições de 2026 e descrito pela [reportagem da NeoFeed](https://neofeed.com.br/finde/como-um-pesquisador-brasileiro-criou-um-algoritmo-que-simulou-e-acertou-o-resultado-do-1o-turno/). Duas ideias vieram de lá: projetar o swing de cada local de votação contra a eleição anterior e mostrar, para cada candidato, a projeção, a faixa e o apurado lado a lado. Este projeto é uma reimplementação independente, feita a partir da descrição pública do método; o código de Rodrigo é privado e não foi usado. As faixas conformais seguem a linha do modelo de noite eleitoral do Washington Post (elex-live-model; Cherian, Bronner e Candès, 2024). O que este repositório acrescenta é um backtest sistemático, sem vazamento, em duas eleições, uma progressão explícita de modelos e uma avaliação séria da calibração das faixas. Os erros e as escolhas daqui são meus, não dele.
+A forma do modelo e da apresentação vem do modelo de projeção de apuração de Rodrigo Mahlmeister ([@ro_mahl](https://x.com/ro_mahl)), publicado nas eleições de 2026 e descrito pela [reportagem da NeoFeed](https://neofeed.com.br/finde/como-um-pesquisador-brasileiro-criou-um-algoritmo-que-simulou-e-acertou-o-resultado-do-1o-turno/). Duas ideias vieram de lá: projetar o swing de cada local de votação contra a eleição anterior e mostrar, para cada candidato, a projeção, a faixa e o apurado lado a lado. Este projeto é uma reimplementação independente, feita a partir da descrição pública do método; o código de Rodrigo é privado e não foi usado. As faixas conformais seguem a linha do modelo de noite eleitoral do Washington Post (elex-live-model; Cherian, Bronner e Candès, 2024). Os erros e as escolhas daqui são meus, não dele.
 
 ## Dados
 
-Tudo vem do portal de dados abertos do TSE: os boletins de urna por seção do 2º turno de 2014, 2018 e 2022, para as 27 UFs e o exterior. São cerca de 180 MB de zips. Depois de agregar só a votação para presidente, sobra uma linha por seção, com município, zona, local de votação, aptos, comparecimento e votos do PT, do adversário, brancos e nulos. Os totais batem voto a voto com o resultado oficial nos três anos: 2014 (Dilma 54.501.118), 2018 (Haddad 47.040.906 e Bolsonaro 57.797.847) e 2022 (Lula 60.345.999 e Bolsonaro 58.206.354).
+Tudo vem do portal de dados abertos do TSE: os boletins de urna por seção de 2014 a 2026, nos dois turnos, para as 27 UFs e o exterior. Depois de agregar a votação para presidente (ou governador), sobra uma linha por seção, com município, zona, local de votação, aptos, comparecimento e votos. Os votos do PT e do adversário batem voto a voto com o resultado oficial; no 2º turno de 2022, por exemplo, Lula 60.345.999 e Bolsonaro 58.206.354.
 
 Há três cuidados que não aparecem à primeira vista.
 
-- **Fusos.** `DT_ENCERRAMENTO` está em hora local; em 2022, Acre fechou às 15h e Fernando de Noronha às 18h. Já `DT_BU_RECEBIDO` vem em hora de Brasília em todas as UFs. O exterior recebe boletins desde a madrugada, mas o resultado só foi divulgado a partir das 17h.
+- **Fusos.** `DT_ENCERRAMENTO` está em hora local (o Acre fecha às 15h); `DT_BU_RECEBIDO`, em hora de Brasília. Boletins recebidos antes das 17h só entram na divulgação a partir daí.
 - **2018 não tem horário de recebimento.** O BU de 2018 traz só abertura e encerramento. A ordem de 2018 é, portanto, simulada: cada seção herda a distribuição de chegada do mesmo local de votação em 2022 e, na falta dele, da zona, do município ou da UF. O backtest de 2018 mede o modelo sob a ordem de 2022, não sob a ordem real daquela noite.
-- **Locais mudam de número.** Para comparar com a eleição anterior, os locais de votação foram pareados pela chave município + zona + local: 94,3% com par direto de 2018 para 2022, 0,7% por rezoneamento e o resto por zona ou município.
+- **Locais mudam de número.** Os locais foram pareados entre eleições por município + zona + local: 94,3% com par direto de 2018 para 2022, o resto por rezoneamento, zona ou município.
 
 ## Um backtest que não deixa o futuro vazar
 
@@ -37,15 +45,15 @@ O simulador percorre uma grade de 22 instantes do relógio (de 0,5% a 95% das se
 - As seções **divulgadas**, com tudo, inclusive os votos da noite.
 - As seções **pendentes**, só com identificadores, eleitores aptos e o resultado da eleição anterior no local equivalente. Votos, comparecimento, horários e a própria posição no relógio ficam de fora.
 
-Um teste automatizado garante isso para todos os modelos. Ele zera os votos do PT e põe 999 votos no adversário em todas as seções futuras, e a projeção precisa sair idêntica. As métricas são o erro absoluto do % do PT final em cada instante, a média desses erros e o "tempo até cravar": o primeiro instante a partir do qual o erro fica abaixo de 0,5 ponto e não sai mais.
+Um teste automatizado garante isso: com os votos das seções futuras trocados por lixo, a projeção precisa sair idêntica. As métricas são o erro absoluto do % do PT final em cada instante, a média desses erros e o "tempo até cravar": o primeiro instante a partir do qual o erro fica abaixo de 0,5 ponto e não sai mais.
 
-Há dois backtests: 2022 com histórico de 2018 e 2018 com histórico de 2014. Todo hiperparâmetro foi escolhido em 2018 e só depois aplicado em 2022.
+O desenvolvimento usou 2022 com histórico de 2018 e 2018 com histórico de 2014. Todo hiperparâmetro foi escolhido em 2018 e só depois aplicado em 2022; em 2026, nada foi reescolhido.
 
 ## A progressão de modelos
 
 **Baselines.** O primeiro modelo é o próprio apurado. O segundo aplica às pendentes o swing médio das seções divulgadas contra a eleição anterior (swing uniforme). O terceiro faz o mesmo com um swing por UF.
 
-**Regressões.** A fase 2 ajusta, a cada instante, uma regressão ponderada do swing por local contra o voto anterior, o tamanho do município e uma dummy de capital. A regressão nacional sozinha subestimou Lula em cerca de 1 ponto entre 5% e 10% das seções. Com essas covariáveis, ela não enxerga que o swing do Sudeste (+10,8 pontos) foi muito maior que o do Nordeste (−0,3). O que funcionou foi manter a regressão no nível nacional e estimar só deslocamentos por região, UF e UF × capital/interior, cada um encolhido para o nível de cima com peso n/(n + k). O k = 30 foi escolhido em 2018.
+**Regressões.** A fase 2 ajusta, a cada instante, uma regressão ponderada do swing por local contra o voto anterior, o tamanho do município e uma dummy de capital. Sozinha, ela não enxerga que o swing do Sudeste (+10,8 pontos) foi muito maior que o do Nordeste (−0,3). O que funcionou foi manter a regressão no nível nacional e estimar só deslocamentos por região, UF e UF × capital/interior, cada um encolhido para o nível de cima com peso n/(n + k). O k = 30 foi escolhido em 2018.
 
 **Hierárquico bayesiano.** A fase 3 troca o k escolhido à mão por pooling aprendido. É o mesmo swing por local, com efeitos de região, UF e UF × capital/interior, e desvios entre grupos estimados pelos dados, em PyMC com inferência variacional. A fase 4 trocou a verossimilhança normal por uma Student-t (ν aprendido ≈ 3 a 4), mais robusta a locais com swing extremo.
 
@@ -63,19 +71,17 @@ Há dois backtests: 2022 com histórico de 2018 e 2018 com histórico de 2014. T
 
 ![Erro contra % apurado, hierárquico](figures/03_erro_vs_apurado.png)
 
-Em 2022, o hierárquico com verossimilhança normal (o da figura) erra 1,6 ponto com 0,5% das seções e fica em 0,2 ou menos a partir de 1%. Com a Student-t, o erro com 0,5% cai para 0,4 e não passa de 0,3 depois. Os modelos com limiar mínimo de locais ainda estão no swing uniforme nesse ponto e erram 4,9. Em 2018, o modelo em camadas vence. Parte da explicação é honesta e desconfortável: o k dele foi escolhido justamente em 2018. A outra parte está nos dados. O swing de 2014 para 2018 foi muito mais disperso que o de 2018 para 2022, com ruído local de 7,2 pontos contra 3,5. O desvio entre capital e interior dentro da mesma UF foi de 4,9 pontos, contra 1,5. Bolsonaro cresceu muito mais nas cidades grandes, e as cidades grandes chegam cedo.
+Em 2022, a Student-t erra 0,4 ponto com 0,5% das seções e não passa de 0,3 depois. Em 2018, o modelo em camadas vence. Parte da explicação é que o k dele foi escolhido justamente em 2018. A outra está nos dados: o swing de 2014 para 2018 foi duas vezes mais disperso que o de 2018 para 2022, e Bolsonaro cresceu muito mais nas cidades grandes, que chegam cedo.
 
 ## As faixas, e por que as de modelo falham
 
-Uma projeção sem faixa convida a uma falsa precisão. A fase 4 comparou cinco formas de construir faixas de 90% e 95%.
+A fase 4 comparou cinco formas de construir faixas de 90% e 95%.
 
 - (a) Erro de previsão analítico do modelo em camadas.
 - (b) Bootstrap preditivo por local.
 - (c) Posterior do hierárquico.
 - (d) Conformal: o quantil do erro do modelo pontual na outra eleição, por faixa do relógio.
 - (e) Posterior recalibrada: o desvio de (c) multiplicado pelo quantil de |erro|/desvio na outra eleição.
-
-As três primeiras incluem a incerteza do comparecimento de cada local pendente.
 
 | Método | 2022: cobertura 90% | 2022: Winkler | 2018: cobertura 90% | 2018: Winkler |
 |---|---|---|---|---|
@@ -87,31 +93,47 @@ As três primeiras incluem a incerteza do comparecimento de cada local pendente.
 
 ![Cobertura nominal contra empírica](figures/04_cobertura.png)
 
-As faixas que vêm só do modelo cobrem de 18% a 45% quando prometem 90%. Isso não pede ajuste fino; mostra que falta algo no modelo. O diagnóstico é o mesmo para (a), (b) e (c). Os três tratam o erro de cada local pendente como independente, então a incerteza total encolhe com a raiz do número de locais que faltam. O erro real tem um componente comum: as seções pendentes diferem das divulgadas de um jeito que as covariáveis não capturam, e esse desvio não se dilui. Em 2022, o erro do hierárquico ficou em cerca de três desvios posteriores de 30% a 95% das seções, quase constante. Incluir a incerteza do comparecimento quase não mudou a largura.
+As faixas que vêm só do modelo cobrem de 18% a 45% quando prometem 90%. Isso não pede ajuste fino; mostra que falta algo no modelo. O diagnóstico é o mesmo para (a), (b) e (c). Os três tratam o erro de cada local pendente como independente, então a incerteza total encolhe com a raiz do número de locais que faltam. O erro real tem um componente comum: as seções pendentes diferem das divulgadas de um jeito que as covariáveis não capturam, e esse desvio não se dilui.
 
-O conformal puro (d) resolve 2022, mas falha em 2018. Cada direção é calibrada por uma única noite, e os erros de 2022 foram menores que os de 2018. A posterior recalibrada (e) junta o melhor dos dois. A forma da faixa vem do modelo: larga quando falta muito, estreita no fim. A escala vem da outra eleição. Ela teve o menor interval score nos dois anos e é a faixa que o replay mostra.
+O conformal puro (d) resolve 2022, mas falha em 2018, porque cada direção é calibrada por uma única noite. A posterior recalibrada (e), com a forma da faixa vinda do modelo e a escala vinda da outra eleição, teve o menor interval score nos dois anos.
 
 ![Projeção e faixas ao longo da apuração de 2022](figures/04_faixa_2022.png)
 
-## Duas noites a mais e o erro comum
+## O erro comum, e noites para calibrá-lo
 
-Para testar o diagnóstico acima, o projetor foi levado ao 1º turno de 2018 e 2022. Não foi preciso um modelo multinomial. O alvo continua sendo o % de um candidato nos válidos, que agora incluem os demais candidatos. Os totais do BU batem voto a voto com o oficial para PT e adversário nos três anos. Em 2022 1T, o hierárquico-t erra 0,18 ponto em média para Lula e 0,14 para Bolsonaro. Em 2018 1T, perde para o swing por UF (0,51 contra 0,25 para Haddad). A troca de Dilma por Haddad mudou o voto do PT de um jeito que a eleição anterior explica mal.
+O hierárquico ganhou o termo que faltava: um erro `delta` somado ao swing de todas as pendentes, que desloca o total em proporção à fração que falta. Esse erro não é observável durante a noite, então sua escala é calibrada em outras noites, deixando de fora a data avaliada.
 
-O hierárquico ganhou o termo que faltava: um erro `delta ~ Normal(0, c)` somado ao swing de todas as pendentes, que desloca o total em proporção à fração que falta. Como esse erro não é observável durante a noite, `c` é calibrado nas outras noites, em leave-one-night-out nas quatro noites do PT. Com isso, a cobertura de 90% da posterior subiu de 41% para 75%, e o interval score ficou o melhor entre os métodos, com faixas quase com a metade da largura das de (e). O nominal não foi alcançado. Três noites ficam entre 86% e 100%, mas 2018 1T, a noite fora do padrão, fica em 14%. Nenhuma calibração feita em outras noites resolve isso. O `c` das quatro noites é 0,56 ponto de swing. Medir a distância de composição entre divulgadas e pendentes não ajudou. Os detalhes estão no relatório 06.
+Com só as quatro noites presidenciais de 2018 e 2022 (1º e 2º turnos; no 1º, o alvo é o % do candidato nos válidos de todos), a cobertura de 90% subiu de 41% para 75%. Mas 2018 1T ficou em 14%: a troca de Dilma por Haddad mudou o voto do PT de um jeito que 2014 explica mal, e as outras noites não ensinavam um erro desse tamanho.
+
+As 26 noites de 2º turno de governador de 2018 e 2022 resolveram isso. O histórico delas é o 1º turno de governador do mesmo ano, e são noites mais difíceis, com erro de nível maior. Também testei se o erro comum deve crescer quando o histórico explica pouco do swing já divulgado. A resposta é sim. Nas 30 noites, o |erro| do hierárquico tem correlação de Spearman de 0,57 com o desvio do swing dos locais em torno do modelo (sigma). Com `delta ~ Normal(0, c · sigma / 10)`, as quatro noites presidenciais passam a cobrir de 95% a 100%, inclusive 2018 1T. Nas de governador, a cobertura é de 82%, com o melhor interval score. A recalibração (e) continua falhando em 2018 1T (27%): um multiplicador fixo não distingue uma noite difícil de uma fácil. Detalhes nos relatórios 06 e 07.
+
+## O teste de 2026
+
+Em 2026, os modelos, os hiperparâmetros e o `c` foram usados como estavam. A ordem de chegada foi bem mais enviesada que a de 2022: São Paulo e Rio só começaram a chegar às 19h03. Com 0,5% das seções do 2º turno, o apurado dava 54,7% a Lula.
+
+| 2026, erro médio (p.p.) | Apurado | Swing por UF | Camadas | Hierárquico-t |
+|---|---|---|---|---|
+| 1º turno, % Lula | 2,99 | 0,33 | 0,18 | **0,17** |
+| 1º turno, % Flávio | 2,68 | 0,18 | **0,09** | 0,12 |
+| 2º turno, % Lula | 1,31 | 0,18 | 0,12 | **0,07** |
+
+No 2º turno, o hierárquico ficou entre 51,6% e 51,8% a noite inteira, contra o final de 51,79%. O limite inferior da faixa de 90% nunca desceu de 50,3%, nem durante a falsa virada. A posterior pura cobriu de 45% a 77% nas três noites; as faixas com erro comum cobriram 100%, um pouco largas para uma noite fácil.
+
+Rodrigo publicou números em dois instantes. Com 2,42% das seções do 2º turno, ele projetou Lula 51,6 (50,8–52,2), e o hierárquico daqui 51,71 (50,4–53,1). Com 2,2% do 1º turno, ele acertou melhor: Flávio 47,01 e Lula 45,50, contra o final de 47,03 e 45,16. O hierárquico daqui dava 46,51 e 45,90. O modelo em camadas, mais parecido com o dele, dava Lula 45,48, praticamente o mesmo número. A vantagem dele em Flávio é compatível com o ponto de partida que, segundo a reportagem, veio da pesquisa Quaest com dois pontos a mais para Flávio. Um instante diz pouco; a noite inteira e a calibração das faixas estão no relatório 07.
 
 ## Limitações
 
 - **A ordem de 2018 é simulada a partir da de 2022.** Isso também significa que, ao escolher hiperparâmetros em 2018, o modelo já viu a ordem de chegada de 2022, embora não os votos. O teste de 2022 está fora da amostra de votos, mas não é cego.
-- **Há poucas noites.** São quatro noites (1º e 2º turnos de 2018 e 2022), cada uma com 22 instantes fortemente correlacionados. As coberturas têm poucos graus de liberdade efetivos, e uma noite fora do padrão pesa muito na calibração.
+- **Há poucas datas.** São seis noites presidenciais e 26 de governador, mas só seis datas, e os 22 instantes de uma noite são muito correlacionados. Uma noite fora do padrão pesa muito na calibração.
+- **O cenário é favorável ao swing.** De 2018 a 2026, a eleição foi polarizada entre PT e o campo de Bolsonaro. Com outros polos, a eleição anterior explicaria menos.
 - **Um candidato por vez.** No 1º turno, cada candidato é projetado separadamente. Nada garante que as projeções somem 100%.
 - **O comparecimento é tratado de forma simples.** Os válidos esperados de uma seção pendente vêm da taxa de válidos da eleição anterior, e a incerteza sobre eles é um ruído independente por local.
 - **O exterior é tratado de forma grosseira.** Cidades do exterior entram como municípios, sem fuso próprio no relógio de 2018.
 
 ## Próximos passos
 
-1. **Mais noites de calibração.** Os 2º turnos de governador dariam várias noites, e o `c` do erro comum deixaria de depender de quatro observações.
-2. **Erro comum que dependa da noite.** Por exemplo, maior quando o histórico explica pouco do swing já divulgado, que é o sinal de 2018 1T.
-3. **Ordem real de 2018.** Os arquivos de log das urnas ou snapshots da divulgação daquela noite substituiriam a simulação.
-4. **Operação ao vivo.** O hierárquico leva cerca de 15 segundos por atualização com ADVI. Isso cabe numa noite real, com atualizações a cada poucos minutos, consumindo a API de divulgação do TSE em vez dos boletins consolidados.
+1. **Calibração mais fina das faixas.** Com o erro comum, elas ficam largas em noites fáceis como 2026. Uma escala aprendida em conjunto com a recalibração conformal pode estreitá-las sem perder 2018 1T.
+2. **Ordem real de 2018.** Os arquivos de log das urnas ou snapshots da divulgação daquela noite substituiriam a simulação.
+3. **Operação ao vivo.** O hierárquico leva cerca de 15 segundos por atualização com ADVI. Isso cabe numa noite real, com atualizações a cada poucos minutos, consumindo a API de divulgação do TSE em vez dos boletins consolidados.
 
-O código, os relatórios de cada fase (`reports/00` a `reports/06`) e o replay interativo estão no repositório. Os números deste texto saem dos scripts em `notebooks/`, rodados sobre os dados públicos do TSE.
+O código, os relatórios de cada fase (`reports/00` a `reports/07`) e o replay interativo estão no repositório. Os números deste texto saem dos scripts em `notebooks/`, rodados sobre os dados públicos do TSE.
