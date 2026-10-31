@@ -2,7 +2,9 @@
 
 **Quão boas são as projeções de apuração em tempo real no Brasil, e as faixas de incerteza delas são honestas?** Este repositório responde com um backtest sem vazamento em seis noites presidenciais (2018 a 2026) e 26 noites de governador, só com os boletins de urna do TSE.
 
-![Replay da apuração de 2026](reports/figures/05_replay.png)
+**[Abrir o replay interativo](https://amycardoso.github.io/projetor-apuracao/)**
+
+[![Replay da apuração de 2026](reports/figures/05_replay.png)](https://amycardoso.github.io/projetor-apuracao/)
 
 Entre 19h44 e 20h23 de 25/10/2026, o apurado do 2º turno mostrou Flávio Bolsonaro na frente. O projetor, congelado com o que aprendeu em 2018 e 2022, ficou entre 51,6% e 51,8% para Lula a noite inteira. O final foi 51,79%, e o limite inferior da faixa de 90% nunca desceu de 50,3%.
 
@@ -71,7 +73,7 @@ No 1º turno, o modelo de Rodrigo acertou melhor naquele instante. O modelo em c
 
 ## Replay interativo
 
-`docs/` é uma página estática, sem build, que reproduz a noite com um relógio, cartões por candidato e o gráfico do apurado contra a projeção. Ela lê só agregados nacionais (`docs/data/replay_{ano}.json`, alguns KB), nada por seção.
+`docs/` é uma página estática, sem build, publicada em https://amycardoso.github.io/projetor-apuracao/, que reproduz a noite com um relógio, cartões por candidato e o gráfico do apurado contra a projeção. Ela lê só agregados nacionais (`docs/data/replay_{ano}.json`, alguns KB), nada por seção.
 
 Para abrir localmente:
 
