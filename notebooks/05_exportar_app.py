@@ -2,7 +2,7 @@
 # # 05 — Agregados leves para o replay interativo
 #
 # Para cada ano, roda os modelos principais numa grade de ~100 pontos do relógio
-# e grava `app/data/replay_{ano}.json`, só com agregados nacionais (nada por
+# e grava `docs/data/replay_{ano}.json`, só com agregados nacionais (nada por
 # seção): % apurado, horário (2022 e 2026), parcial e projeções do PT, faixas
 # de 90% e 95% e composição regional dos válidos divulgados. Leva ~40 min por
 # ano, por causa do hierárquico.
@@ -34,7 +34,7 @@ from projetor.models.features import REGIAO
 from projetor.models.hierarquico import SwingHierarquico
 
 RAIZ = Path(__file__).resolve().parents[1]
-APP_DATA = RAIZ / "app" / "data"
+APP_DATA = RAIZ / "docs" / "data"
 PROCESSED = RAIZ / "data" / "processed"
 APP_DATA.mkdir(parents=True, exist_ok=True)
 

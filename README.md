@@ -71,15 +71,15 @@ No 1º turno, o modelo de Rodrigo acertou melhor naquele instante. O modelo em c
 
 ## Replay interativo
 
-`app/` é uma página estática, sem build, que reproduz a noite com um relógio, cartões por candidato e o gráfico do apurado contra a projeção. Ela lê só agregados nacionais (`app/data/replay_{ano}.json`, alguns KB), nada por seção.
+`docs/` é uma página estática, sem build, que reproduz a noite com um relógio, cartões por candidato e o gráfico do apurado contra a projeção. Ela lê só agregados nacionais (`docs/data/replay_{ano}.json`, alguns KB), nada por seção.
 
 Para abrir localmente:
 
 ```bash
-python -m http.server 8000 --directory app
+python -m http.server 8000 --directory docs
 ```
 
-Ela também funciona no celular ([screenshot](reports/figures/05_replay_celular.png)). Depois de subir o servidor, abra http://localhost:8000. Um link como http://localhost:8000/#t=10 abre a noite com 10% das seções divulgadas. Para publicar pelo GitHub Pages, renomeie `app/` para `docs/` (o Pages só publica a raiz ou `/docs`) e ative em Settings → Pages, com a branch `main` e a pasta `/docs`. Num repositório privado, o Pages exige um plano pago.
+Ela também funciona no celular ([screenshot](reports/figures/05_replay_celular.png)). Depois de subir o servidor, abra http://localhost:8000. Um link como http://localhost:8000/#t=10 abre a noite com 10% das seções divulgadas.
 
 ## Como reproduzir
 
@@ -170,7 +170,7 @@ src/projetor/
     hierarquico.py SwingHierarquico (PyMC, normal ou Student-t)
 notebooks/         scripts que geram cada relatório
 reports/           relatórios, artigo e figuras
-app/               replay interativo estático
+docs/              replay interativo estático (publicado pelo GitHub Pages)
 tests/             testes, inclusive os de não vazamento
 ```
 
@@ -180,4 +180,4 @@ Boletins de urna do portal de dados abertos do TSE (`dadosabertos.tse.jus.br`), 
 
 ## Licença
 
-O código está sob a [licença MIT](LICENSE). Os dados não são redistribuídos: o repositório só traz agregados nacionais em `app/data/`, e os boletins de urna são baixados do TSE pelo próprio pipeline.
+O código está sob a [licença MIT](LICENSE). Os dados não são redistribuídos: o repositório só traz agregados nacionais em `docs/data/`, e os boletins de urna são baixados do TSE pelo próprio pipeline.

@@ -150,7 +150,7 @@ Com as quatro noites, `c` = 0,56 ponto de swing na escala de fração e 1,42 na 
 - **A distância de composição não acrescenta.** Ela dá cobertura parecida com faixas mais largas. A fração que falta já carrega o que importa. O que distingue as noites difíceis não é a composição UF × capital das pendentes, que o modelo já vê.
 - **(e) cobre mais no agregado (82%), mas a um custo alto.** Suas faixas são quase o dobro das de (c) + δ, com interval score pior. Em 2022 2T, (e) e (c) + δ cobrem 100%; a faixa de (c) + δ é mais estreita (1,34 contra 1,43 ponto).
 
-Na prática, (c) + δ na escala de fração substitui bem a recalibração (e). Ela é parte do modelo, cresce e encolhe com a fração que falta e precisa de um parâmetro só. O replay continua com (e), calibrada no 2º turno. Trocar exige reexportar `app/data`.
+Na prática, (c) + δ na escala de fração substitui bem a recalibração (e). Ela é parte do modelo, cresce e encolhe com a fração que falta e precisa de um parâmetro só. O replay continua com (e), calibrada no 2º turno. Trocar exige reexportar `docs/data`.
 
 ## Limites
 

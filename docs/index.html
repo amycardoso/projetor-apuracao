@@ -180,7 +180,7 @@
     } catch (e) {
       const erro = el("erro");
       erro.hidden = false;
-      erro.textContent = `Os dados do replay não carregaram: ${e.message}. Abra a página por um servidor (por exemplo, python -m http.server dentro de app/) e não direto do arquivo.`;
+      erro.textContent = `Os dados do replay não carregaram: ${e.message}. Abra a página por um servidor (por exemplo, python -m http.server dentro de docs/) e não direto do arquivo.`;
       return;
     }
     el("erro").hidden = true;
