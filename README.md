@@ -1,33 +1,53 @@
 # projetor-apuracao
 
-Projeta, a cada instante da noite eleitoral, o resultado final do 2º turno presidencial a partir da apuração parcial do TSE, com faixas que cumprem o que prometem. Os resultados vêm de um backtest sem vazamento em 2018 e 2022.
+**Quão boas são as projeções de apuração em tempo real no Brasil, e as faixas de incerteza delas são honestas?** Este repositório responde com um backtest sem vazamento em seis noites presidenciais (2018 a 2026) e 26 noites de governador, só com os boletins de urna do TSE.
 
-![Replay da apuração de 2022](reports/figures/05_replay.png)
+![Replay da apuração de 2026](reports/figures/05_replay.png)
 
-As primeiras seções não representam o país. Em 2022, com 5% das seções divulgadas, a parcial de Lula estava 4,3 pontos abaixo do resultado final, porque Centro-Oeste e Norte chegaram antes do Sudeste. O projetor corrige esse viés com o swing de cada local de votação contra a eleição anterior e um modelo hierárquico bayesiano. Com 0,5% das seções, ele erra 0,4 ponto e, dali em diante, nunca mais de 0,3.
+Entre 19h44 e 20h23 de 25/10/2026, o apurado do 2º turno mostrou Flávio Bolsonaro na frente. O projetor, congelado com o que aprendeu em 2018 e 2022, ficou entre 51,6% e 51,8% para Lula a noite inteira. O final foi 51,79%, e o limite inferior da faixa de 90% nunca desceu de 50,3%.
+
+## O que este projeto acrescenta
+
+O modelo de swing por local de votação em camadas, como o de Rodrigo Mahlmeister em 2026 e os do Washington Post e do NYT, é uma das referências comparadas aqui, não o objetivo. As contribuições próprias:
+
+1. **Backtest sem vazamento** em seis noites presidenciais (1º e 2º turnos de 2018, 2022 e 2026, com históricos desde 2014) e 26 de governador. A ordem de chegada é reconstruída pelo `DT_BU_RECEBIDO`, com tratamento de fuso. As seções pendentes só levam o que se sabe antes da noite.
+2. **Pooling aprendido contra pesos escolhidos à mão.** Um hierárquico bayesiano com Student-t contra o modelo em camadas, com as noites em que cada um ganha.
+3. **Auditoria das faixas.** As faixas que saem só do modelo cobrem de 18% a 45% quando prometem 90%. Um erro comum às seções pendentes, que cresce quando o histórico explica pouco do swing já divulgado e é calibrado em outras noites, corrige isso.
+4. **Nenhuma pesquisa eleitoral.** Só boletins de urna e a eleição anterior.
+5. **Teste congelado em 2026**, comparado com os números públicos de Rodrigo.
 
 ## Resultados
 
-Erro absoluto do % do PT nos votos válidos (pontos percentuais), em média sobre 22 instantes da apuração, de 0,5% a 95% das seções:
+Erro absoluto médio do % do PT nos válidos (pontos percentuais), em 22 instantes de 0,5% a 95% das seções. As noites de 2026 usam os modelos congelados.
 
-| Modelo | 2022 | 2018 | 2022: erro < 0,5 a partir de |
+| Noite | Apurado | Swing por UF | Camadas | Hierárquico-t |
+|---|---|---|---|---|
+| 2018, 2º turno | 2,47 | 0,51 | **0,22** | 0,37 |
+| 2022, 2º turno | 2,19 | 0,41 | 0,32 | **0,14** |
+| 2018, 1º turno | 4,69 | **0,25** | 0,50 | 0,51 |
+| 2022, 1º turno | 4,11 | 0,75 | 0,43 | **0,18** |
+| 2026, 1º turno | 2,99 | 0,33 | 0,18 | **0,17** |
+| 2026, 2º turno | 1,31 | 0,18 | 0,12 | **0,07** |
+
+Cobertura da faixa de 90%, com a largura média em pontos entre parênteses. As noites de 2018 e 2022 são avaliadas deixando a data de fora da calibração; as de 2026 usam a calibração congelada.
+
+| Faixa | 4 noites presidenciais, 2018–2022 | 26 noites de governador | 3 noites de 2026 |
 |---|---|---|---|
-| Apurado (a parcial) | 2,19 | 2,47 | 85% das seções |
-| Swing por UF | 0,41 | 0,51 | 5% |
-| Regressão em camadas (região, UF, capital) | 0,32 | **0,22** | 1% |
-| **Hierárquico bayesiano (Student-t)** | **0,14** | 0,37 | **0,5%** |
+| Posterior do hierárquico, como sai do modelo | 41% (0,6) | 65% (2,6) | 62% (0,3) |
+| Posterior recalibrada por um multiplicador conformal | 80% (1,5) | 93% (6,3) | 95% (0,8) |
+| **Posterior com erro comum na escala de ruído** | **99% (2,2)** | **82% (3,5)** | **100% (1,3)** |
 
-Faixa de 90% (cobertura = fração dos instantes em que o resultado final ficou dentro da faixa):
+A faixa com erro comum é a única que não falha em nenhuma noite presidencial; a recalibrada cobre 27% em 2018 1T. O custo é largura nas noites fáceis, como 2026.
 
-| Faixa | 2022 | 2018 |
-|---|---|---|
-| Posterior do hierárquico, como sai do modelo | 18% | 45% |
-| Conformal no erro do modelo em camadas | 95% | 64% |
-| **Posterior recalibrada pela outra eleição** | **100%** | **86%** |
+Comparação com os números públicos de Rodrigo, no mesmo % de seções:
 
-No 1º turno, com o mesmo pipeline e o alvo como % do PT nos válidos de todos os candidatos, o hierárquico erra 0,18 ponto em 2022 e 0,51 em 2018 (o swing por UF erra 0,25 nessa noite). Um termo de erro comum às pendentes, calibrado nas outras noites em leave-one-night-out, eleva a cobertura de 90% da posterior de 41% para 75% nas quatro noites, com o melhor interval score. Mas ainda não chega ao nominal, porque 2018 1T fica em 14% ([relatório 06](reports/06_melhorias.md)).
+| Instante | Rodrigo | Este projeto (faixa de 95%) | Final |
+|---|---|---|---|
+| 2026 1T, 2,2%: Flávio | 47,01 | 46,51 (45,1–47,9) | 47,03 |
+| 2026 1T, 2,2%: Lula | 45,50 | 45,90 (44,3–47,5) | 45,16 |
+| 2026 2T, 2,42%: Lula | 51,6 (50,8–52,2) | 51,71 (50,4–53,1) | 51,79 |
 
-Em 2022, a ordem de chegada é a observada. Em 2018, o TSE não publicou o horário de recebimento, então a ordem é simulada a partir da de 2022, e cada modelo usa a eleição anterior (2018 e 2014) como histórico. A discussão completa, inclusive do que não funcionou, está no [artigo](reports/artigo.md).
+No 1º turno, o modelo de Rodrigo acertou melhor naquele instante. O modelo em camadas daqui dava Lula 45,48, quase o número dele; a vantagem dele em Flávio é compatível com o ponto de partida que veio de uma pesquisa. A discussão completa está no [artigo](reports/artigo.md).
 
 ## Inspiração e créditos
 
@@ -46,6 +66,8 @@ Em 2022, a ordem de chegada é a observada. Em 2018, o TSE não publicou o horá
 | [03 — Hierárquico](reports/03_hierarquico.md) | Pooling aprendido em PyMC; ADVI contra NUTS |
 | [04 — Faixas](reports/04_intervalos.md) | Cinco métodos de faixa, cobertura e interval score |
 | [06 — Melhorias](reports/06_melhorias.md) | 1º turno de 2018 e 2022; erro comum às pendentes, avaliado em leave-one-night-out |
+| [07 — Governador](reports/07_governador.md) | 26 noites de governador; erro comum que cresce com o ruído do swing |
+| [07 — Eleição de 2026](reports/07_eleicao_2026.md) | Teste congelado em 2026 e comparação com Rodrigo Mahlmeister |
 
 ## Replay interativo
 
@@ -90,6 +112,20 @@ Para o 1º turno (~1,3 GB de zips por ano, apagados depois de virar parquet):
 .venv/bin/python -m projetor.ordem --turno 1
 ```
 
+Para 2026 e para as noites de governador:
+
+```bash
+.venv/bin/python -m projetor.ingest --anos 2026 --turno 2
+```
+
+```bash
+.venv/bin/python -m projetor.ordem --ano 2026 --turno 2
+```
+
+```bash
+.venv/bin/python -m projetor.governador --anos 2018 2022
+```
+
 ```bash
 .venv/bin/pytest
 ```
@@ -106,6 +142,8 @@ Os relatórios saem dos scripts em `notebooks/`, rodados da raiz do repositório
 - `05_exportar_app.py` (~1 h)
 - `06a_primeiro_turno.py` (~1 h)
 - `06_melhorias.py`
+- `07b_governador.py` (~1 h) e `07_governador.py`
+- `07a_eleicao_2026.py` (~1 h) e `07_eleicao_2026.py`
 
 O que é pesado vai para `data/`, que não é versionado.
 
@@ -121,6 +159,8 @@ src/projetor/
   replay.py        estado da apuração num instante, sem vazamento
   backtest.py      simulador da noite: pendentes só com covariáveis permitidas
   votos.py         válidos (inclui outros candidatos no 1º turno) e troca de alvo
+  governador.py    2º turnos de governador como noites extras, com o 1º turno como histórico
+  noites.py        noites já rodadas, para calibrar o erro comum e a faixa recalibrada
   intervals.py     faixas analítica, bootstrap, posterior, conformal e recalibrada
   discrepancia.py  erro comum às pendentes: perfil da noite, calibração e aplicação
   models/
@@ -136,7 +176,7 @@ tests/             testes, inclusive os de não vazamento
 
 ## Dados
 
-Boletins de urna do portal de dados abertos do TSE (`dadosabertos.tse.jus.br`), datasets `resultados-{2014,2018,2022}-boletim-de-urna`, 1º e 2º turnos, 27 UFs e exterior. Os votos do PT e do adversário batem voto a voto com o resultado oficial nos seis pleitos. A única diferença está nos válidos do 1º turno de 2018, 746 votos (0,0007%) a mais.
+Boletins de urna do portal de dados abertos do TSE (`dadosabertos.tse.jus.br`), datasets `resultados-{2014,2018,2022,2026}-boletim-de-urna`, 1º e 2º turnos, 27 UFs e exterior. Os votos do PT e do adversário batem voto a voto com o resultado oficial nos seis pleitos. A única diferença está nos válidos do 1º turno de 2018, 746 votos (0,0007%) a mais.
 
 ## Licença
 
