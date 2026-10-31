@@ -6,10 +6,12 @@
 # turno do mesmo ano como histórico (`projetor.governador`). Grava erros e
 # amostras em `data/processed/`. Leva ~1–2 h.
 #
-#     python notebooks/07b_governador.py
+#     python notebooks/07b_governador.py          # 2018 e 2022
+#     python notebooks/07b_governador.py 2018     # um ano
 
 # %%
 import json
+import sys
 from pathlib import Path
 
 import numpy as np
@@ -22,8 +24,8 @@ from projetor.models.hierarquico import SwingHierarquico
 
 PROCESSED = Path(__file__).resolve().parents[1] / "data" / "processed"
 
-erros = []
-for ano in (2018, 2022):
+for ano in [int(x) for x in sys.argv[1:]] or [2018, 2022]:
+    erros = []
     for uf in governador.ufs(ano):
         destino = PROCESSED / f"amostras_gov_{ano}_{uf}.npz"
         secoes = governador.noite(ano, uf)
@@ -42,4 +44,4 @@ for ano in (2018, 2022):
             resumo=np.array([json.dumps(x) for x in r["resumo"]]),
         )
         print(ano, uf, len(secoes), "seções; erro médio", r["erro"].abs().mean().round(3), flush=True)
-pd.concat(erros, ignore_index=True).to_parquet(PROCESSED / "erros_gov_baselines.parquet", index=False)
+    pd.concat(erros, ignore_index=True).to_parquet(PROCESSED / f"erros_gov_baselines_{ano}.parquet", index=False)
