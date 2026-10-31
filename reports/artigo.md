@@ -117,7 +117,7 @@ Em 2026, os modelos, os hiperparâmetros e o `c` foram usados como estavam. A or
 | 1º turno, % Flávio | 2,68 | 0,18 | **0,09** | 0,12 |
 | 2º turno, % Lula | 1,31 | 0,18 | 0,12 | **0,07** |
 
-No 2º turno, o hierárquico ficou entre 51,6% e 51,8% a noite inteira, contra o final de 51,79%. O limite inferior da faixa de 90% nunca desceu de 50,3%, nem durante a falsa virada. A posterior pura cobriu de 45% a 77% nas três noites; as faixas com erro comum cobriram 100%, um pouco largas para uma noite fácil.
+No 2º turno, o hierárquico ficou entre 51,6% e 51,9% a noite inteira, contra o final de 51,79%. O limite inferior da faixa de 90% nunca desceu de 50,3%, nem durante a falsa virada. A posterior pura cobriu de 45% a 77% nas três noites; as faixas com erro comum cobriram 100%, um pouco largas para uma noite fácil.
 
 Rodrigo publicou números em dois instantes. Com 2,42% das seções do 2º turno, ele projetou Lula 51,6 (50,8–52,2), e o hierárquico daqui 51,71 (50,4–53,1). Com 2,2% do 1º turno, ele acertou melhor: Flávio 47,01 e Lula 45,50, contra o final de 47,03 e 45,16. O hierárquico daqui dava 46,51 e 45,90. O modelo em camadas, mais parecido com o dele, dava Lula 45,48, praticamente o mesmo número. A vantagem dele em Flávio é compatível com o ponto de partida que, segundo a reportagem, veio da pesquisa Quaest com dois pontos a mais para Flávio. Um instante diz pouco; a noite inteira e a calibração das faixas estão no relatório 07.
 

@@ -8,7 +8,7 @@
 
 [![Replay da apuração de 2026](reports/figures/05_replay.png)](https://amycardoso.github.io/projetor-apuracao/)
 
-Entre 19h44 e 20h23 de 25/10/2026, depois de uma pausa na divulgação, o apurado do 2º turno mostrou Flávio Bolsonaro na frente. A curva reconstruída dos boletins difere da do TSE publicada pelo g1 em no máximo 0,02 ponto em cada marca de 10% das urnas. O projetor, congelado com o que aprendeu em 2018 e 2022, ficou entre 51,6% e 51,8% para Lula a noite inteira. O final foi 51,79%, e o limite inferior da faixa de 90% nunca desceu de 50,3%.
+Entre 19h44 e 20h23 de 25/10/2026, depois de uma pausa na divulgação, o apurado do 2º turno mostrou Flávio Bolsonaro na frente. A curva reconstruída dos boletins difere da do TSE publicada pelo g1 em no máximo 0,02 ponto em cada marca de 10% das urnas. O projetor, congelado com o que aprendeu em 2018 e 2022, ficou entre 51,6% e 51,9% para Lula a noite inteira. O final foi 51,79%, e o limite inferior da faixa de 90% nunca desceu de 50,3%.
 
 ## O que este projeto acrescenta
 

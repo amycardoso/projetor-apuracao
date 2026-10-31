@@ -59,7 +59,7 @@ Erro absoluto (p.p.) nos 22 pontos da grade, de 0,5% a 95% das seções.
 | 2º      | pt         | SwingCamadasInterceptoPorte |        0.115 |           0.376 |        0.073 |                1   |
 | 2º      | pt         | SwingHierarquico-t          |        0.067 |           0.118 |        0.059 |                0.5 |
 
-Entre 19h44 e 20h23 do 2º turno, de 14% a 47% das seções, o apurado mostrou Flávio na frente; o mínimo de Lula foi 49,5%. Na noite inteira, a projeção do hierárquico ficou entre 51,6% e 51,8%, e o limite inferior da faixa de 90% nunca desceu de 50,3%. No 2º turno, o hierárquico-t erra 0,07 ponto em média e fica abaixo de 0,5 ponto desde 0,5% das seções. É o melhor resultado do projeto em qualquer noite. No 1º turno, hierárquico e camadas empatam no alvo PT (0,17 e 0,18). Para Flávio, as camadas ganham (0,09 contra 0,12). O hierárquico erra mais no começo da noite (0,8 ponto até 2,5% para Lula) e menos depois de 5%.
+Entre 19h44 e 20h23 do 2º turno, de 14% a 47% das seções, o apurado mostrou Flávio na frente; o mínimo de Lula foi 49,5%. Na noite inteira, a projeção do hierárquico ficou entre 51,6% e 51,9%, e o limite inferior da faixa de 90% nunca desceu de 50,3%. No 2º turno, o hierárquico-t erra 0,07 ponto em média e fica abaixo de 0,5 ponto desde 0,5% das seções. É o melhor resultado do projeto em qualquer noite. No 1º turno, hierárquico e camadas empatam no alvo PT (0,17 e 0,18). Para Flávio, as camadas ganham (0,09 contra 0,12). O hierárquico erra mais no começo da noite (0,8 ponto até 2,5% para Lula) e menos depois de 5%.
 
 ## Faixas congeladas
 
