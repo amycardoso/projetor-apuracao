@@ -4,11 +4,14 @@
 # Lê o que `07a_eleicao_2026.py` gravou e escreve `reports/07_eleicao_2026.md`.
 # Tudo o que tem parâmetro foi fixado antes de olhar 2026: os modelos e seus
 # hiperparâmetros (fases 2–4), o `c` do erro comum e o multiplicador da faixa
-# (e), calibrados nas quatro noites do PT de 2018 e 2022 (fase 6).
+# (e), calibrados nas quatro noites do PT de 2018 e 2022 (fase 6), e o `c` na
+# escala de ruído calibrado nas 30 noites de 2018 e 2022 (fase 7, com as de
+# governador; ver `07_governador.py`, que grava `calibracao_07.json`).
 #
 #     python notebooks/07_eleicao_2026.py
 
 # %%
+import json
 from pathlib import Path
 
 import matplotlib
@@ -77,9 +80,10 @@ print(tab_erros.to_string(index=False))
 anteriores = [noites.carregar(a, tr) for a in (2018, 2022) for tr in (1, 2)]
 C = noites.calibrar_c(anteriores, "fracao")
 MULT = {n: noites.multiplicador_e(anteriores, n) for n in NIVEIS}
-print("c congelado:", C, "multiplicadores (e):", MULT)
+C_RUIDO = json.loads((PROCESSED / "calibracao_07.json").read_text())["c_ruido"]
+print("c congelado:", C, "multiplicadores (e):", MULT, "c ruído (fase 7):", C_RUIDO)
 
-METODOS = ["(c) posterior", "(c) + δ fração", "(e) recalibrada"]
+METODOS = ["(c) posterior", "(c) + δ fração", "(e) recalibrada", "(c) + δ ruído (fase 7)"]
 alvos_2026 = [noites.carregar(2026, 2, "pt"), noites.carregar(2026, 1, "pt"), noites.carregar(2026, 1, "adversario")]
 
 
@@ -88,6 +92,8 @@ def faixa(n: noites.Noite, metodo: str, nivel: float) -> tuple[np.ndarray, np.nd
         return faixa_amostras(n.amostras, nivel)
     if metodo == "(c) + δ fração":
         return faixa_amostras(discrepancia.aplicar(n.amostras, n.perfis, C, "fracao", semente=1), nivel)
+    if metodo == "(c) + δ ruído (fase 7)":
+        return faixa_amostras(discrepancia.aplicar(n.amostras, n.perfis, C_RUIDO, "ruido", semente=1), nivel)
     centro, sd = n.amostras.mean(axis=1), n.amostras.std(axis=1)
     return centro - MULT[nivel] * sd, centro + MULT[nivel] * sd
 
@@ -134,7 +140,7 @@ for r in RODRIGO:
     hier = e[e["modelo"] == "SwingHierarquico-t"].iloc[0]
     ap = e[e["modelo"] == "Apurado"].iloc[0]
     rot = f"2026 {r['turno']}T {'PT' if r['alvo'] == 'pt' else 'adversário'}"
-    fx = f[(f["noite"] == rot) & (f["metodo"] == "(c) + δ fração") & (f["nivel"] == 0.95) & np.isclose(f["t"], t)].iloc[0]
+    fx = f[(f["noite"] == rot) & (f["metodo"] == "(c) + δ ruído (fase 7)") & (f["nivel"] == 0.95) & np.isclose(f["t"], t)].iloc[0]
     comp.append(
         {"turno": f"{r['turno']}º", "candidato": r["candidato"], "% seções": r["secoes"],
          "apurado": round(ap["projecao"], 2), "Rodrigo": r["rodrigo"],
@@ -146,8 +152,8 @@ print(tab_comp.to_string(index=False))
 
 # %% Figura: 2026 2º turno
 n = alvos_2026[0]
-g90 = f[(f["noite"] == n.rotulo) & (f["metodo"] == "(c) + δ fração") & (f["nivel"] == 0.9)]
-g95 = f[(f["noite"] == n.rotulo) & (f["metodo"] == "(c) + δ fração") & (f["nivel"] == 0.95)]
+g90 = f[(f["noite"] == n.rotulo) & (f["metodo"] == "(c) + δ ruído (fase 7)") & (f["nivel"] == 0.9)]
+g95 = f[(f["noite"] == n.rotulo) & (f["metodo"] == "(c) + δ ruído (fase 7)") & (f["nivel"] == 0.95)]
 ap = erros[(erros["turno"] == 2) & (erros["modelo"] == "Apurado")].sort_values("t")
 fig, ax = plt.subplots(figsize=(8, 4.2))
 x = 100 * g90["t"]
@@ -171,6 +177,7 @@ blocos = {
     "SEM_RECEBIDO": str(sem_recebido),
     "ERROS": tab_erros.to_markdown(index=False),
     "C": f"{C:.2f}".replace(".", ","),
+    "C_RUIDO": f"{C_RUIDO:.2f}".replace(".", ","),
     "MULT90": f"{MULT[0.9]:.2f}".replace(".", ","),
     "MULT95": f"{MULT[0.95]:.2f}".replace(".", ","),
     "FAIXAS": tab_faixas.to_markdown(index=False),

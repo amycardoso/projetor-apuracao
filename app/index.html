@@ -100,7 +100,8 @@
       <p class="sub">Reveja a noite do 2º turno presidencial: o que o TSE já tinha apurado e o que o modelo projetava para o resultado final, a cada instante.</p>
     </div>
     <div class="eleicoes" role="group" aria-label="Eleição">
-      <button type="button" data-ano="2022" aria-pressed="true">2022</button>
+      <button type="button" data-ano="2026" aria-pressed="true">2026</button>
+      <button type="button" data-ano="2022" aria-pressed="false">2022</button>
       <button type="button" data-ano="2018" aria-pressed="false">2018</button>
     </div>
   </header>
@@ -148,8 +149,8 @@
 
   <section class="notas">
     <h2>Como ler</h2>
-    <p>O apurado é a parcial oficial: a soma das seções já divulgadas. Ele começa longe do resultado final porque as primeiras seções não representam o país. Na noite de 2022, Centro-Oeste e Norte chegaram antes do Sudeste.</p>
-    <p>A projeção estima o resultado final com as seções que faltam. Cada local de votação ainda não divulgado herda o voto da eleição anterior, corrigido pelo swing observado nos locais parecidos (mesma região, UF, capital ou interior). A faixa de 95% é a do modelo hierárquico, com a escala calibrada na outra eleição, sem olhar o resultado desta.</p>
+    <p>O apurado é a parcial oficial: a soma das seções já divulgadas. Ele começa longe do resultado final porque as primeiras seções não representam o país. Em 2022, Centro-Oeste e Norte chegaram antes do Sudeste; em 2026, São Paulo e Rio só começaram a chegar às 19h.</p>
+    <p>A projeção estima o resultado final com as seções que faltam. Cada local de votação ainda não divulgado herda o voto da eleição anterior, corrigido pelo swing observado nos locais parecidos (mesma região, UF, capital ou interior). A faixa de 95% é a do modelo hierárquico com um erro comum às seções que faltam. Esse erro cresce quando o swing já divulgado é mal explicado pelo histórico e é calibrado em outras noites (presidenciais e de governador), sem olhar o resultado desta.</p>
     <p>Inspirado no modelo de projeção de Rodrigo Mahlmeister. Dados: boletins de urna do TSE. Código e metodologia no repositório <code>projetor-apuracao</code>.</p>
   </section>
 </main>
@@ -206,14 +207,14 @@
     const modelo = el("modelo").value;
     const c = dados.candidatos;
 
-    if (dados.ano === 2022) {
+    if (dados.ano !== 2018) { // 2022 e 2026 têm o horário de recebimento de cada seção
       el("hora").textContent = fim ? "fim" : p.horario;
       el("secoes").textContent = `${pct(p.secoes_pct, 1)}% das seções`;
     } else {
       el("hora").textContent = `${pct(p.secoes_pct, 1)}%`;
       el("secoes").textContent = "das seções";
     }
-    el("validos").textContent = dados.ano === 2022 ? "" : "ordem simulada";
+    el("validos").textContent = dados.ano === 2018 ? "ordem simulada" : "";
     el("play").textContent = timer ? "Pausa" : (fim ? "De novo" : "Play");
 
     const proj = p[modelo];
@@ -311,7 +312,7 @@
   el("mostrarFinal").addEventListener("change", () => dados && desenhar());
   addEventListener("resize", () => dados && desenhar());
   document.querySelectorAll(".eleicoes button").forEach((b) => b.addEventListener("click", () => trocarEleicao(Number(b.dataset.ano))));
-  trocarEleicao(2022);
+  trocarEleicao(2026);
 })();
 </script>
 </body>
